@@ -1,0 +1,12 @@
+[submodule "libs/lexbor"]
+	path = libs/lexbor
+	url = https://github.com/lexbor/lexbor.git
+[submodule "libs/csafestring"]
+	path = libs/csafestring
+	url = https://github.com/maximilianvoss/csafestring.git
+[submodule "libs/acll"]
+	path = libs/acll
+	url = https://github.com/maximilianvoss/acll.git
+[submodule "libs/casserts"]
+	path = libs/casserts
+	url = https://github.com/maximilianvoss/casserts.git
