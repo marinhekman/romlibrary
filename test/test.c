@@ -140,5 +140,6 @@ int main(int argc, char **argv) {
     TESTCALL("test_engine_romhustler_download", test_engine_romhustler_download, NULL);
 
     sqlite3_close(db);
+    testsystems_destroy();
     return 0;
 }

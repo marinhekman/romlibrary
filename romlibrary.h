@@ -107,9 +107,11 @@ typedef struct curl_response_s {
 } curl_response_t;
 
 // Exported methods
-system_t *systems_init();
+acll_t *systems_init();
 
-void systems_destroy(system_t *systems);
+void systems_destroy(acll_t *systems);
+
+int system_findByFullname(void *payload, void *input);
 
 hoster_t *hosterhandler_init(cache_t *cacheHandler);
 
@@ -121,38 +123,6 @@ void hosterhandler_destroy(hoster_t *hoster);
 
 void result_freeList(result_t *resultList);
 
-void *linkedlist_appendElement(void *list, void *element);
-
-void *linkedlist_pop(void *list, void **element);
-
-void *linkedlist_push(void *list, void *element);
-
-void linkedlist_freeList(void *list, void (*callback)(void *));
-
-uint32_t linkedlist_getElementCount(void *list);
-
-void *linkedlist_findElementByName(void *ptr, char *name);
-
-uint8_t linkedlist_isElementInList(void *list, void *element);
-
-void *linkedlist_deleteElement(void *list, void *element, void (*callback)(void *));
-
-void *linkedlist_removeElement(void *list, void *element);
-
-void *linkedlist_sort(void *ptr);
-
-void *linkedlist_clone(void *ptr, size_t size, void (*callback)(void *));
-
-void *linkedlist_getFirstActive(void *ptr);
-
-void *linkedlist_getPrevActive(void *ptr);
-
-void *linkedlist_getNextActive(void *ptr);
-
-void *linkedlist_getLastElement(void *list);
-
-void *linkedlist_getFirstElement(void *ptr);
-
 int
 curlling_download(char *url, char *data, httpmethod_t method, char *filename, curl_off_t *current, curl_off_t *total,
                   volatile uint8_t *cancellation);
@@ -163,7 +133,9 @@ void curl_freeResponse(curl_response_t *response);
 
 // nice macros for method calling
 #define loadSystems systems_init
+#define getSystem(systems, fullname) ((system_t *) acll_find(systems, system_findByFullname, fullname)->payload);
 #define destroySystems(systems) systems_destroy(systems)
+
 #define loadHosters hosterhandler_init
 #define destroyHosters(hosters) hosterhandler_destroy(hosters)
 #define searchHosters(hosters, system, searchString) hosterhandler_search(hosters, system, searchString)

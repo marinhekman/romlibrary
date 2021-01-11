@@ -85,11 +85,10 @@ set(SOURCES_LIBRARY
         src/hoster/wowroms/wowroms.c
         src/hoster/wowroms/wowroms.h
         romlibrary.h
-        src/systems/systems.c
-        src/systems/systems.h
+        src/systems.c
         )
 
 add_library(romlibrary ${SOURCES_LIBRARY})
-target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} csafestring lexbor_static)
+target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} csafestring lexbor_static acll)
 
 include(test/test.cmake)

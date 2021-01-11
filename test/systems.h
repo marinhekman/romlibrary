@@ -72,4 +72,6 @@ system_t *scummvm;
 
 void testsystems_init();
 
+void testsystems_destroy();
+
 #endif
