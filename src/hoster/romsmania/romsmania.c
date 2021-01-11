@@ -28,11 +28,11 @@
 #define URL_TEMPLATE "https://romsmania.cc/roms/%system%/search?name=%query%&genre=&region=&orderBy=name&orderAsc=1&page=%page%"
 #define URL_FAVICON "https://romsmania.cc/favicon.ico"
 
-static result_t *search(system_t *system, char *searchString);
+static acll_t *search(system_t *system, char *searchString);
 
 static void download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData);
 
-static result_t *fetchingResultItems(system_t *system, result_t *resultList, char *response);
+static acll_t *fetchingResultItems(system_t *system, acll_t *resultList, char *response);
 
 static char *fetchDownloadPageLink(char *response);
 
@@ -62,12 +62,12 @@ hoster_t *romsmania_getHoster(cache_t *cacheHandler) {
     return hoster;
 }
 
-static result_t *search(system_t *system, char *searchString) {
+static acll_t *search(system_t *system, char *searchString) {
     uint32_t pageCount = 1;
     uint32_t page = 1;
     char *urlTemplate = URL_TEMPLATE;
 
-    result_t *resultList = NULL;
+    acll_t *resultList = NULL;
     while (page <= pageCount) {
         char *url = urlhandling_substitudeVariables(urlTemplate, system, &romsmania_deviceMapping, searchString, page);
         if (url == NULL) {
@@ -134,7 +134,7 @@ static char *fetchDownloadPageLink(char *response) {
     return link;
 }
 
-static result_t *fetchingResultItems(system_t *system, result_t *resultList, char *response) {
+static acll_t *fetchingResultItems(system_t *system, acll_t *resultList, char *response) {
     lxb_html_document_t *document;
     lxb_dom_collection_t *wrapperCollection = domparsing_getElementsCollectionByTagName(response, &document, "TBODY");
     lxb_dom_collection_t *gamesCollection = domparsing_createCollection(document);
@@ -166,7 +166,7 @@ static result_t *fetchingResultItems(system_t *system, result_t *resultList, cha
         result_setDownloads(item, downloads);
 
         lxb_dom_collection_clean(gameElementCollection);
-        resultList = ll_append(resultList, item);
+        resultList = acll_push(resultList, item);
     }
     lxb_dom_collection_destroy(gameElementCollection, true);
     lxb_dom_collection_destroy(gamesCollection, true);

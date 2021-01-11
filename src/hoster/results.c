@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <csafestring.h>
+#include <string.h>
 #include "../../romlibrary.h"
 #include "../common/utils.h"
 
@@ -30,8 +30,6 @@ result_t *result_newItem(system_t *system, hoster_t *hoster) {
     resultList->downloads = 0;
     resultList->rating = 0;
     resultList->fileSize = NULL;
-    resultList->prev = NULL;
-    resultList->next = NULL;
     return resultList;
 }
 
@@ -82,10 +80,17 @@ void result_setFileSize(result_t *resultList, char *fileSize) {
     resultList->fileSize = str_clone(fileSize);
 }
 
-void result_freeList(result_t *resultList) {
-    ll_free(resultList, &freeFields);
+void result_freeList(acll_t *resultList) {
+    acll_free(resultList, &freeFields);
 }
 
+
+int result_sortComparator(void *payload1, void *payload2) {
+    result_t *result1 = payload1;
+    result_t *result2 = payload2;
+
+    return !strcmp(result1->title, result2->title);
+}
 
 static void freeFields(void *ptr) {
     result_t *resultList = (result_t *) ptr;

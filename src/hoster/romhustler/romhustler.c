@@ -30,11 +30,11 @@
 #define URL_DOWNLOAD_LINK "https://romhustler.org/link/"
 #define URL_FAVICON "https://romhustler.org/favicon.ico"
 
-static result_t *search(system_t *system, char *searchString);
+static acll_t *search(system_t *system, char *searchString);
 
 static void download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData);
 
-static result_t *fetchingResultItems(system_t *system, result_t *resultList, char *response);
+static acll_t *fetchingResultItems(system_t *system, acll_t *resultList, char *response);
 
 static char *fetchId(char *response);
 
@@ -64,12 +64,12 @@ hoster_t *romhustler_getHoster(cache_t *cacheHandler) {
     return hoster;
 }
 
-static result_t *search(system_t *system, char *searchString) {
+static acll_t *search(system_t *system, char *searchString) {
     uint32_t page = 1;
     uint32_t pageCount = 1;
     char *urlTemplate = URL_TEMPLATE;
 
-    result_t *resultList = NULL;
+    acll_t *resultList = NULL;
 
     while (page <= pageCount) {
         char *url = urlhandling_substitudeVariables(urlTemplate, system, &romhustler_deviceMapping, searchString, page);
@@ -118,7 +118,7 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     safe_destroy(linkUrl);
 }
 
-static result_t *fetchingResultItems(system_t *system, result_t *resultList, char *response) {
+static acll_t *fetchingResultItems(system_t *system, acll_t *resultList, char *response) {
     lxb_html_document_t *document;
     lxb_dom_collection_t *gamesCollection = domparsing_getElementsCollectionByClassName(response, &document, "row");
     lxb_dom_collection_t *gameElementCollection = domparsing_createCollection(document);
@@ -147,7 +147,7 @@ static result_t *fetchingResultItems(system_t *system, result_t *resultList, cha
         result_setRating(item, rating, 5);
 
         lxb_dom_collection_clean(gameElementCollection);
-        resultList = ll_append(resultList, item);
+        resultList = acll_push(resultList, item);
     }
     lxb_dom_collection_destroy(gameElementCollection, true);
     lxb_dom_collection_destroy(gamesCollection, true);

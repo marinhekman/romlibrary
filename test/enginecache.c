@@ -158,7 +158,7 @@ void enginecache_updateTimestamp(hoster_t *hoster, system_t *system, void *data)
     insertTimestamp(data, hoster, system);
 }
 
-result_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char *searchString, void *data) {
+acll_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char *searchString, void *data) {
     sqlite3 *db = data;
     char *query = "SELECT title, url, downloads, fileSize, rating FROM enginecache WHERE hosters=@hosters AND system=@system AND UPPER(title) LIKE @searchString";
 
@@ -185,7 +185,7 @@ result_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char 
         LOG_ERROR("Failed to execute statement: %s", sqlite3_errmsg(db));
     }
 
-    result_t *resultList = NULL;
+    acll_t *resultList = NULL;
     int ret = sqlite3_step(stmt);
     while (ret == SQLITE_ROW) {
         result_t *item = result_newItem(system, hoster);
@@ -194,7 +194,7 @@ result_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char 
         result_setFileSize(item, (char *) sqlite3_column_text(stmt, 3));
         item->downloads = sqlite3_column_int(stmt, 2);
         item->rating = sqlite3_column_double(stmt, 4);
-        resultList = ll_append(resultList, item);
+        resultList = acll_push(resultList, item);
         ret = sqlite3_step(stmt);
     }
     if (ret == SQLITE_ERROR) {

@@ -32,6 +32,6 @@ void enginecache_addEntry(hoster_t *hoster, system_t *system, result_t *entry, v
 
 void enginecache_updateTimestamp(hoster_t *hoster, system_t *system, void *data);
 
-result_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char *searchString, void *data);
+acll_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char *searchString, void *data);
 
 #endif

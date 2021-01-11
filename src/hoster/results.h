@@ -17,7 +17,7 @@
 #ifndef ENGINE_RESULTS_H
 #define ENGINE_RESULTS_H
 
-#include "../../romlibrary.h"
+#include <romlibrary.h>
 
 result_t *result_newItem(system_t *system, hoster_t *hoster);
 
@@ -31,6 +31,8 @@ void result_setRating(result_t *resultList, char *rating, uint8_t maxRating);
 
 void result_setFileSize(result_t *resultList, char *fileSize);
 
-void result_freeList(result_t *resultList);
+void result_freeList(acll_t *resultList);
+
+int result_sortComparator(void *payload1, void *payload2);
 
 #endif

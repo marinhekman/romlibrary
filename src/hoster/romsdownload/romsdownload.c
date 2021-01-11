@@ -30,11 +30,11 @@
 #define DATA_TEMPLATE "sort=file_name%24ASC&page=%page%&search=%query%&rom_concole=%system%"
 #define URL_PREFIX "https://roms-download.com"
 
-static result_t *search(system_t *system, char *searchString);
+static acll_t *search(system_t *system, char *searchString);
 
 static void download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData);
 
-static result_t *fetchingResultItems(system_t *system, result_t *resultList, char *response);
+static acll_t *fetchingResultItems(system_t *system, acll_t *resultList, char *response);
 
 static char *fetchDownloadLink(char *response);
 
@@ -57,11 +57,11 @@ hoster_t *romsdownload_getHoster(cache_t *cacheHandler) {
     return hoster;
 }
 
-static result_t *search(system_t *system, char *searchString) {
+static acll_t *search(system_t *system, char *searchString) {
     uint32_t page = 1;
     uint32_t pageCount = 1;
 
-    result_t *resultList = NULL;
+    acll_t *resultList = NULL;
     while (page <= pageCount) {
         char *data = urlhandling_substitudeVariables(DATA_TEMPLATE, system, &romsdownload_deviceMapping, searchString,
                                                      page);
@@ -112,7 +112,7 @@ static char *fetchDownloadLink(char *response) {
     return link;
 }
 
-static result_t *fetchingResultItems(system_t *system, result_t *resultList, char *response) {
+static acll_t *fetchingResultItems(system_t *system, acll_t *resultList, char *response) {
     lxb_html_document_t *document;
     lxb_dom_collection_t *wrapperCollection = domparsing_getElementsCollectionByTagName(response, &document, "TBODY");
     lxb_dom_collection_t *gamesCollection = domparsing_createCollection(document);
@@ -150,7 +150,7 @@ static result_t *fetchingResultItems(system_t *system, result_t *resultList, cha
         result_setFileSize(item, fileSize);
 
         lxb_dom_collection_clean(gameElementCollection);
-        resultList = ll_append(resultList, item);
+        resultList = acll_push(resultList, item);
     }
     lxb_dom_collection_destroy(gameElementCollection, true);
     lxb_dom_collection_destroy(gamesCollection, true);

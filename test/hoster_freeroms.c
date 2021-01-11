@@ -16,391 +16,392 @@
 
 #include <csafestring.h>
 #include <romlibrary.h>
+#include <hoster/results.h>
 #include "test.h"
 #include "systems.h"
 #include "hoster.h"
 #include "download.h"
 
 int test_engine_freeroms_3do() {
-    result_t *list = freeroms->search(threeDo, "");
+    acll_t *list = freeroms->search(threeDo, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_amiga() {
-    result_t *list = freeroms->search(amiga, "DAMAGE");
+    acll_t *list = freeroms->search(amiga, "DAMAGE");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Damage", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Damage", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_atari2600() {
-    result_t *list = freeroms->search(atari2600, "PENGO");
+    acll_t *list = freeroms->search(atari2600, "PENGO");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Pengo", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Pengo", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_atari7800() {
-    result_t *list = freeroms->search(atari7800, "GHOST MANOR");
+    acll_t *list = freeroms->search(atari7800, "GHOST MANOR");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Ghost Manor", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Ghost Manor", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_atarijaguar() {
-    result_t *list = freeroms->search(atarijaguar, "NBA");
+    acll_t *list = freeroms->search(atarijaguar, "NBA");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("NBA Jam TE (1996)", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("NBA Jam TE (1996)", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_atarilynx() {
-    result_t *list = freeroms->search(atarilynx, "Conners Tennis");
+    acll_t *list = freeroms->search(atarilynx, "Conners Tennis");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Jimmy Conners Tennis (1991)", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Jimmy Conners Tennis (1991)", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_atarist() {
-    result_t *list = freeroms->search(atarist, "");
+    acll_t *list = freeroms->search(atarist, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_c64() {
-    result_t *list = freeroms->search(c64, "");
+    acll_t *list = freeroms->search(c64, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_dreamcast() {
-    result_t *list = freeroms->search(dreamcast, "Dalmations To The Rescue");
+    acll_t *list = freeroms->search(dreamcast, "Dalmations To The Rescue");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("101 Dalmations To The Rescue", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("101 Dalmations To The Rescue", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_fba() {
-    result_t *list = freeroms->search(fba, "");
+    acll_t *list = freeroms->search(fba, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_fds() {
-    result_t *list = freeroms->search(fds, "Z-Gunda");
+    acll_t *list = freeroms->search(fds, "Z-Gunda");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Z-Gundam", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Z-Gundam", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_gamegear() {
-    result_t *list = freeroms->search(gamegear, "Excellent Dizzy");
+    acll_t *list = freeroms->search(gamegear, "Excellent Dizzy");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Excellent Dizzy", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Excellent Dizzy", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_gb() {
-    result_t *list = freeroms->search(gb, "Oide Rascal");
+    acll_t *list = freeroms->search(gb, "Oide Rascal");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Oide Rascal (Japan)", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Oide Rascal (Japan)", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_gba() {
-    result_t *list = freeroms->search(gba, "Helsing");
+    acll_t *list = freeroms->search(gba, "Helsing");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Van Helsing", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Van Helsing", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_gbc() {
-    result_t *list = freeroms->search(gbc, "Olympic Summer");
+    acll_t *list = freeroms->search(gbc, "Olympic Summer");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Olympic Summer Games", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Olympic Summer Games", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_gc() {
-    result_t *list = freeroms->search(gc, "Sorcerers Stone");
+    acll_t *list = freeroms->search(gc, "Sorcerers Stone");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Harry Potter and the Sorcerers Stone", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Harry Potter and the Sorcerers Stone", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_genesis() {
-    result_t *list = freeroms->search(genesis, "NBA Jam");
+    acll_t *list = freeroms->search(genesis, "NBA Jam");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("NBA Jam Tournament Edition (32X)", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("NBA Jam Tournament Edition (32X)", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_gw() {
-    result_t *list = freeroms->search(gw, "");
+    acll_t *list = freeroms->search(gw, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_love() {
-    result_t *list = freeroms->search(love, "");
+    acll_t *list = freeroms->search(love, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_mame() {
-    result_t *list = freeroms->search(mame, "Quadro Quiz");
+    acll_t *list = freeroms->search(mame, "Quadro Quiz");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Quadro Quiz II", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Quadro Quiz II", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_mastersystem() {
-    result_t *list = freeroms->search(mastersystem, "Out Run 3D");
+    acll_t *list = freeroms->search(mastersystem, "Out Run 3D");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Out Run 3D", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Out Run 3D", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_megadrive() {
-    result_t *list = freeroms->search(megadrive, "NBA Jam");
+    acll_t *list = freeroms->search(megadrive, "NBA Jam");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("NBA Jam Tournament Edition (32X)", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("NBA Jam Tournament Edition (32X)", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_msx() {
-    result_t *list = freeroms->search(msx, "");
+    acll_t *list = freeroms->search(msx, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_n64() {
-    result_t *list = freeroms->search(n64, "Mario Kart");
+    acll_t *list = freeroms->search(n64, "Mario Kart");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Mario Kart 64", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Mario Kart 64", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_nds() {
-    result_t *list = freeroms->search(nds, "Mario and Luigi Partners in Time Europe");
+    acll_t *list = freeroms->search(nds, "Mario and Luigi Partners in Time Europe");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Mario and Luigi Partners in Time Europe", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Mario and Luigi Partners in Time Europe", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_neogeo() {
-    result_t *list = freeroms->search(neogeo, "Infinity Cure");
+    acll_t *list = freeroms->search(neogeo, "Infinity Cure");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Infinity Cure (J) [!]", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Infinity Cure (J) [!]", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_nes() {
-    result_t *list = freeroms->search(nes, "Z-Gunda");
+    acll_t *list = freeroms->search(nes, "Z-Gunda");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Z-Gundam", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Z-Gundam", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_ngp() {
-    result_t *list = freeroms->search(ngp, "Wrestling Madness");
+    acll_t *list = freeroms->search(ngp, "Wrestling Madness");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Wrestling Madness (Beta)", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Wrestling Madness (Beta)", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_ngpc() {
-    result_t *list = freeroms->search(ngpc, "Magical Drop Pocket Hack");
+    acll_t *list = freeroms->search(ngpc, "Magical Drop Pocket Hack");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Magical Drop Pocket Hack", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Magical Drop Pocket Hack", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_pc() {
-    result_t *list = freeroms->search(pc, "");
+    acll_t *list = freeroms->search(pc, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_pcengine() {
-    result_t *list = freeroms->search(pcengine, "");
+    acll_t *list = freeroms->search(pcengine, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_pcfx() {
-    result_t *list = freeroms->search(pcfx, "");
+    acll_t *list = freeroms->search(pcfx, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_ps2() {
-    result_t *list = freeroms->search(ps2, "");
+    acll_t *list = freeroms->search(ps2, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_psp() {
-    result_t *list = freeroms->search(psp, "Qix");
+    acll_t *list = freeroms->search(psp, "Qix");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Qix++ Japan", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Qix++ Japan", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_psx() {
-    result_t *list = freeroms->search(psx, "Panzer Front");
+    acll_t *list = freeroms->search(psx, "Panzer Front");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Panzer Front", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Panzer Front", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_saturn() {
-    result_t *list = freeroms->search(saturn, "");
+    acll_t *list = freeroms->search(saturn, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_scummvm() {
-    result_t *list = freeroms->search(scummvm, "");
+    acll_t *list = freeroms->search(scummvm, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_sega32x() {
-    result_t *list = freeroms->search(sega32x, "");
+    acll_t *list = freeroms->search(sega32x, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_segacd() {
-    result_t *list = freeroms->search(segacd, "NBA Jam");
+    acll_t *list = freeroms->search(segacd, "NBA Jam");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("NBA Jam Tournament Edition (32X)", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("NBA Jam Tournament Edition (32X)", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_sg1000() {
-    result_t *list = freeroms->search(sg1000, "");
+    acll_t *list = freeroms->search(sg1000, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_snes() {
-    result_t *list = freeroms->search(snes, "Q-bert");
+    acll_t *list = freeroms->search(snes, "Q-bert");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Q-bert 3", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Q-bert 3", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_vectrex() {
-    result_t *list = freeroms->search(vectrex, "");
+    acll_t *list = freeroms->search(vectrex, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_videopac() {
-    result_t *list = freeroms->search(videopac, "");
+    acll_t *list = freeroms->search(videopac, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_virtualboy() {
-    result_t *list = freeroms->search(virtualboy, "");
+    acll_t *list = freeroms->search(virtualboy, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_wii() {
-    result_t *list = freeroms->search(wii, "");
+    acll_t *list = freeroms->search(wii, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_wiiu() {
-    result_t *list = freeroms->search(wiiu, "");
+    acll_t *list = freeroms->search(wiiu, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_wonderswan() {
-    result_t *list = freeroms->search(wonderswan, "Tetsuman");
+    acll_t *list = freeroms->search(wonderswan, "Tetsuman");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Tetsuman (J) [M][!]", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Tetsuman (J) [M][!]", getResult(list)->title);
     result_freeList(list);
     return 0;
 }
 
 int test_engine_freeroms_wonderswancolor() {
-    result_t *list = freeroms->search(wonderswancolor, "");
+    acll_t *list = freeroms->search(wonderswancolor, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_zxspectrum() {
-    result_t *list = freeroms->search(zxspectrum, "");
+    acll_t *list = freeroms->search(zxspectrum, "");
     ASSERTNULL(list);
     return 0;
 }
 
 int test_engine_freeroms_download() {
-    result_t *list = freeroms->search(amiga, "DAMAGE");
+    acll_t *list = freeroms->search(amiga, "DAMAGE");
     ASSERTNOTNULL(list);
-    list = linkedlist_sort(list);
-    ASSERTSTR("Damage", list->title);
+    list = acll_sort(list, result_sortComparator);
+    ASSERTSTR("Damage", getResult(list)->title);
 
 
     test_downloaddata_t *testdata = calloc(1, sizeof(test_downloaddata_t));
@@ -411,7 +412,7 @@ int test_engine_freeroms_download() {
     testdata->data = NULL;
     testdata->url = "https://www.freeroms.com/dl_roms/rom_download_tr.php?system=amiga&game_id=10579";
 
-    freeroms->download(list, testDownloadCallback, testdata);
+    freeroms->download(getResult(list), testDownloadCallback, testdata);
 
     free(testdata);
 

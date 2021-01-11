@@ -23,19 +23,27 @@
 #include <curl/curl.h>
 #include <acll.h>
 
+// Typedefs
 // HTTP Method Enum
 typedef enum {
     GET,
     POST
 } httpmethod_t;
 
+typedef struct result_s result_t;
+typedef struct system_s system_t;
+typedef struct memimage_s memimage_t;
+typedef struct hoster_s hoster_t;
+typedef struct cache_s cache_t;
+typedef struct curl_response_s curl_response_t;
+
 // Gaming System
-typedef struct system_s {
+struct system_s {
     char *fullname;
     uint8_t active;
     char *name;
     char *path;
-} system_t;
+};
 
 // Callback to run downloads
 typedef uint8_t (*downloadCallback_t)(void *appData, struct system_s *system, char *title, char *url, char *data,
@@ -43,42 +51,38 @@ typedef uint8_t (*downloadCallback_t)(void *appData, struct system_s *system, ch
                                       httpmethod_t method);
 
 // Memory Image or any other data object where data & size is needed
-typedef struct memimage_s {
+struct memimage_s {
     char *binary;
     size_t size;
-} memimage_t;
+};
 
 // Hoster of ROMs
-typedef struct hoster_s {
-    struct hoster_s *prev;
-    struct hoster_s *next;
+struct hoster_s {
     char *fullname;
     uint8_t active;
     char *name;
     struct cache_s *cacheHandler;
     struct memimage_s *favicon;
 
-    struct result_s *(*search)(struct system_s *system, char *searchString);
+    acll_t *(*search)(system_t *system, char *searchString);
 
-    void (*download)(struct result_s *item, downloadCallback_t downloadCallbackFunction, void *appData);
-} hoster_t;
+    void (*download)(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData);
+};
 
 // Search Result
-typedef struct result_s {
-    struct result_s *prev;
-    struct result_s *next;
+struct result_s {
     char *title;
     uint8_t active;
     char *url;
     float rating;
     int32_t downloads;
     char *fileSize;
-    struct system_s *system;
-    struct hoster_s *hoster;
-} result_t;
+    system_t *system;
+    hoster_t *hoster;
+};
 
 // Caching of search results or hoster's content
-typedef struct cache_s {
+struct cache_s {
     void *appData;
 
     uint8_t (*isValid)(struct hoster_s *hoster, struct system_s *system, void *appData);
@@ -87,24 +91,16 @@ typedef struct cache_s {
 
     void (*add)(struct hoster_s *hoster, struct system_s *system, result_t *entry, void *appData);
 
-    result_t *(*get)(struct hoster_s *hoster, struct system_s *system, char *searchString, void *appData);
+    acll_t *(*get)(struct hoster_s *hoster, struct system_s *system, char *searchString, void *appData);
 
     void (*touch)(struct hoster_s *hoster, struct system_s *system, void *appData);
-} cache_t;
-
-// Definition of a linked list
-typedef struct {
-    void *prev;
-    void *next;
-    char *name;
-    uint8_t active;
-} linkedlist_t;
+};
 
 // Definition of a curl response
-typedef struct curl_response_s {
+struct curl_response_s {
     size_t size;
     char *data;
-} curl_response_t;
+};
 
 // Exported methods
 acll_t *systems_init();
@@ -113,15 +109,19 @@ void systems_destroy(acll_t *systems);
 
 int system_findByFullname(void *payload, void *input);
 
-hoster_t *hosterhandler_init(cache_t *cacheHandler);
+acll_t *hosterhandler_init(cache_t *cacheHandler);
 
-result_t *hosterhandler_search(hoster_t *hosters, system_t *system, char *searchString);
+acll_t *hosterhandler_search(acll_t *hosters, system_t *system, char *searchString);
 
 void hosterhandler_download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData);
 
-void hosterhandler_destroy(hoster_t *hoster);
+void hosterhandler_destroy(acll_t *hoster);
 
-void result_freeList(result_t *resultList);
+int hoster_findByFullname(void *payload, void *input);
+
+int hoster_findByName(void *payload, void *input);
+
+void result_freeList(acll_t *resultList);
 
 int
 curlling_download(char *url, char *data, httpmethod_t method, char *filename, curl_off_t *current, curl_off_t *total,
@@ -133,31 +133,21 @@ void curl_freeResponse(curl_response_t *response);
 
 // nice macros for method calling
 #define loadSystems systems_init
-#define getSystem(systems, fullname) ((system_t *) acll_find(systems, system_findByFullname, fullname)->payload);
+#define findSystemByFullname(systems, fullname) acll_find(systems, system_findByFullname, fullname)
+#define getSystem(system) ((system_t *) system->payload)
 #define destroySystems(systems) systems_destroy(systems)
 
 #define loadHosters hosterhandler_init
+#define getHoster(hoster) ((hoster_t *) hoster->payload)
+#define findHosterByFullname(hosters, fullname) acll_find(hosters, hoster_findByFullname, fullname)
+#define findHosterByName(hosters, name) acll_find(hosters, hoster_findByName, name)
+
 #define destroyHosters(hosters) hosterhandler_destroy(hosters)
 #define searchHosters(hosters, system, searchString) hosterhandler_search(hosters, system, searchString)
 #define downloadItem(item, downloadCallbackFunction, appData) hosterhandler_download(item, downloadCallbackFunction, appData)
 #define destroyResults(results) result_freeList(results)
 
-#define ll_append(list, element) linkedlist_appendElement(list, element)
-#define ll_pop(list, element) linkedlist_pop(list, element)
-#define ll_push(list, element) linkedlist_push(list, element)
-#define ll_free(list, callback) linkedlist_freeList(list, callback)
-#define ll_count(list) linkedlist_getElementCount(list)
-#define ll_findByName(list, name) linkedlist_findElementByName(list, name)
-#define ll_isInList(list, element) linkedlist_isElementInList(list, element)
-#define ll_delete(list, element, callback) linkedlist_deleteElement(list, element, callback)
-#define ll_remove(list, element) linkedlist_removeElement(list, element)
-#define ll_sort(list) linkedlist_sort(list)
-#define ll_clone(list, size, callback) linkedlist_clone(list, size, callback)
-#define ll_get1stActive(list) linkedlist_getFirstActive(list)
-#define ll_getActivePrev(element) linkedlist_getPrevActive(element)
-#define ll_getActiveNext(element) linkedlist_getNextActive(element)
-#define ll_getLast(list) linkedlist_getLastElement(list)
-#define ll_get1st(list) linkedlist_getFirstElement(list)
+#define getResult(result) ((result_t *) result->payload)
 
 // define the number of parallel threads to fetch content from hosters
 #ifndef HOSTER_FETCH_THREADS

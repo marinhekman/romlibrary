@@ -29,10 +29,10 @@ void testengines_init(sqlite3 *db) {
     cacheHandler.touch = enginecache_updateTimestamp;
     cacheHandler.get = enginecache_getSearchResults;
 
-    hoster_t *hosters = loadHosters(&cacheHandler);
+    acll_t *hosters = loadHosters(&cacheHandler);
 
-    romhustler = ll_findByName(hosters, "https://romhustler.org");
-    freeroms = ll_findByName(hosters, "https://freeroms.com");
+    romhustler = getHoster(findHosterByFullname(hosters, "https://romhustler.org"));
+    freeroms = getHoster(findHosterByFullname(hosters, "https://freeroms.com"));
 
 //
 //    romsmania = ll_findByName(hosters, )romsmania_getEngine();

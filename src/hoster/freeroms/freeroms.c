@@ -30,7 +30,7 @@
 #define URL_TEMPLATE_DOWNLOAD "https://www.freeroms.com/dl_roms/rom_download_tr.php?system=%system%&game_id=%id%"
 #define URL_FAVICON "https://www.freeroms.com/favicon.ico"
 
-static result_t *search(system_t *system, char *searchString);
+static acll_t *search(system_t *system, char *searchString);
 
 static void download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData);
 
@@ -73,7 +73,7 @@ hoster_t *freeroms_getHoster(cache_t *cacheHandler) {
     return hoster;
 }
 
-static result_t *search(system_t *system, char *searchString) {
+static acll_t *search(system_t *system, char *searchString) {
     if (!hoster->cacheHandler->isValid(hoster, system, hoster->cacheHandler->appData)) {
         LOG_DEBUG("Cache is invalid and needs to be rebuilt");
         hoster->cacheHandler->clear(hoster, system, hoster->cacheHandler->appData);
@@ -148,6 +148,7 @@ static void *executeThread(void *ptr) {
 }
 
 static void extractLink(system_t *system, char *response) {
+    acll_t *results = NULL;
     lxb_html_document_t *document;
     lxb_dom_collection_t *gamesCollection = domparsing_getElementsCollectionByClassName(response, &document,
                                                                                         "system-rom-tr-wrap");
@@ -175,14 +176,19 @@ static void extractLink(system_t *system, char *response) {
         rating = str_replace(rating, "/10", "");
         result_setRating(item, rating, 10);
 
-        hoster->cacheHandler->add(hoster, system, item, hoster->cacheHandler->appData);
-        result_freeList(item);
-
+        results = acll_push(results, item);
         lxb_dom_collection_clean(gameElementCollection);
     }
     lxb_dom_collection_destroy(gameElementCollection, true);
     lxb_dom_collection_destroy(gamesCollection, true);
     lxb_html_document_destroy(document);
+
+    acll_t *ptr = acll_first(results);
+    while (ptr != NULL) {
+        hoster->cacheHandler->add(hoster, system, getResult(ptr), hoster->cacheHandler->appData);
+        ptr = ptr->next;
+    }
+    result_freeList(results);
 }
 
 

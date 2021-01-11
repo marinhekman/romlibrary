@@ -46,8 +46,6 @@ set(SOURCES_LIBRARY
         src/helper/curlling.h
         src/helper/domparsing.c
         src/helper/domparsing.h
-        src/helper/linkedlist.c
-        src/helper/linkedlist.h
         src/helper/md5.c
         src/helper/md5.h
         src/helper/regex.c
@@ -57,7 +55,6 @@ set(SOURCES_LIBRARY
         src/hoster/freeroms/mapping.c
         src/hoster/freeroms/mapping.h
         src/hoster/hosterhandler.c
-        src/hoster/hosterhandler.h
         src/hoster/results.c
         src/hoster/results.h
         src/hoster/romhustler/mapping.c

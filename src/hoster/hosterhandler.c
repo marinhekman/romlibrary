@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
+#include <romlibrary.h>
 #include <pthread.h>
-#include "hosterhandler.h"
+#include <string.h>
 #include "romhustler/romhustler.h"
 #include "romsdownload/romsdownload.h"
 #include "romsemulator/romsemulator.h"
 #include "romsmania/romsmania.h"
 #include "wowroms/wowroms.h"
 #include "freeroms/freeroms.h"
+#include "results.h"
 
 static void *executeThread(void *searchPtr);
 
@@ -30,31 +32,31 @@ typedef struct {
     system_t *system;
     char *searchString;
     pthread_t thread;
-    result_t *result;
+    acll_t *result;
 } search_t;
 
-hoster_t *hosterhandler_init(cache_t *cacheHandler) {
-    hoster_t *hosters = NULL;
-    hosters = ll_append(hosters, freeroms_getHoster(cacheHandler));
-    hosters = ll_append(hosters, romhustler_getHoster(cacheHandler));
-    hosters = ll_append(hosters, romsdownload_getHoster(cacheHandler));
-    hosters = ll_append(hosters, romsemulator_getHoster(cacheHandler));
-    hosters = ll_append(hosters, romsmania_getHoster(cacheHandler));
-    hosters = ll_append(hosters, wowroms_getHoster(cacheHandler));
+acll_t *hosterhandler_init(cache_t *cacheHandler) {
+    acll_t *hosters = NULL;
+    hosters = acll_append(hosters, freeroms_getHoster(cacheHandler));
+    hosters = acll_append(hosters, romhustler_getHoster(cacheHandler));
+    hosters = acll_append(hosters, romsdownload_getHoster(cacheHandler));
+    hosters = acll_append(hosters, romsemulator_getHoster(cacheHandler));
+    hosters = acll_append(hosters, romsmania_getHoster(cacheHandler));
+    hosters = acll_append(hosters, wowroms_getHoster(cacheHandler));
     return hosters;
 }
 
-result_t *hosterhandler_search(hoster_t *hosters, system_t *system, char *searchString) {
-    result_t *result = NULL;
-    hoster_t *ptr = hosters;
+acll_t *hosterhandler_search(acll_t *hosters, system_t *system, char *searchString) {
+    acll_t *result = NULL;
+    acll_t *ptr = hosters;
 
-    uint32_t count = ll_count(ptr);
+    uint32_t count = acll_count(ptr);
     search_t *searches = (search_t *) calloc(count, sizeof(search_t));
 
     int activeNumber = 0;
     while (ptr != NULL) {
-        if (ptr->active) {
-            searches[activeNumber].hoster = ptr;
+        if (getHoster(ptr)->active) {
+            searches[activeNumber].hoster = getHoster(ptr);
             searches[activeNumber].system = system;
             searches[activeNumber].searchString = searchString;
             searches[activeNumber].result = NULL;
@@ -66,18 +68,32 @@ result_t *hosterhandler_search(hoster_t *hosters, system_t *system, char *search
 
     for (int i = 0; i < activeNumber; i++) {
         pthread_join(searches[i].thread, NULL);
-        result = ll_append(result, searches[i].result);
+        result = acll_append(result, searches[i].result);
     }
 
-    return ll_sort(result);
+    return acll_sort(result, result_sortComparator);
 }
 
 void hosterhandler_download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData) {
     item->hoster->download(item, downloadCallbackFunction, appData);
 }
 
-void hosterhandler_destroy(hoster_t *hoster) {
-    ll_free(hoster, NULL);
+void hosterhandler_destroy(acll_t *hoster) {
+    acll_free(hoster, NULL);
+}
+
+int hoster_findByFullname(void *payload, void *input) {
+    hoster_t *hoster = payload;
+    char *fullname = input;
+
+    return !strcmp(hoster->fullname, fullname);
+}
+
+int hoster_findByName(void *payload, void *input) {
+    hoster_t *hoster = payload;
+    char *name = input;
+
+    return !strcmp(hoster->name, name);
 }
 
 static void *executeThread(void *searchPtr) {
