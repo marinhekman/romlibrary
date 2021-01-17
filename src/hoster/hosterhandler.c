@@ -23,7 +23,6 @@
 #include "romsmania/romsmania.h"
 #include "wowroms/wowroms.h"
 #include "freeroms/freeroms.h"
-#include "results.h"
 
 static void *executeThread(void *searchPtr);
 
@@ -71,7 +70,7 @@ acll_t *hosterhandler_search(acll_t *hosters, system_t *system, char *searchStri
         result = acll_append(result, searches[i].result);
     }
 
-    return acll_sort(result, result_sortComparator);
+    return result_sort(result);
 }
 
 void hosterhandler_download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData) {

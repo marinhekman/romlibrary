@@ -15,7 +15,6 @@
  */
 
 #include <csafestring.h>
-#include <hoster/results.h>
 #include "enginecache.h"
 #include <romlibrary.h>
 #include <common/utils.h>
@@ -188,7 +187,7 @@ acll_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char *s
     acll_t *resultList = NULL;
     int ret = sqlite3_step(stmt);
     while (ret == SQLITE_ROW) {
-        result_t *item = result_newItem(system, hoster);
+        result_t *item = result_create(system, hoster, NULL, NULL);
         result_setTitle(item, (char *) sqlite3_column_text(stmt, 0));
         result_setUrl(item, (char *) sqlite3_column_text(stmt, 1));
         result_setFileSize(item, (char *) sqlite3_column_text(stmt, 3));

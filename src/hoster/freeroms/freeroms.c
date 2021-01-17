@@ -17,7 +17,6 @@
 #include <pthread.h>
 #include <csafestring.h>
 #include "../../helper/domparsing.h"
-#include "../../hoster/results.h"
 #include "freeroms.h"
 #include "mapping.h"
 #include "../../common/utils.h"
@@ -156,7 +155,7 @@ static void extractLink(system_t *system, char *response) {
 
     for (size_t i = 0; i < lxb_dom_collection_length(gamesCollection); i++) {
         lxb_dom_element_t *gameParent = lxb_dom_collection_element(gamesCollection, i);
-        result_t *item = result_newItem(system, hoster);
+        result_t *item = result_create(system, hoster, NULL, NULL);
 
         domparsing_findChildElementsByTagName(gameElementCollection, gameParent, "DIV", 1);
 

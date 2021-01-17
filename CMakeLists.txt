@@ -86,7 +86,7 @@ set(SOURCES_LIBRARY
         src/systems.c
         )
 
-if (NOT TARGET acll)
+if (NOT TARGET romlibrary)
     add_library(romlibrary ${SOURCES_LIBRARY})
     target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} csafestring lexbor_static acll)
 

@@ -18,7 +18,6 @@
 #include <romlibrary.h>
 #include "romsmania.h"
 #include "mapping.h"
-#include "../results.h"
 #include "../../../helper/utils.h"
 #include "../urlhandling.h"
 #include "../../../helper/regex.h"

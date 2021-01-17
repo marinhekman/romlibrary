@@ -20,72 +20,81 @@
 
 static void freeFields(void *ptr);
 
-result_t *result_newItem(system_t *system, hoster_t *hoster) {
-    result_t *resultList = (result_t *) calloc(1, sizeof(result_t));
-    resultList->title = NULL;
-    resultList->active = 1;
-    resultList->url = NULL;
-    resultList->hoster = hoster;
-    resultList->system = system;
-    resultList->downloads = 0;
-    resultList->rating = 0;
-    resultList->fileSize = NULL;
-    return resultList;
+static int result_sortComparator(void *payload1, void *payload2);
+
+result_t *result_create(system_t *system, hoster_t *hoster, char *title, char *url) {
+    result_t *result = (result_t *) calloc(1, sizeof(result_t));
+    result->title = NULL;
+    result->active = 1;
+    result->url = NULL;
+    result->hoster = hoster;
+    result->system = system;
+    result->downloads = 0;
+    result->rating = 0;
+    result->fileSize = NULL;
+
+    result_setTitle(result, title);
+    result_setUrl(result, url);
+    return result;
 }
 
-void result_setTitle(result_t *resultList, char *title) {
+void result_setTitle(result_t *result, char *title) {
     title = str_trim(title);
     LOG_DEBUG("Title: %s", title);
-    if (resultList == NULL || title == NULL) {
+    if (result == NULL || title == NULL) {
         return;
     }
-    resultList->title = str_clone(title);
+    result->title = str_clone(title);
 }
 
-void result_setUrl(result_t *resultList, char *url) {
+void result_setUrl(result_t *result, char *url) {
     url = str_trim(url);
     LOG_DEBUG("URL: %s", url);
-    if (resultList == NULL || url == NULL) {
+    if (result == NULL || url == NULL) {
         return;
     }
-    resultList->url = str_clone(url);
+    result->url = str_clone(url);
 }
 
-void result_setDownloads(result_t *resultList, char *downloads) {
+void result_setDownloads(result_t *result, char *downloads) {
     downloads = str_trim(downloads);
     LOG_DEBUG("DOWNLOADS: %s", downloads);
     if (downloads == NULL) {
         return;
     }
-    resultList->downloads = atoi(downloads);
-    LOG_DEBUG("Calc'd Downloads: %d", resultList->downloads);
+    result->downloads = atoi(downloads);
+    LOG_DEBUG("Calc'd Downloads: %d", result->downloads);
 }
 
-void result_setRating(result_t *resultList, char *rating, uint8_t maxRating) {
+void result_setRating(result_t *result, char *rating, uint8_t maxRating) {
     rating = str_trim(rating);
     LOG_DEBUG("RATING: %s", rating);
     if (rating == NULL) {
         return;
     }
-    resultList->rating = (maxRating == 10) ? 1.0f * atof(rating) : 2.0f * atof(rating);
-    LOG_DEBUG("Calc'd Rating: %2.1f", resultList->rating);
+    result->rating = (maxRating == 10) ? 1.0f * atof(rating) : 2.0f * atof(rating);
+    LOG_DEBUG("Calc'd Rating: %2.1f", result->rating);
 }
 
-void result_setFileSize(result_t *resultList, char *fileSize) {
+void result_setFileSize(result_t *result, char *fileSize) {
     fileSize = str_trim(fileSize);
     LOG_DEBUG("FILE SIZE: %s", fileSize);
     if (fileSize == NULL) {
         return;
     }
-    resultList->fileSize = str_clone(fileSize);
+    result->fileSize = str_clone(fileSize);
 }
 
-void result_freeList(acll_t *resultList) {
-    acll_free(resultList, &freeFields);
+void result_freeList(acll_t *results) {
+    acll_free(results, &freeFields);
+}
+
+acll_t *result_sort(acll_t *results) {
+    return acll_sort(results, result_sortComparator);
 }
 
 
-int result_sortComparator(void *payload1, void *payload2) {
+static int result_sortComparator(void *payload1, void *payload2) {
     result_t *result1 = payload1;
     result_t *result2 = payload2;
 

@@ -103,12 +103,16 @@ struct http_response_s {
 };
 
 // Exported methods
+
+// systems
 acll_t *systems_init();
 
 void systems_destroy(acll_t *systems);
 
 int system_findByFullname(void *payload, void *input);
 
+
+// hoster
 acll_t *hosterhandler_init(cache_t *cacheHandler);
 
 acll_t *hosterhandler_search(acll_t *hosters, system_t *system, char *searchString);
@@ -121,8 +125,24 @@ int hoster_findByFullname(void *payload, void *input);
 
 int hoster_findByName(void *payload, void *input);
 
-void result_freeList(acll_t *resultList);
+// results
+result_t *result_create(system_t *system, hoster_t *hoster, char *title, char *url);
 
+void result_setTitle(result_t *result, char *title);
+
+void result_setUrl(result_t *result, char *url);
+
+void result_setDownloads(result_t *result, char *downloads);
+
+void result_setRating(result_t *result, char *rating, uint8_t maxRating);
+
+void result_setFileSize(result_t *result, char *fileSize);
+
+void result_freeList(acll_t *results);
+
+acll_t *result_sort(acll_t *results);
+
+// http methoods
 int http_download(char *url, char *data, httpmethod_t method, char *filename, curl_off_t *current, curl_off_t *total,
                   volatile uint8_t *cancellation);
 
@@ -131,21 +151,25 @@ http_response_t *http_fetch(char *url, char *postData, httpmethod_t method, long
 void http_freeResponse(http_response_t *response);
 
 // nice macros for method calling
+// systems
 #define loadSystems systems_init
 #define findSystemByFullname(systems, fullname) acll_find(systems, system_findByFullname, fullname)
 #define getSystem(system) ((system_t *) system->payload)
 #define destroySystems(systems) systems_destroy(systems)
 
+// hoster
 #define loadHosters hosterhandler_init
 #define getHoster(hoster) ((hoster_t *) hoster->payload)
 #define findHosterByFullname(hosters, fullname) acll_find(hosters, hoster_findByFullname, fullname)
 #define findHosterByName(hosters, name) acll_find(hosters, hoster_findByName, name)
-
 #define destroyHosters(hosters) hosterhandler_destroy(hosters)
+
+// search & download
 #define searchHosters(hosters, system, searchString) hosterhandler_search(hosters, system, searchString)
 #define downloadItem(item, downloadCallbackFunction, appData) hosterhandler_download(item, downloadCallbackFunction, appData)
-#define destroyResults(results) result_freeList(results)
 
+// results
+#define destroyResults(results) result_freeList(results)
 #define getResult(result) ((result_t *) result->payload)
 
 // define the number of parallel threads to fetch content from hosters

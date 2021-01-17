@@ -23,8 +23,6 @@
 #include "../../common/utils.h"
 #include "../../helper/regex.h"
 #include "../../helper/md5.h"
-#include "../results.h"
-
 
 #define SHORTNAME "WOW"
 #define FULLNAME "https://www.wowroms.com"
@@ -217,7 +215,7 @@ static acll_t *fetchingResultItems(system_t *system, acll_t *resultList, char *r
 
     for (size_t i = 0; i < lxb_dom_collection_length(gamesCollection); i++) {
         lxb_dom_element_t *gameParent = lxb_dom_collection_element(gamesCollection, i);
-        result_t *item = result_newItem(system, hoster);
+        result_t *item = result_create(system, hoster, NULL, NULL);
 
         domparsing_findChildElementsByTagName(gameElementCollection, gameParent, "A", 1);
 

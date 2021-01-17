@@ -19,20 +19,20 @@
 
 #include <romlibrary.h>
 
-result_t *result_newItem(system_t *system, hoster_t *hoster);
+result_t *result_create(system_t *system, hoster_t *hoster, char *title, char *url);
 
-void result_setTitle(result_t *resultList, char *title);
+void result_setTitle(result_t *result, char *title);
 
-void result_setUrl(result_t *resultList, char *url);
+void result_setUrl(result_t *result, char *url);
 
-void result_setDownloads(result_t *resultList, char *downloads);
+void result_setDownloads(result_t *result, char *downloads);
 
-void result_setRating(result_t *resultList, char *rating, uint8_t maxRating);
+void result_setRating(result_t *result, char *rating, uint8_t maxRating);
 
-void result_setFileSize(result_t *resultList, char *fileSize);
+void result_setFileSize(result_t *result, char *fileSize);
 
-void result_freeList(acll_t *resultList);
+void result_freeList(acll_t *results);
 
-int result_sortComparator(void *payload1, void *payload2);
+acll_t *result_sort(acll_t *results);
 
 #endif
