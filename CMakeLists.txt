@@ -21,20 +21,22 @@ else ()
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O3")
 endif ()
 
-# Include Library directories
-include_directories(
+# Header file directories
+set(INCLUDE_DIRECTORIES
+        ${INCLUDE_DIRECTORIES}
         ${CURL_INCLUDE_DIRS}
         ${OPENSSL_INCLUDE_DIR}
-)
+        libs/csafestring
+        libs/lexbor
+        libs/lexbor/source
+        libs/acll
+        )
+include_directories(${INCLUDE_DIRECTORIES})
 
-# Include build dependency directories
+# add submodules to build path
 add_subdirectory(libs/csafestring)
-include_directories(libs/csafestring)
 add_subdirectory(libs/lexbor)
-include_directories(libs/lexbor)
-include_directories(libs/lexbor/source)
 add_subdirectory(libs/acll)
-include_directories(libs/acll)
 
 # ROM Library Sources
 set(SOURCES_LIBRARY
