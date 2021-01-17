@@ -52,12 +52,12 @@ hoster_t *romsmania_getHoster(cache_t *cacheHandler) {
         hoster->download = download;
         hoster->cacheHandler = cacheHandler;
 
-        curl_response_t *faviconResponse = curlling_fetch(URL_FAVICON, NULL, GET, 0L);
+        http_response_t *faviconResponse = http_fetch(URL_FAVICON, NULL, GET, 0L);
         hoster->favicon = calloc(1, sizeof(memimage_t));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, faviconResponse->size);
         hoster->favicon->size = faviconResponse->size;
-        curl_freeResponse(faviconResponse);
+        http_freeResponse(faviconResponse);
     }
     return hoster;
 }
@@ -74,14 +74,14 @@ static acll_t *search(system_t *system, char *searchString) {
             break;
         }
 
-        curl_response_t *response = curlling_fetch(url, NULL, GET, 1L);
+        http_response_t *response = http_fetch(url, NULL, GET, 1L);
         resultList = fetchingResultItems(system, resultList, response->data);
 
         if (pageCount == 1) {
             pageCount = recalcPageCount(response->data);
         }
 
-        curl_freeResponse(response);
+        http_freeResponse(response);
         free(url);
 
         page++;
@@ -94,19 +94,19 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     if (item == NULL) {
         return;
     }
-    curl_response_t *detailPageResponse = curlling_fetch(item->url, NULL, GET, 1L);
+    http_response_t *detailPageResponse = http_fetch(item->url, NULL, GET, 1L);
     char *linkDownloadPage = fetchDownloadPageLink(detailPageResponse->data);
 
-    curl_response_t *downloadPageResponse = curlling_fetch(linkDownloadPage, NULL, GET, 1L);
+    http_response_t *downloadPageResponse = http_fetch(linkDownloadPage, NULL, GET, 1L);
     char *linkDownload = fetchDownloadLink(downloadPageResponse->data);
 
     char *filename = str_concat(item->title, file_suffix(linkDownload));
     downloadCallbackFunction(appData, item->system, item->title, linkDownload, NULL, filename, GET);
     free(filename);
 
-    curl_freeResponse(downloadPageResponse);
+    http_freeResponse(downloadPageResponse);
     free(linkDownloadPage);
-    curl_freeResponse(detailPageResponse);
+    http_freeResponse(detailPageResponse);
     free(linkDownload);
 }
 

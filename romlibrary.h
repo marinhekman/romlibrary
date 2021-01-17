@@ -35,7 +35,7 @@ typedef struct system_s system_t;
 typedef struct memimage_s memimage_t;
 typedef struct hoster_s hoster_t;
 typedef struct cache_s cache_t;
-typedef struct curl_response_s curl_response_t;
+typedef struct http_response_s http_response_t;
 
 // Gaming System
 struct system_s {
@@ -52,8 +52,8 @@ typedef uint8_t (*downloadCallback_t)(void *appData, struct system_s *system, ch
 
 // Memory Image or any other data object where data & size is needed
 struct memimage_s {
-    char *binary;
     size_t size;
+    char *binary;
 };
 
 // Hoster of ROMs
@@ -89,15 +89,15 @@ struct cache_s {
 
     void (*clear)(struct hoster_s *hoster, struct system_s *system, void *appData);
 
-    void (*add)(struct hoster_s *hoster, struct system_s *system, result_t *entry, void *appData);
+    void (*add)(struct hoster_s *hoster, struct system_s *system, char *searchString, result_t *entry, void *appData);
 
     acll_t *(*get)(struct hoster_s *hoster, struct system_s *system, char *searchString, void *appData);
 
     void (*touch)(struct hoster_s *hoster, struct system_s *system, void *appData);
 };
 
-// Definition of a curl response
-struct curl_response_s {
+// Definition of a http response
+struct http_response_s {
     size_t size;
     char *data;
 };
@@ -123,13 +123,12 @@ int hoster_findByName(void *payload, void *input);
 
 void result_freeList(acll_t *resultList);
 
-int
-curlling_download(char *url, char *data, httpmethod_t method, char *filename, curl_off_t *current, curl_off_t *total,
+int http_download(char *url, char *data, httpmethod_t method, char *filename, curl_off_t *current, curl_off_t *total,
                   volatile uint8_t *cancellation);
 
-curl_response_t *curlling_fetch(char *url, char *postData, httpmethod_t method, long throwHeaderOut);
+http_response_t *http_fetch(char *url, char *postData, httpmethod_t method, long ignoreHeaders);
 
-void curl_freeResponse(curl_response_t *response);
+void http_freeResponse(http_response_t *response);
 
 // nice macros for method calling
 #define loadSystems systems_init

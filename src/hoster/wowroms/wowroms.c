@@ -60,12 +60,12 @@ hoster_t *wowroms_getHoster(cache_t *cacheHandler) {
         hoster->download = download;
         hoster->cacheHandler = cacheHandler;
 
-        curl_response_t *faviconResponse = curlling_fetch(URL_FAVICON, NULL, GET, 0L);
+        http_response_t *faviconResponse = http_fetch(URL_FAVICON, NULL, GET, 0L);
         hoster->favicon = calloc(1, sizeof(memimage_t));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, faviconResponse->size);
         hoster->favicon->size = faviconResponse->size;
-        curl_freeResponse(faviconResponse);
+        http_freeResponse(faviconResponse);
     }
     return hoster;
 }
@@ -83,14 +83,14 @@ static acll_t *search(system_t *system, char *searchString) {
             break;
         }
 
-        curl_response_t *response = curlling_fetch(url, NULL, GET, 1L);
+        http_response_t *response = http_fetch(url, NULL, GET, 1L);
         resultList = fetchingResultItems(system, resultList, response->data);
 
         if (pageCount == 1) {
             pageCount = recalcPageCount(response->data);
         }
 
-        curl_freeResponse(response);
+        http_freeResponse(response);
         free(url);
 
         page++;
@@ -110,11 +110,11 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     char timeToken[255];
     snprintf(timeToken, 255, "?k=%s&t=%s", timestamp, timestampMD5);
 
-    curl_response_t *detailPageResponse = curlling_fetch(item->url, NULL, GET, 1L);
+    http_response_t *detailPageResponse = http_fetch(item->url, NULL, GET, 1L);
     char *linkDownloadPageRelative = fetchDownloadPageLink(detailPageResponse->data);
     char *linkDownloadPage = str_concat(URL_PREFIX, linkDownloadPageRelative);
 
-    curl_response_t *downloadPageResponse = curlling_fetch(linkDownloadPage, NULL, GET, 1L);
+    http_response_t *downloadPageResponse = http_fetch(linkDownloadPage, NULL, GET, 1L);
     char *downloadServletRel = fetchDownloadServlet(downloadPageResponse->data);
     char *downloadServlet = str_concat(URL_PREFIX, downloadServletRel);
 
@@ -123,7 +123,7 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     char *emuid = fetchHiddenField(downloadPageResponse->data, "emuid");
     char *downloadServletUrl = str_concat(downloadServlet, timeToken);
 
-    curl_response_t *downloadServletResponse = curlling_fetch(downloadServletUrl, "", POST, 1L);
+    http_response_t *downloadServletResponse = http_fetch(downloadServletUrl, "", POST, 1L);
     char *downloadLink = fetchDownloadLink(downloadServletResponse->data);
     char *decodedDownloadLink = str_quoteDecode(downloadLink);
 
@@ -144,16 +144,16 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     free(decodedFilename);
     free(decodedDownloadLink);
     free(downloadServletUrl);
-    curl_freeResponse(downloadServletResponse);
+    http_freeResponse(downloadServletResponse);
     free(filename);
     free(emuid);
     free(id);
     free(timestampMD5);
     free(downloadServletRel);
-    curl_freeResponse(detailPageResponse);
+    http_freeResponse(detailPageResponse);
     free(linkDownloadPageRelative);
     free(linkDownloadPage);
-    curl_freeResponse(downloadPageResponse);
+    http_freeResponse(downloadPageResponse);
     free(downloadServlet);
     free(downloadLink);
     safe_destroy(payload);

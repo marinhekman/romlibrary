@@ -54,12 +54,12 @@ hoster_t *romhustler_getHoster(cache_t *cacheHandler) {
         hoster->download = download;
         hoster->cacheHandler = cacheHandler;
 
-        curl_response_t *faviconResponse = curlling_fetch(URL_FAVICON, NULL, GET, 0L);
+        http_response_t *faviconResponse = http_fetch(URL_FAVICON, NULL, GET, 0L);
         hoster->favicon = calloc(1, sizeof(memimage_t));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, sizeof(char) * faviconResponse->size);
         hoster->favicon->size = faviconResponse->size;
-        curl_freeResponse(faviconResponse);
+        http_freeResponse(faviconResponse);
     }
     return hoster;
 }
@@ -77,14 +77,14 @@ static acll_t *search(system_t *system, char *searchString) {
             break;
         }
 
-        curl_response_t *response = curlling_fetch(url, NULL, GET, 0L);
+        http_response_t *response = http_fetch(url, NULL, GET, 0L);
         resultList = fetchingResultItems(system, resultList, response->data);
 
         if (pageCount == 1) {
             pageCount = recalcPageCount(response->data);
         }
 
-        curl_freeResponse(response);
+        http_freeResponse(response);
         free(url);
 
         page++;
@@ -96,12 +96,12 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     if (item == NULL) {
         return;
     }
-    curl_response_t *detailPageResponse = curlling_fetch(item->url, NULL, GET, 1L);
+    http_response_t *detailPageResponse = http_fetch(item->url, NULL, GET, 1L);
     char *id = fetchId(detailPageResponse->data);
 
     csafestring_t *linkUrl = safe_create(URL_DOWNLOAD_LINK);
     safe_strcat(linkUrl, id);
-    curl_response_t *linkJsonResponse = curlling_fetch(linkUrl->data, NULL, GET, 1L);
+    http_response_t *linkJsonResponse = http_fetch(linkUrl->data, NULL, GET, 1L);
 
     char *downloadLink = fetchDownloadLink(linkJsonResponse->data);
     char *decodedDownloadLink = str_quoteDecode(downloadLink);
@@ -110,11 +110,11 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     downloadCallbackFunction(appData, item->system, item->title, decodedDownloadLink, NULL, filename, GET);
 
     free(filename);
-    curl_freeResponse(linkJsonResponse);
+    http_freeResponse(linkJsonResponse);
     free(id);
     free(downloadLink);
     free(decodedDownloadLink);
-    curl_freeResponse(detailPageResponse);
+    http_freeResponse(detailPageResponse);
     safe_destroy(linkUrl);
 }
 

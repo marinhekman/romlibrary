@@ -16,7 +16,7 @@
 
 #include <curl/curl.h>
 #include <string.h>
-#include "curlling.h"
+#include <romlibrary.h>
 #include "../common/utils.h"
 
 struct state_s {
@@ -25,7 +25,7 @@ struct state_s {
     volatile uint8_t *cancellation;
 };
 
-static size_t writeDataToString(void *ptr, size_t size, size_t nmemb, curl_response_t *data);
+static size_t writeDataToString(void *ptr, size_t size, size_t nmemb, http_response_t *data);
 
 static size_t writeDataToFile(void *ptr, size_t size, size_t nmemb, void *stream);
 
@@ -35,13 +35,13 @@ static int xferinfo(void *p, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ul
 static int older_progress(void *p, double dltotal, double dlnow, double ultotal, double ulnow);
 #endif
 
-curl_response_t *curlling_fetch(char *url, char *postData, httpmethod_t method, long throwHeaderOut) {
+http_response_t *http_fetch(char *url, char *postData, httpmethod_t method, long throwHeaderOut) {
     CURL *curl;
     CURLcode res;
 
     LOG_DEBUG("Fetching: %s", url);
 
-    curl_response_t *curlResponse = calloc(1, sizeof(curl_response_t));
+    http_response_t *curlResponse = calloc(1, sizeof(http_response_t));
     curlResponse->size = 0;
     curlResponse->data = calloc(16386, sizeof(char));
 
@@ -71,8 +71,8 @@ curl_response_t *curlling_fetch(char *url, char *postData, httpmethod_t method, 
 }
 
 int
-curlling_download(char *url, char *data, httpmethod_t method, char *filename, curl_off_t *current, curl_off_t *total,
-                  volatile uint8_t *cancellation) {
+http_download(char *url, char *data, httpmethod_t method, char *filename, curl_off_t *current, curl_off_t *total,
+              volatile uint8_t *cancellation) {
     CURL *curl;
     FILE *pagefile;
     CURLcode res = CURLE_OK;
@@ -123,7 +123,7 @@ curlling_download(char *url, char *data, httpmethod_t method, char *filename, cu
     return res;
 }
 
-void curl_freeResponse(curl_response_t *response) {
+void http_freeResponse(http_response_t *response) {
     if (response == NULL) {
         return;
     }
@@ -149,7 +149,7 @@ static size_t writeDataToFile(void *ptr, size_t size, size_t nmemb, void *stream
     return written;
 }
 
-static size_t writeDataToString(void *ptr, size_t size, size_t nmemb, curl_response_t *data) {
+static size_t writeDataToString(void *ptr, size_t size, size_t nmemb, http_response_t *data) {
     size_t index = data->size;
     size_t n = (size * nmemb);
     char *tmp;

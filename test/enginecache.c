@@ -110,7 +110,7 @@ uint8_t enginecache_isCacheValid(hoster_t *hoster, system_t *system, void *data)
     return 0;
 }
 
-void enginecache_addEntry(hoster_t *hoster, system_t *system, result_t *entry, void *data) {
+void enginecache_addEntry(hoster_t *hoster, system_t *system, char *searchString, result_t *entry, void *data) {
     sqlite3 *db = data;
     char *query = "INSERT INTO enginecache (hosters, system, title, url, downloads, fileSize, rating) VALUES (@hosters, @system, @title, @url, @downloads, @fileSize, @rating)";
 

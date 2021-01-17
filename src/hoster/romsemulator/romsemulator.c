@@ -70,14 +70,14 @@ static acll_t *search(system_t *system, char *searchString) {
             break;
         }
 
-        curl_response_t *response = curlling_fetch(url, NULL, GET, 1L);
+        http_response_t *response = http_fetch(url, NULL, GET, 1L);
         resultList = fetchingResultItems(system, resultList, response->data);
 
         if (pageCount == 1) {
             pageCount = recalcPageCount(response->data);
         }
 
-        curl_freeResponse(response);
+        http_freeResponse(response);
         free(url);
 
         page++;
@@ -89,10 +89,10 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     if (item == NULL) {
         return;
     }
-    curl_response_t *detailPageResponse = curlling_fetch(item->url, NULL, GET, 1L);
+    http_response_t *detailPageResponse = http_fetch(item->url, NULL, GET, 1L);
     char *linkDownloadPage = fetchDownloadPageLink(detailPageResponse->data);
 
-    curl_response_t *downloadPageResponse = curlling_fetch(linkDownloadPage, NULL, GET, 1L);
+    http_response_t *downloadPageResponse = http_fetch(linkDownloadPage, NULL, GET, 1L);
 
     char *pid = fetchHiddenField(downloadPageResponse->data, "pid", 0);
     char *roms = fetchHiddenField(downloadPageResponse->data, "roms_download_file_nonce_field", 1);
@@ -112,9 +112,9 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     free(pid);
     free(roms);
     free(referer);
-    curl_freeResponse(downloadPageResponse);
+    http_freeResponse(downloadPageResponse);
     free(linkDownloadPage);
-    curl_freeResponse(detailPageResponse);
+    http_freeResponse(detailPageResponse);
     safe_destroy(payload);
 }
 

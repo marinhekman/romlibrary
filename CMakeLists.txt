@@ -42,10 +42,9 @@ set(SOURCES_LIBRARY
         src/common/entities.h
         src/common/utils.c
         src/common/utils.h
-        src/helper/curlling.c
-        src/helper/curlling.h
         src/helper/domparsing.c
         src/helper/domparsing.h
+        src/helper/http.c
         src/helper/md5.c
         src/helper/md5.h
         src/helper/regex.c
@@ -88,4 +87,8 @@ set(SOURCES_LIBRARY
 add_library(romlibrary ${SOURCES_LIBRARY})
 target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} csafestring lexbor_static acll)
 
+# Install
+install(TARGETS romlibrary DESTINATION libs)
+
 include(test/test.cmake)
+

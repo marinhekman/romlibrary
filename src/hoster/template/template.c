@@ -15,9 +15,9 @@
  */
 
 #include <csafestring.h>
+#include <romlibrary.h>
 #include "romsmania.h"
 #include "mapping.h"
-#include "../../helper/curlling.h"
 #include "../results.h"
 #include "../../../helper/utils.h"
 #include "../urlhandling.h"

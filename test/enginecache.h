@@ -28,7 +28,7 @@ uint8_t enginecache_isCacheValid(hoster_t *hoster, system_t *system, void *data)
 
 void enginecache_clear(hoster_t *hoster, system_t *system, void *data);
 
-void enginecache_addEntry(hoster_t *hoster, system_t *system, result_t *entry, void *data);
+void enginecache_addEntry(hoster_t *hoster, system_t *system, char *searchString, result_t *entry, void *data);
 
 void enginecache_updateTimestamp(hoster_t *hoster, system_t *system, void *data);
 

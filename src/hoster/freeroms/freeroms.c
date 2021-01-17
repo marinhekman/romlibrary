@@ -63,12 +63,12 @@ hoster_t *freeroms_getHoster(cache_t *cacheHandler) {
         hoster->download = download;
         hoster->cacheHandler = cacheHandler;
 
-        curl_response_t *faviconResponse = curlling_fetch(URL_FAVICON, NULL, GET, 0L);
+        http_response_t *faviconResponse = http_fetch(URL_FAVICON, NULL, GET, 0L);
         hoster->favicon = calloc(1, sizeof(memimage_t));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, faviconResponse->size);
         hoster->favicon->size = faviconResponse->size;
-        curl_freeResponse(faviconResponse);
+        http_freeResponse(faviconResponse);
     }
     return hoster;
 }
@@ -121,13 +121,13 @@ static void *executeThread(void *ptr) {
 
     for (char chr = filter->start; chr <= filter->end; chr++) {
         char *url;
-        curl_response_t *response;
+        http_response_t *response;
         if (chr == '@') {
             url = urlhandling_substitudeVariables(URL_TEMPLATE_NUM, filter->system, &freeroms_deviceMapping, "", 0);
             if (url == NULL) {
                 break;
             }
-            response = curlling_fetch(url, NULL, GET, 1L);
+            response = http_fetch(url, NULL, GET, 1L);
             extractLink(filter->system, response->data);
         } else {
             char str[2] = {0, 0};
@@ -137,10 +137,10 @@ static void *executeThread(void *ptr) {
             if (url == NULL) {
                 break;
             }
-            response = curlling_fetch(url, NULL, GET, 1L);
+            response = http_fetch(url, NULL, GET, 1L);
             extractLink(filter->system, response->data);
         }
-        curl_freeResponse(response);
+        http_freeResponse(response);
         FREENOTNULL(url);
     }
 
@@ -185,7 +185,7 @@ static void extractLink(system_t *system, char *response) {
 
     acll_t *ptr = acll_first(results);
     while (ptr != NULL) {
-        hoster->cacheHandler->add(hoster, system, getResult(ptr), hoster->cacheHandler->appData);
+        hoster->cacheHandler->add(hoster, system, NULL, getResult(ptr), hoster->cacheHandler->appData);
         ptr = ptr->next;
     }
     result_freeList(results);
