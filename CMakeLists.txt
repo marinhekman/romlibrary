@@ -57,7 +57,6 @@ set(SOURCES_LIBRARY
         src/hoster/freeroms/mapping.h
         src/hoster/hosterhandler.c
         src/hoster/results.c
-        src/hoster/results.h
         src/hoster/romhustler/mapping.c
         src/hoster/romhustler/mapping.h
         src/hoster/romhustler/romhustler.c
