@@ -25,7 +25,6 @@ static int result_sortComparator(void *payload1, void *payload2);
 result_t *result_create(system_t *system, hoster_t *hoster, char *title, char *url) {
     result_t *result = (result_t *) calloc(1, sizeof(result_t));
     result->title = NULL;
-    result->active = 1;
     result->url = NULL;
     result->hoster = hoster;
     result->system = system;

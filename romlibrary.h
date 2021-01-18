@@ -72,7 +72,6 @@ struct hoster_s {
 // Search Result
 struct result_s {
     char *title;
-    uint8_t active;
     char *url;
     float rating;
     int32_t downloads;

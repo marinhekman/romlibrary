@@ -22,7 +22,6 @@ static system_t *createSystem(char *name, char *fullname, char *path, int active
 acll_t *systems_init() {
     acll_t *systems = NULL;
     systems = acll_push(systems, createSystem("gb", "Game Boy", "/gb", 1));
-    systems = acll_push(systems, createSystem("gb", "Game Boy", "/gb", 1));
     systems = acll_push(systems, createSystem("gba", "Game Boy Advance", "/gba", 1));
     systems = acll_push(systems, createSystem("gbc", "Game Boy Color", "/gbc", 1));
     systems = acll_push(systems, createSystem("nes", "Nintendo Entertainment System", "/nes", 1));
