@@ -96,8 +96,7 @@ acll_t *result_sort(acll_t *results) {
 static int result_sortComparator(void *payload1, void *payload2) {
     result_t *result1 = payload1;
     result_t *result2 = payload2;
-
-    return !strcmp(result1->title, result2->title);
+    return strcmp(result1->title, result2->title);
 }
 
 static void freeFields(void *ptr) {
