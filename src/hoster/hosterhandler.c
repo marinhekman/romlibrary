@@ -67,7 +67,7 @@ acll_t *hosterhandler_search(acll_t *hosters, system_t *system, char *searchStri
 
     for (int i = 0; i < activeNumber; i++) {
         pthread_join(searches[i].thread, NULL);
-        result = acll_append(result, searches[i].result);
+        result = acll_concat(result, searches[i].result);
     }
 
     return result_sort(result);
