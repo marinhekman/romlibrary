@@ -20,7 +20,7 @@
 #include <romlibrary.h>
 
 typedef struct test_downloaddata_s {
-    system_t *system;
+    rl_system *system;
     char *title;
     char *url;
     char *data;
@@ -28,7 +28,7 @@ typedef struct test_downloaddata_s {
     chttp_method method;
 } test_downloaddata_t;
 
-uint8_t testDownloadCallback(void *appData, system_t *system, char *title, char *url, char *data, char *filename,
+uint8_t testDownloadCallback(void *appData, rl_system *system, char *title, char *url, char *data, char *filename,
                              chttp_method method);
 
 #endif

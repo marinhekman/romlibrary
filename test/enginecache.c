@@ -19,9 +19,9 @@
 #include <romlibrary.h>
 #include <common/utils.h>
 
-static void deleteTimestamp(sqlite3 *db, hoster_t *hoster, system_t *system);
+static void deleteTimestamp(sqlite3 *db, rl_hoster *hoster, rl_system *system);
 
-static void insertTimestamp(sqlite3 *db, hoster_t *hoster, system_t *system);
+static void insertTimestamp(sqlite3 *db, rl_hoster *hoster, rl_system *system);
 
 void enginecache_init(sqlite3 *db) {
     char *err_msg = 0;
@@ -52,7 +52,7 @@ void enginecache_initstate(sqlite3 *db) {
     }
 }
 
-void enginecache_clear(hoster_t *hoster, system_t *system, void *data) {
+void enginecache_clear(rl_hoster *hoster, rl_system *system, void *data) {
     sqlite3 *db = data;
     char *query = "DELETE FROM enginecache WHERE hosters=@hosters AND system=@system";
 
@@ -77,7 +77,7 @@ void enginecache_clear(hoster_t *hoster, system_t *system, void *data) {
     sqlite3_finalize(stmt);
 }
 
-uint8_t enginecache_isCacheValid(hoster_t *hoster, system_t *system, void *data) {
+uint8_t enginecache_isCacheValid(rl_hoster *hoster, rl_system *system, void *data) {
     sqlite3 *db = data;
     char *query = "SELECT time FROM enginecachestate WHERE hosters=@hosters AND system=@system";
 
@@ -109,7 +109,7 @@ uint8_t enginecache_isCacheValid(hoster_t *hoster, system_t *system, void *data)
     return 0;
 }
 
-void enginecache_addEntry(hoster_t *hoster, system_t *system, char *searchString, result_t *entry, void *data) {
+void enginecache_addEntry(rl_hoster *hoster, rl_system *system, char *searchString, rl_result *entry, void *data) {
     sqlite3 *db = data;
     char *query = "INSERT INTO enginecache (hosters, system, title, url, downloads, fileSize, rating) VALUES (@hosters, @system, @title, @url, @downloads, @fileSize, @rating)";
 
@@ -152,12 +152,12 @@ void enginecache_addEntry(hoster_t *hoster, system_t *system, char *searchString
     sqlite3_finalize(stmt);
 }
 
-void enginecache_updateTimestamp(hoster_t *hoster, system_t *system, void *data) {
+void enginecache_updateTimestamp(rl_hoster *hoster, rl_system *system, void *data) {
     deleteTimestamp(data, hoster, system);
     insertTimestamp(data, hoster, system);
 }
 
-acll_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char *searchString, void *data) {
+acll_t *enginecache_getSearchResults(rl_hoster *hoster, rl_system *system, char *searchString, void *data) {
     sqlite3 *db = data;
     char *query = "SELECT title, url, downloads, fileSize, rating FROM enginecache WHERE hosters=@hosters AND system=@system AND UPPER(title) LIKE @searchString";
 
@@ -187,10 +187,10 @@ acll_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char *s
     acll_t *resultList = NULL;
     int ret = sqlite3_step(stmt);
     while (ret == SQLITE_ROW) {
-        result_t *item = result_create(system, hoster, NULL, NULL);
-        result_setTitle(item, (char *) sqlite3_column_text(stmt, 0));
-        result_setUrl(item, (char *) sqlite3_column_text(stmt, 1));
-        result_setFileSize(item, (char *) sqlite3_column_text(stmt, 3));
+        rl_result *item = rl_result_create(system, hoster, NULL, NULL);
+        rl_result_setTitle(item, (char *) sqlite3_column_text(stmt, 0));
+        rl_result_setUrl(item, (char *) sqlite3_column_text(stmt, 1));
+        rl_result_setFileSize(item, (char *) sqlite3_column_text(stmt, 3));
         item->downloads = sqlite3_column_int(stmt, 2);
         item->rating = sqlite3_column_double(stmt, 4);
         resultList = acll_push(resultList, item);
@@ -206,7 +206,7 @@ acll_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char *s
     return resultList;
 }
 
-static void deleteTimestamp(sqlite3 *db, hoster_t *hoster, system_t *system) {
+static void deleteTimestamp(sqlite3 *db, rl_hoster *hoster, rl_system *system) {
     char *query = "DELETE FROM enginecachestate WHERE hosters=@hosters AND system=@system";
 
     sqlite3_stmt *stmt;
@@ -231,7 +231,7 @@ static void deleteTimestamp(sqlite3 *db, hoster_t *hoster, system_t *system) {
     sqlite3_finalize(stmt);
 }
 
-static void insertTimestamp(sqlite3 *db, hoster_t *hoster, system_t *system) {
+static void insertTimestamp(sqlite3 *db, rl_hoster *hoster, rl_system *system) {
     char *query = "INSERT INTO enginecachestate (hosters, system, time) VALUES (@hosters, @system, @time)";
 
     sqlite3_stmt *stmt;

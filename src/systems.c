@@ -17,9 +17,9 @@
 #include <romlibrary.h>
 #include <string.h>
 
-static system_t *createSystem(char *name, char *fullname, char *path, int active);
+static rl_system *createSystem(char *name, char *fullname, char *path, int active);
 
-acll_t *systems_init() {
+acll_t *rl_systems_init() {
     acll_t *systems = NULL;
     systems = acll_push(systems, createSystem("gb", "Game Boy", "/gb", 1));
     systems = acll_push(systems, createSystem("gba", "Game Boy Advance", "/gba", 1));
@@ -84,19 +84,19 @@ acll_t *systems_init() {
     return systems;
 }
 
-void systems_destroy(acll_t *systems) {
+void rl_system_free(acll_t *systems) {
     acll_free(systems, NULL);
 }
 
-int system_findByFullname(void *payload, void *input) {
-    system_t *system = payload;
+int rl_system_findByFullname(void *payload, void *input) {
+    rl_system *system = payload;
     char *fullname = input;
 
     return !strcmp(system->fullname, fullname);
 }
 
-static system_t *createSystem(char *name, char *fullname, char *path, int active) {
-    system_t *system = calloc(1, sizeof(system_t));
+static rl_system *createSystem(char *name, char *fullname, char *path, int active) {
+    rl_system *system = calloc(1, sizeof(rl_system));
     system->name = name;
     system->fullname = fullname;
     system->active = active;

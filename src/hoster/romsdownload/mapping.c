@@ -17,7 +17,7 @@
 #include "mapping.h"
 #include <string.h>
 
-char *romsdownload_deviceMapping(system_t *system) {
+char *romsdownload_deviceMapping(rl_system *system) {
     char *deviceString = NULL;
 
     if (!strcmp(system->name, "amiga")) {

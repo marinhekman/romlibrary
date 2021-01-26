@@ -29,11 +29,11 @@
 #define URL_DOWNLOAD_LINK "https://romhustler.org/link/"
 #define URL_FAVICON "https://romhustler.org/favicon.ico"
 
-static acll_t *search(system_t *system, char *searchString);
+static acll_t *search(rl_system *system, char *searchString);
 
-static void download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData);
+static void download(rl_result *item, rl_download_callback_function downloadCallbackFunction, void *appData);
 
-static acll_t *fetchingResultItems(system_t *system, acll_t *resultList, char *response);
+static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *response);
 
 static char *fetchId(char *response);
 
@@ -41,11 +41,11 @@ static char *fetchDownloadLink(char *response);
 
 static uint32_t recalcPageCount(char *response);
 
-static hoster_t *hoster = NULL;
+static rl_hoster *hoster = NULL;
 
-hoster_t *romhustler_getHoster(cache_t *cacheHandler) {
+rl_hoster *romhustler_getHoster(rl_cache *cacheHandler) {
     if (hoster == NULL) {
-        hoster = calloc(1, sizeof(hoster_t));
+        hoster = calloc(1, sizeof(rl_hoster));
         hoster->name = SHORTNAME;
         hoster->fullname = FULLNAME;
         hoster->active = 1;
@@ -54,7 +54,7 @@ hoster_t *romhustler_getHoster(cache_t *cacheHandler) {
         hoster->cacheHandler = cacheHandler;
 
         chttp_response *faviconResponse = chttp_fetch(URL_FAVICON, NULL, GET, 0L);
-        hoster->favicon = calloc(1, sizeof(memimage_t));
+        hoster->favicon = calloc(1, sizeof(rl_image));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, sizeof(char) * faviconResponse->size);
         hoster->favicon->size = faviconResponse->size;
@@ -63,7 +63,7 @@ hoster_t *romhustler_getHoster(cache_t *cacheHandler) {
     return hoster;
 }
 
-static acll_t *search(system_t *system, char *searchString) {
+static acll_t *search(rl_system *system, char *searchString) {
     uint32_t page = 1;
     uint32_t pageCount = 1;
     char *urlTemplate = URL_TEMPLATE;
@@ -91,7 +91,7 @@ static acll_t *search(system_t *system, char *searchString) {
     return resultList;
 }
 
-static void download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData) {
+static void download(rl_result *item, rl_download_callback_function downloadCallbackFunction, void *appData) {
     if (item == NULL) {
         return;
     }
@@ -117,33 +117,33 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     safe_destroy(linkUrl);
 }
 
-static acll_t *fetchingResultItems(system_t *system, acll_t *resultList, char *response) {
+static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *response) {
     lxb_html_document_t *document;
     lxb_dom_collection_t *gamesCollection = domparsing_getElementsCollectionByClassName(response, &document, "row");
     lxb_dom_collection_t *gameElementCollection = domparsing_createCollection(document);
 
     for (size_t i = 1; i < lxb_dom_collection_length(gamesCollection); i++) {
         lxb_dom_element_t *gameParent = lxb_dom_collection_element(gamesCollection, i);
-        result_t *item = result_create(system, hoster, NULL, NULL);
+        rl_result *item = rl_result_create(system, hoster, NULL, NULL);
 
         domparsing_findChildElementsByTagName(gameElementCollection, gameParent, "DIV", 1);
 
         lxb_dom_element_t *element;
         element = lxb_dom_collection_element(gameElementCollection, 0);
-        result_setTitle(item, domparsing_getText(element));
+        rl_result_setTitle(item, domparsing_getText(element));
 
         element = domparser_findFirstChildElementByTagName(element, "A", 1);
         char *url = str_concat(URL_PREFIX, domparsing_getAttributeValue(element, "href"));
-        result_setUrl(item, url);
+        rl_result_setUrl(item, url);
         free(url);
 
         element = lxb_dom_collection_element(gameElementCollection, 2);
         char *downloads = domparsing_getText(element);
-        result_setDownloads(item, downloads);
+        rl_result_setDownloads(item, downloads);
 
         element = lxb_dom_collection_element(gameElementCollection, 3);
         char *rating = domparsing_getText(element);
-        result_setRating(item, rating, 5);
+        rl_result_setRating(item, rating, 5);
 
         lxb_dom_collection_clean(gameElementCollection);
         resultList = acll_push(resultList, item);

@@ -19,6 +19,6 @@
 
 #include "../../../romlibrary.h"
 
-hoster_t *romsemulator_getHoster(cache_t *cacheHandler);
+rl_hoster *romsemulator_getHoster(rl_cache *cacheHandler);
 
 #endif

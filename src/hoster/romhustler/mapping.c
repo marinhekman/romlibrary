@@ -17,7 +17,7 @@
 #include "mapping.h"
 #include <string.h>
 
-char *romhustler_deviceMapping(system_t *system) {
+char *romhustler_deviceMapping(rl_system *system) {
     char *deviceString = NULL;
 
     if (!strcmp(system->name, "3do")) {

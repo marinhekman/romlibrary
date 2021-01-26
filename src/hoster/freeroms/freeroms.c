@@ -29,32 +29,32 @@
 #define URL_TEMPLATE_DOWNLOAD "https://www.freeroms.com/dl_roms/rom_download_tr.php?system=%system%&game_id=%id%"
 #define URL_FAVICON "https://www.freeroms.com/favicon.ico"
 
-static acll_t *search(system_t *system, char *searchString);
+static acll_t *search(rl_system *system, char *searchString);
 
-static void download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData);
+static void download(rl_result *item, rl_download_callback_function downloadCallbackFunction, void *appData);
 
-static void fillCache(system_t *system);
+static void fillCache(rl_system *system);
 
 static void *executeThread(void *ptr);
 
-static void extractLink(system_t *system, char *response);
+static void extractLink(rl_system *system, char *response);
 
-static char *generateDownloadLink(system_t *system, char *id);
+static char *generateDownloadLink(rl_system *system, char *id);
 
 struct s_download_filter {
     char start;
     char end;
-    system_t *system;
+    rl_system *system;
 };
 
-static hoster_t *hoster = NULL;
+static rl_hoster *hoster = NULL;
 
-hoster_t *freeroms_getHoster(cache_t *cacheHandler) {
+rl_hoster *freeroms_getHoster(rl_cache *cacheHandler) {
     if (cacheHandler == NULL) {
         return NULL;
     }
     if (hoster == NULL) {
-        hoster = calloc(1, sizeof(hoster_t));
+        hoster = calloc(1, sizeof(rl_hoster));
         hoster->name = SHORTNAME;
         hoster->fullname = FULLNAME;
         hoster->active = 1;
@@ -63,7 +63,7 @@ hoster_t *freeroms_getHoster(cache_t *cacheHandler) {
         hoster->cacheHandler = cacheHandler;
 
         chttp_response *faviconResponse = chttp_fetch(URL_FAVICON, NULL, GET, 0L);
-        hoster->favicon = calloc(1, sizeof(memimage_t));
+        hoster->favicon = calloc(1, sizeof(rl_image));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, faviconResponse->size);
         hoster->favicon->size = faviconResponse->size;
@@ -72,19 +72,19 @@ hoster_t *freeroms_getHoster(cache_t *cacheHandler) {
     return hoster;
 }
 
-static acll_t *search(system_t *system, char *searchString) {
-    if (!hoster->cacheHandler->isValid(hoster, system, hoster->cacheHandler->appData)) {
+static acll_t *search(rl_system *system, char *searchString) {
+    if (!hoster->cacheHandler->isValid(hoster, system, hoster->cacheHandler->data)) {
         LOG_DEBUG("Cache is invalid and needs to be rebuilt");
-        hoster->cacheHandler->clear(hoster, system, hoster->cacheHandler->appData);
+        hoster->cacheHandler->clear(hoster, system, hoster->cacheHandler->data);
         fillCache(system);
-        hoster->cacheHandler->touch(hoster, system, hoster->cacheHandler->appData);
+        hoster->cacheHandler->touch(hoster, system, hoster->cacheHandler->data);
         LOG_DEBUG("Rebuilding complete");
     }
     LOG_DEBUG("Retrieve search result from Cache");
-    return hoster->cacheHandler->get(hoster, system, searchString, hoster->cacheHandler->appData);
+    return hoster->cacheHandler->get(hoster, system, searchString, hoster->cacheHandler->data);
 }
 
-static void download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData) {
+static void download(rl_result *item, rl_download_callback_function downloadCallbackFunction, void *appData) {
     if (item == NULL) {
         return;
     }
@@ -94,22 +94,22 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     FREENOTNULL(filename);
 }
 
-static void fillCache(system_t *system) {
-    pthread_t thread[HOSTER_FETCH_THREADS];
-    struct s_download_filter filter[HOSTER_FETCH_THREADS];
+static void fillCache(rl_system *system) {
+    pthread_t thread[RL_THREAD_COUNT];
+    struct s_download_filter filter[RL_THREAD_COUNT];
 
-    char chunks = ('Z' - '@') / HOSTER_FETCH_THREADS;
-    for (int i = 0; i < HOSTER_FETCH_THREADS; i++) {
+    char chunks = ('Z' - '@') / RL_THREAD_COUNT;
+    for (int i = 0; i < RL_THREAD_COUNT; i++) {
         filter[i].start = (char) '@' + i * chunks;
         filter[i].end = (char) '@' + (i + 1) * chunks - 1;
         filter[i].system = system;
     }
-    filter[HOSTER_FETCH_THREADS - 1].end = 'Z';
+    filter[RL_THREAD_COUNT - 1].end = 'Z';
 
-    for (int i = 0; i < HOSTER_FETCH_THREADS; i++) {
+    for (int i = 0; i < RL_THREAD_COUNT; i++) {
         pthread_create(&thread[i], NULL, executeThread, &filter[i]);
     }
-    for (int i = HOSTER_FETCH_THREADS - 1; i >= 0; i--) {
+    for (int i = RL_THREAD_COUNT - 1; i >= 0; i--) {
         pthread_join(thread[i], NULL);
     }
 }
@@ -146,7 +146,7 @@ static void *executeThread(void *ptr) {
     return NULL;
 }
 
-static void extractLink(system_t *system, char *response) {
+static void extractLink(rl_system *system, char *response) {
     acll_t *results = NULL;
     lxb_html_document_t *document;
     lxb_dom_collection_t *gamesCollection = domparsing_getElementsCollectionByClassName(response, &document,
@@ -155,25 +155,25 @@ static void extractLink(system_t *system, char *response) {
 
     for (size_t i = 0; i < lxb_dom_collection_length(gamesCollection); i++) {
         lxb_dom_element_t *gameParent = lxb_dom_collection_element(gamesCollection, i);
-        result_t *item = result_create(system, hoster, NULL, NULL);
+        rl_result *item = rl_result_create(system, hoster, NULL, NULL);
 
         domparsing_findChildElementsByTagName(gameElementCollection, gameParent, "DIV", 1);
 
         lxb_dom_element_t *element;
         element = lxb_dom_collection_element(gameElementCollection, 0);
-        result_setTitle(item, domparsing_getText(element));
+        rl_result_setTitle(item, domparsing_getText(element));
 
         element = lxb_dom_collection_element(gameElementCollection, 1);
         element = domparser_findFirstChildElementByTagName(element, "A", 1);
         char *gameId = (char *) domparsing_getAttributeValue(element, "onclick");
         gameId = str_replace(gameId, "window.open('/vote.php?game_id=", "");
         gameId = str_replace(gameId, "', 'votewindow', 'width=450, height=400'); return false;", "");
-        result_setUrl(item, generateDownloadLink(system, gameId));
+        rl_result_setUrl(item, generateDownloadLink(system, gameId));
 
         element = lxb_dom_collection_element(gameElementCollection, 3);
         char *rating = domparsing_getText(element);
         rating = str_replace(rating, "/10", "");
-        result_setRating(item, rating, 10);
+        rl_result_setRating(item, rating, 10);
 
         results = acll_push(results, item);
         lxb_dom_collection_clean(gameElementCollection);
@@ -184,14 +184,14 @@ static void extractLink(system_t *system, char *response) {
 
     acll_t *ptr = acll_first(results);
     while (ptr != NULL) {
-        hoster->cacheHandler->add(hoster, system, NULL, getResult(ptr), hoster->cacheHandler->appData);
+        hoster->cacheHandler->add(hoster, system, NULL, rl_getResult(ptr), hoster->cacheHandler->data);
         ptr = ptr->next;
     }
-    result_freeList(results);
+    rl_results_destroy(results);
 }
 
 
-static char *generateDownloadLink(system_t *system, char *id) {
+static char *generateDownloadLink(rl_system *system, char *id) {
     char *systemStr = freeroms_deviceMapping(system);
     if (systemStr == NULL) {
         LOG_INFO("Found no mapping for system: %s", system->fullname);

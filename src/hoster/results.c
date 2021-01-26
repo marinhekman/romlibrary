@@ -22,8 +22,8 @@ static void freeFields(void *ptr);
 
 static int result_sortComparator(void *payload1, void *payload2);
 
-result_t *result_create(system_t *system, hoster_t *hoster, char *title, char *url) {
-    result_t *result = (result_t *) calloc(1, sizeof(result_t));
+rl_result *rl_result_create(rl_system *system, rl_hoster *hoster, char *title, char *url) {
+    rl_result *result = (rl_result *) calloc(1, sizeof(rl_result));
     result->title = NULL;
     result->url = NULL;
     result->hoster = hoster;
@@ -32,12 +32,12 @@ result_t *result_create(system_t *system, hoster_t *hoster, char *title, char *u
     result->rating = 0;
     result->fileSize = NULL;
 
-    result_setTitle(result, title);
-    result_setUrl(result, url);
+    rl_result_setTitle(result, title);
+    rl_result_setUrl(result, url);
     return result;
 }
 
-void result_setTitle(result_t *result, char *title) {
+void rl_result_setTitle(rl_result *result, char *title) {
     title = str_trim(title);
     LOG_DEBUG("Title: %s", title);
     if (result == NULL || title == NULL) {
@@ -46,7 +46,7 @@ void result_setTitle(result_t *result, char *title) {
     result->title = str_clone(title);
 }
 
-void result_setUrl(result_t *result, char *url) {
+void rl_result_setUrl(rl_result *result, char *url) {
     url = str_trim(url);
     LOG_DEBUG("URL: %s", url);
     if (result == NULL || url == NULL) {
@@ -55,7 +55,7 @@ void result_setUrl(result_t *result, char *url) {
     result->url = str_clone(url);
 }
 
-void result_setDownloads(result_t *result, char *downloads) {
+void rl_result_setDownloads(rl_result *result, char *downloads) {
     downloads = str_trim(downloads);
     LOG_DEBUG("DOWNLOADS: %s", downloads);
     if (downloads == NULL) {
@@ -65,7 +65,7 @@ void result_setDownloads(result_t *result, char *downloads) {
     LOG_DEBUG("Calc'd Downloads: %d", result->downloads);
 }
 
-void result_setRating(result_t *result, char *rating, uint8_t maxRating) {
+void rl_result_setRating(rl_result *result, char *rating, uint8_t maxRating) {
     rating = str_trim(rating);
     LOG_DEBUG("RATING: %s", rating);
     if (rating == NULL) {
@@ -75,7 +75,7 @@ void result_setRating(result_t *result, char *rating, uint8_t maxRating) {
     LOG_DEBUG("Calc'd Rating: %2.1f", result->rating);
 }
 
-void result_setFileSize(result_t *result, char *fileSize) {
+void rl_result_setFileSize(rl_result *result, char *fileSize) {
     fileSize = str_trim(fileSize);
     LOG_DEBUG("FILE SIZE: %s", fileSize);
     if (fileSize == NULL) {
@@ -84,23 +84,23 @@ void result_setFileSize(result_t *result, char *fileSize) {
     result->fileSize = str_clone(fileSize);
 }
 
-void result_freeList(acll_t *results) {
+void rl_results_destroy(acll_t *results) {
     acll_free(results, &freeFields);
 }
 
-acll_t *result_sort(acll_t *results) {
+acll_t *rl_results_sort(acll_t *results) {
     return acll_sort(results, result_sortComparator);
 }
 
 
 static int result_sortComparator(void *payload1, void *payload2) {
-    result_t *result1 = payload1;
-    result_t *result2 = payload2;
+    rl_result *result1 = payload1;
+    rl_result *result2 = payload2;
     return strcmp(result1->title, result2->title);
 }
 
 static void freeFields(void *ptr) {
-    result_t *resultList = (result_t *) ptr;
+    rl_result *resultList = (rl_result *) ptr;
     FREENOTNULL(resultList->title);
     FREENOTNULL(resultList->url);
     FREENOTNULL(resultList->fileSize);

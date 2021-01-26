@@ -20,20 +20,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <curl/curl.h>
 #include <acll.h>
 #include <chttp.h>
 #include <clogger.h>
 
+// define the number of parallel threads to fetch content from hosters
+#ifndef RL_THREAD_COUNT
+#define RL_THREAD_COUNT 5
+#endif
+
 // Typedefs
-typedef struct result_s result_t;
-typedef struct system_s system_t;
-typedef struct memimage_s memimage_t;
-typedef struct hoster_s hoster_t;
-typedef struct cache_s cache_t;
+typedef struct rl_result_s rl_result;
+typedef struct rl_system_s rl_system;
+typedef struct rl_image_s rl_image;
+typedef struct rl_hoster_s rl_hoster;
+typedef struct rl_cache_s rl_cache;
 
 // Gaming System
-struct system_s {
+struct rl_system_s {
     char *fullname;
     uint8_t active;
     char *name;
@@ -41,120 +45,108 @@ struct system_s {
 };
 
 // Callback to run downloads
-typedef uint8_t (*downloadCallback_t)(void *appData, struct system_s *system, char *title, char *url, char *data,
-                                      char *filename,
-                                      chttp_method method);
+typedef uint8_t (*rl_download_callback_function)(void *appData, struct rl_system_s *system, char *title, char *url,
+                                                 char *data,
+                                                 char *filename,
+                                                 chttp_method method);
 
 // Memory Image or any other data object where data & size is needed
-struct memimage_s {
+struct rl_image_s {
     size_t size;
     char *binary;
 };
 
 // Hoster of ROMs
-struct hoster_s {
+struct rl_hoster_s {
     char *fullname;
     uint8_t active;
     char *name;
-    struct cache_s *cacheHandler;
-    struct memimage_s *favicon;
+    struct rl_cache_s *cacheHandler;
+    struct rl_image_s *favicon;
 
-    acll_t *(*search)(system_t *system, char *searchString);
+    acll_t *(*search)(rl_system *system, char *searchString);
 
-    void (*download)(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData);
+    void (*download)(rl_result *item, rl_download_callback_function callbackFunction, void *data);
 };
 
 // Search Result
-struct result_s {
+struct rl_result_s {
     char *title;
     char *url;
     float rating;
     int32_t downloads;
     char *fileSize;
-    system_t *system;
-    hoster_t *hoster;
+    rl_system *system;
+    rl_hoster *hoster;
 };
 
 // Caching of search results or hoster's content
-struct cache_s {
-    void *appData;
+struct rl_cache_s {
+    void *data;
 
-    uint8_t (*isValid)(struct hoster_s *hoster, struct system_s *system, void *appData);
+    uint8_t (*isValid)(struct rl_hoster_s *hoster, struct rl_system_s *system, void *data);
 
-    void (*clear)(struct hoster_s *hoster, struct system_s *system, void *appData);
+    void (*clear)(struct rl_hoster_s *hoster, struct rl_system_s *system, void *data);
 
-    void (*add)(struct hoster_s *hoster, struct system_s *system, char *searchString, result_t *entry, void *appData);
+    void
+    (*add)(struct rl_hoster_s *hoster, struct rl_system_s *system, char *searchString, rl_result *entry, void *data);
 
-    acll_t *(*get)(struct hoster_s *hoster, struct system_s *system, char *searchString, void *appData);
+    acll_t *(*get)(struct rl_hoster_s *hoster, struct rl_system_s *system, char *searchString, void *data);
 
-    void (*touch)(struct hoster_s *hoster, struct system_s *system, void *appData);
+    void (*touch)(struct rl_hoster_s *hoster, struct rl_system_s *system, void *data);
 };
 
 // Exported methods
 
 // systems
-acll_t *systems_init();
+acll_t *rl_systems_init();
 
-void systems_destroy(acll_t *systems);
+void rl_system_free(acll_t *systems);
 
-int system_findByFullname(void *payload, void *input);
+int rl_system_findByFullname(void *payload, void *input);
 
 
 // hoster
-acll_t *hosterhandler_init(cache_t *cacheHandler);
+acll_t *rl_hoster_init(rl_cache *cacheHandler);
 
-acll_t *hosterhandler_search(acll_t *hosters, system_t *system, char *searchString);
+acll_t *rl_search(acll_t *hosters, rl_system *system, char *searchString);
 
-void hosterhandler_download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData);
+void rl_download(rl_result *item, rl_download_callback_function downloadCallbackFunction, void *appData);
 
-void hosterhandler_destroy(acll_t *hoster);
+void rl_hoster_free(acll_t *hoster);
 
-int hoster_findByFullname(void *payload, void *input);
+int rl_hoster_findByFullname(void *payload, void *input);
 
-int hoster_findByName(void *payload, void *input);
+int rl_hoster_findByName(void *payload, void *input);
 
 // results
-result_t *result_create(system_t *system, hoster_t *hoster, char *title, char *url);
+rl_result *rl_result_create(rl_system *system, rl_hoster *hoster, char *title, char *url);
 
-void result_setTitle(result_t *result, char *title);
+void rl_result_setTitle(rl_result *result, char *title);
 
-void result_setUrl(result_t *result, char *url);
+void rl_result_setUrl(rl_result *result, char *url);
 
-void result_setDownloads(result_t *result, char *downloads);
+void rl_result_setDownloads(rl_result *result, char *downloads);
 
-void result_setRating(result_t *result, char *rating, uint8_t maxRating);
+void rl_result_setRating(rl_result *result, char *rating, uint8_t maxRating);
 
-void result_setFileSize(result_t *result, char *fileSize);
+void rl_result_setFileSize(rl_result *result, char *fileSize);
 
-void result_freeList(acll_t *results);
+void rl_results_destroy(acll_t *results);
 
-acll_t *result_sort(acll_t *results);
+acll_t *rl_results_sort(acll_t *results);
 
 // nice macros for method calling
 // systems
-#define loadSystems systems_init
-#define findSystemByFullname(systems, fullname) acll_find(systems, system_findByFullname, fullname)
-#define getSystem(system) ((system_t *) system->payload)
-#define destroySystems(systems) systems_destroy(systems)
+#define rl_systems_findByFullname(systems, fullname) acll_find(systems, rl_system_findByFullname, fullname)
+#define rl_getSystem(system) ((rl_system *) system->payload)
 
 // hoster
-#define loadHosters hosterhandler_init
-#define getHoster(hoster) ((hoster_t *) hoster->payload)
-#define findHosterByFullname(hosters, fullname) acll_find(hosters, hoster_findByFullname, fullname)
-#define findHosterByName(hosters, name) acll_find(hosters, hoster_findByName, name)
-#define destroyHosters(hosters) hosterhandler_destroy(hosters)
-
-// search & download
-#define searchHosters(hosters, system, searchString) hosterhandler_search(hosters, system, searchString)
-#define downloadItem(item, downloadCallbackFunction, appData) hosterhandler_download(item, downloadCallbackFunction, appData)
+#define rl_hosters_findByFullname(hosters, fullname) acll_find(hosters, rl_hoster_findByFullname, fullname)
+#define rl_hosters_findByName(hosters, name) acll_find(hosters, hoster_findByName, name)
+#define rl_getHoster(hoster) ((rl_hoster *) hoster->payload)
 
 // results
-#define destroyResults(results) result_freeList(results)
-#define getResult(result) ((result_t *) result->payload)
-
-// define the number of parallel threads to fetch content from hosters
-#ifndef HOSTER_FETCH_THREADS
-#define HOSTER_FETCH_THREADS 5
-#endif
+#define rl_getResult(result) ((rl_result *) result->payload)
 
 #endif

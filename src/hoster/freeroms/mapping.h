@@ -19,6 +19,6 @@
 
 #include "../../../romlibrary.h"
 
-char *freeroms_deviceMapping(system_t *system);
+char *freeroms_deviceMapping(rl_system *system);
 
 #endif

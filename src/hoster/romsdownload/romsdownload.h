@@ -19,6 +19,6 @@
 
 #include "../../../romlibrary.h"
 
-hoster_t *romsdownload_getHoster(cache_t *cacheHandler);
+rl_hoster *romsdownload_getHoster(rl_cache *cacheHandler);
 
 #endif

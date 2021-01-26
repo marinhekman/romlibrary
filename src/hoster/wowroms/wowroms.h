@@ -19,6 +19,6 @@
 
 #include "../../../romlibrary.h"
 
-hoster_t *wowroms_getHoster(cache_t *cacheHandler);
+rl_hoster *wowroms_getHoster(rl_cache *cacheHandler);
 
 #endif

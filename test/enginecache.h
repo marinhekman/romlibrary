@@ -24,14 +24,14 @@ void enginecache_init(sqlite3 *db);
 
 void enginecache_initstate(sqlite3 *db);
 
-uint8_t enginecache_isCacheValid(hoster_t *hoster, system_t *system, void *data);
+uint8_t enginecache_isCacheValid(rl_hoster *hoster, rl_system *system, void *data);
 
-void enginecache_clear(hoster_t *hoster, system_t *system, void *data);
+void enginecache_clear(rl_hoster *hoster, rl_system *system, void *data);
 
-void enginecache_addEntry(hoster_t *hoster, system_t *system, char *searchString, result_t *entry, void *data);
+void enginecache_addEntry(rl_hoster *hoster, rl_system *system, char *searchString, rl_result *entry, void *data);
 
-void enginecache_updateTimestamp(hoster_t *hoster, system_t *system, void *data);
+void enginecache_updateTimestamp(rl_hoster *hoster, rl_system *system, void *data);
 
-acll_t *enginecache_getSearchResults(hoster_t *hoster, system_t *system, char *searchString, void *data);
+acll_t *enginecache_getSearchResults(rl_hoster *hoster, rl_system *system, char *searchString, void *data);
 
 #endif

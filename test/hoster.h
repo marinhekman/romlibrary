@@ -20,13 +20,13 @@
 #include <romlibrary.h>
 #include <sqlite3.h>
 
-hoster_t *romsmania;
-hoster_t *romsmode;
-hoster_t *wowroms;
-hoster_t *romsdownload;
-hoster_t *romsemulator;
-hoster_t *romhustler;
-hoster_t *freeroms;
+rl_hoster *romsmania;
+rl_hoster *romsmode;
+rl_hoster *wowroms;
+rl_hoster *romsdownload;
+rl_hoster *romsemulator;
+rl_hoster *romhustler;
+rl_hoster *freeroms;
 
 void testengines_init(sqlite3 *db);
 

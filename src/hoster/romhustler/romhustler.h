@@ -19,6 +19,6 @@
 
 #include "../../../romlibrary.h"
 
-hoster_t *romhustler_getHoster(cache_t *cacheHandler);
+rl_hoster *romhustler_getHoster(rl_cache *cacheHandler);
 
 #endif

@@ -19,6 +19,6 @@
 
 #include "../../../romlibrary.h"
 
-char *romsdownload_deviceMapping(system_t *system);
+char *romsdownload_deviceMapping(rl_system *system);
 
 #endif

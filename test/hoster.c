@@ -18,21 +18,21 @@
 #include "hoster.h"
 #include "enginecache.h"
 
-cache_t cacheHandler;
+rl_cache cacheHandler;
 
 void testengines_init(sqlite3 *db) {
 
-    cacheHandler.appData = db;
+    cacheHandler.data = db;
     cacheHandler.isValid = enginecache_isCacheValid;
     cacheHandler.clear = enginecache_clear;
     cacheHandler.add = enginecache_addEntry;
     cacheHandler.touch = enginecache_updateTimestamp;
     cacheHandler.get = enginecache_getSearchResults;
 
-    acll_t *hosters = loadHosters(&cacheHandler);
+    acll_t *hosters = rl_hoster_init(&cacheHandler);
 
-    romhustler = getHoster(findHosterByFullname(hosters, "https://romhustler.org"));
-    freeroms = getHoster(findHosterByFullname(hosters, "https://freeroms.com"));
+    romhustler = rl_getHoster(rl_hosters_findByFullname(hosters, "https://romhustler.org"));
+    freeroms = rl_getHoster(rl_hosters_findByFullname(hosters, "https://freeroms.com"));
 
 //
 //    romsmania = ll_findByName(hosters, )romsmania_getEngine();

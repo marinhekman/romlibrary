@@ -19,6 +19,6 @@
 
 #include "../../../romlibrary.h"
 
-char *romsemulator_deviceMapping(system_t *system);
+char *romsemulator_deviceMapping(rl_system *system);
 
 #endif

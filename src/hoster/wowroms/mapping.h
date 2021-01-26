@@ -19,6 +19,6 @@
 
 #include "../../../romlibrary.h"
 
-char *wowroms_deviceMapping(system_t *system);
+char *wowroms_deviceMapping(rl_system *system);
 
 #endif

@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include "../../romlibrary.h"
 
-char *urlhandling_substitudeVariables(char *templateString, system_t *system, char *(*mapping)(system_t *system),
+char *urlhandling_substitudeVariables(char *templateString, rl_system *system, char *(*mapping)(rl_system *system),
                                       char *query, uint32_t page);
 
 #endif

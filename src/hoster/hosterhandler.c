@@ -27,14 +27,14 @@
 static void *executeThread(void *searchPtr);
 
 typedef struct {
-    hoster_t *hoster;
-    system_t *system;
+    rl_hoster *hoster;
+    rl_system *system;
     char *searchString;
     pthread_t thread;
     acll_t *result;
 } search_t;
 
-acll_t *hosterhandler_init(cache_t *cacheHandler) {
+acll_t *rl_hoster_init(rl_cache *cacheHandler) {
     acll_t *hosters = NULL;
     hosters = acll_append(hosters, freeroms_getHoster(cacheHandler));
     hosters = acll_append(hosters, romhustler_getHoster(cacheHandler));
@@ -45,7 +45,7 @@ acll_t *hosterhandler_init(cache_t *cacheHandler) {
     return hosters;
 }
 
-acll_t *hosterhandler_search(acll_t *hosters, system_t *system, char *searchString) {
+acll_t *rl_search(acll_t *hosters, rl_system *system, char *searchString) {
     acll_t *result = NULL;
     acll_t *ptr = hosters;
 
@@ -54,8 +54,8 @@ acll_t *hosterhandler_search(acll_t *hosters, system_t *system, char *searchStri
 
     int activeNumber = 0;
     while (ptr != NULL) {
-        if (getHoster(ptr)->active) {
-            searches[activeNumber].hoster = getHoster(ptr);
+        if (rl_getHoster(ptr)->active) {
+            searches[activeNumber].hoster = rl_getHoster(ptr);
             searches[activeNumber].system = system;
             searches[activeNumber].searchString = searchString;
             searches[activeNumber].result = NULL;
@@ -70,26 +70,26 @@ acll_t *hosterhandler_search(acll_t *hosters, system_t *system, char *searchStri
         result = acll_concat(result, searches[i].result);
     }
 
-    return result_sort(result);
+    return rl_results_sort(result);
 }
 
-void hosterhandler_download(result_t *item, downloadCallback_t downloadCallbackFunction, void *appData) {
+void rl_download(rl_result *item, rl_download_callback_function downloadCallbackFunction, void *appData) {
     item->hoster->download(item, downloadCallbackFunction, appData);
 }
 
-void hosterhandler_destroy(acll_t *hoster) {
+void rl_hoster_free(acll_t *hoster) {
     acll_free(hoster, NULL);
 }
 
-int hoster_findByFullname(void *payload, void *input) {
-    hoster_t *hoster = payload;
+int rl_hoster_findByFullname(void *payload, void *input) {
+    rl_hoster *hoster = payload;
     char *fullname = input;
 
     return !strcmp(hoster->fullname, fullname);
 }
 
-int hoster_findByName(void *payload, void *input) {
-    hoster_t *hoster = payload;
+int rl_hoster_findByName(void *payload, void *input) {
+    rl_hoster *hoster = payload;
     char *name = input;
 
     return !strcmp(hoster->name, name);

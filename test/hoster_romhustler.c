@@ -24,9 +24,9 @@
 int test_engine_romhustler_3do() {
     acll_t *list = romhustler->search(threeDo, "Scramble Cobra");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Scramble Cobra (1994)(Panasonic)(Eu)[CDD8990]", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Scramble Cobra (1994)(Panasonic)(Eu)[CDD8990]", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
@@ -39,36 +39,36 @@ int test_engine_romhustler_amiga() {
 int test_engine_romhustler_atari2600() {
     acll_t *list = romhustler->search(atari2600, "Sabotage");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Sabotage (Ultravison)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Sabotage (Ultravison)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_atari7800() {
     acll_t *list = romhustler->search(atari7800, "NTSC");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("NTSC Encryption Backdoor Test (2000) (PD)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("NTSC Encryption Backdoor Test (2000) (PD)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_atarijaguar() {
     acll_t *list = romhustler->search(atarijaguar, "Ladybug");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Ladybug Demo (PD)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Ladybug Demo (PD)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_atarilynx() {
     acll_t *list = romhustler->search(atarilynx, "Fighter");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Fighter V.2 Demo (2000) (PD)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Fighter V.2 Demo (2000) (PD)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
@@ -87,9 +87,9 @@ int test_engine_romhustler_c64() {
 int test_engine_romhustler_dreamcast() {
     acll_t *list = romhustler->search(dreamcast, "Zombie");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Zombie Revenge USA DC-KALISTO", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Zombie Revenge USA DC-KALISTO", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
@@ -102,63 +102,63 @@ int test_engine_romhustler_fba() {
 int test_engine_romhustler_fds() {
     acll_t *list = romhustler->search(fds, "Contra");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Contra", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Contra", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_gamegear() {
     acll_t *list = romhustler->search(gamegear, "Panzer");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Panzer Dragoon Mini (J) [!]", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Panzer Dragoon Mini (J) [!]", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_gb() {
     acll_t *list = romhustler->search(gb, "Mario");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Dr. Mario (V1.0) (JU) [!]", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Dr. Mario (V1.0) (JU) [!]", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_gba() {
     acll_t *list = romhustler->search(gba, "Street");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Midnight Club - Street Racing (Europe) (En,Fr,De,Es,It)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Midnight Club - Street Racing (Europe) (En,Fr,De,Es,It)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_gbc() {
     acll_t *list = romhustler->search(gbc, "Mario");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Dr. Mario (V1.0) (JU) [!]", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Dr. Mario (V1.0) (JU) [!]", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_gc() {
     acll_t *list = romhustler->search(gc, "Street");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("FIFA Street (U)(OneUp)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("FIFA Street (U)(OneUp)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_genesis() {
     acll_t *list = romhustler->search(genesis, "Sonic");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Sonic 3D Blast", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Sonic 3D Blast", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
@@ -177,90 +177,90 @@ int test_engine_romhustler_love() {
 int test_engine_romhustler_mame() {
     acll_t *list = romhustler->search(mame, "road");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Battle K-Road", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Battle K-Road", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_mastersystem() {
     acll_t *list = romhustler->search(mastersystem, "Sonic");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Sonic Blast (UE) [!]", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Sonic Blast (UE) [!]", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_megadrive() {
     acll_t *list = romhustler->search(megadrive, "Sonic");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Sonic 3D Blast", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Sonic 3D Blast", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_msx() {
     acll_t *list = romhustler->search(msx, "Gradius");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Gradius (1986) (Konami) (J)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Gradius (1986) (Konami) (J)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_n64() {
     acll_t *list = romhustler->search(n64, "Mortal Kombat");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Mortal Kombat 4", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Mortal Kombat 4", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_nds() {
     acll_t *list = romhustler->search(nds, "Pokemon");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Pokemon - HeartGold (JP)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Pokemon - HeartGold (JP)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_neogeo() {
     acll_t *list = romhustler->search(neogeo, "Metal Slug");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Metal Slug", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Metal Slug", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_nes() {
     acll_t *list = romhustler->search(nes, "Mario");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Dr. Mario", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Dr. Mario", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_ngp() {
     acll_t *list = romhustler->search(ngp, "Metal");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Metal Slug - 1st Mission (JUE)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Metal Slug - 1st Mission (JUE)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_ngpc() {
     acll_t *list = romhustler->search(ngpc, "Metal");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Metal Slug - 1st Mission (JUE)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Metal Slug - 1st Mission (JUE)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
@@ -273,9 +273,9 @@ int test_engine_romhustler_pc() {
 int test_engine_romhustler_pcengine() {
     acll_t *list = romhustler->search(pcengine, "image");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Image Fight 2 - Operation Deepstriker (NTSC-J) [ICCD2002]", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Image Fight 2 - Operation Deepstriker (NTSC-J) [ICCD2002]", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
@@ -288,36 +288,36 @@ int test_engine_romhustler_pcfx() {
 int test_engine_romhustler_ps2() {
     acll_t *list = romhustler->search(ps2, "Grandia");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Grandia II (USA)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Grandia II (USA)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_psp() {
     acll_t *list = romhustler->search(psp, "mortal");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Mortal Kombat - Unchained (E)(M5)(pSyPSP)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Mortal Kombat - Unchained (E)(M5)(pSyPSP)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_psx() {
     acll_t *list = romhustler->search(psx, "mortal");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Mortal Kombat - Special Forces [U] [SLUS-00824]", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Mortal Kombat - Special Forces [U] [SLUS-00824]", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_saturn() {
     acll_t *list = romhustler->search(saturn, "Sonic");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Sonic 3D Blast (U)(Saturn)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Sonic 3D Blast (U)(Saturn)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;;
 }
 
@@ -336,9 +336,9 @@ int test_engine_romhustler_sega32x() {
 int test_engine_romhustler_segacd() {
     acll_t *list = romhustler->search(segacd, "Sonic");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Sonic CD (U)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Sonic CD (U)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;;
 }
 
@@ -351,18 +351,18 @@ int test_engine_romhustler_sg1000() {
 int test_engine_romhustler_snes() {
     acll_t *list = romhustler->search(snes, "Mario");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Dr. Mario", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Dr. Mario", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_vectrex() {
     acll_t *list = romhustler->search(vectrex, "Mine");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("3-D Mine Storm (1983)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("3-D Mine Storm (1983)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
@@ -393,18 +393,18 @@ int test_engine_romhustler_wiiu() {
 int test_engine_romhustler_wonderswan() {
     acll_t *list = romhustler->search(wonderswan, "hunter");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Hunter X Hunter - Greed Island (J)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Hunter X Hunter - Greed Island (J)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
 int test_engine_romhustler_wonderswancolor() {
     acll_t *list = romhustler->search(wonderswancolor, "hunter");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Hunter X Hunter - Greed Island (J)", getResult(list)->title);
-    result_freeList(list);
+    list = rl_results_sort(list);
+    ASSERTSTR("Hunter X Hunter - Greed Island (J)", rl_getResult(list)->title);
+    rl_results_destroy(list);
     return 0;
 }
 
@@ -417,8 +417,8 @@ int test_engine_romhustler_zxspectrum() {
 int test_engine_romhustler_download() {
     acll_t *list = romhustler->search(nes, "Mario");
     ASSERTNOTNULL(list);
-    list = result_sort(list);
-    ASSERTSTR("Dr. Mario", getResult(list)->title);
+    list = rl_results_sort(list);
+    ASSERTSTR("Dr. Mario", rl_getResult(list)->title);
 
 
     test_downloaddata_t *testdata = calloc(1, sizeof(test_downloaddata_t));
@@ -429,10 +429,10 @@ int test_engine_romhustler_download() {
     testdata->data = NULL;
     testdata->url = "https://romhustler.org/rom/nes/dr-mario-1";
 
-    freeroms->download(getResult(list), testDownloadCallback, testdata);
+    freeroms->download(rl_getResult(list), testDownloadCallback, testdata);
 
     free(testdata);
 
-    result_freeList(list);
+    rl_results_destroy(list);
     return 0;
 }

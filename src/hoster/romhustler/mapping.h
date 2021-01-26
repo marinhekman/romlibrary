@@ -19,6 +19,6 @@
 
 #include "../../../romlibrary.h"
 
-char *romhustler_deviceMapping(system_t *system);
+char *romhustler_deviceMapping(rl_system *system);
 
 #endif
