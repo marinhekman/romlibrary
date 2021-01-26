@@ -84,7 +84,7 @@ void rl_result_setFileSize(rl_result *result, char *fileSize) {
     result->fileSize = str_clone(fileSize);
 }
 
-void rl_results_destroy(acll_t *results) {
+void rl_results_free(acll_t *results) {
     acll_free(results, &freeFields);
 }
 

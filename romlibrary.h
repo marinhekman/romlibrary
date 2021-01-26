@@ -132,7 +132,7 @@ void rl_result_setRating(rl_result *result, char *rating, uint8_t maxRating);
 
 void rl_result_setFileSize(rl_result *result, char *fileSize);
 
-void rl_results_destroy(acll_t *results);
+void rl_results_free(acll_t *results);
 
 acll_t *rl_results_sort(acll_t *results);
 

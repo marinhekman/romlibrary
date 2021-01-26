@@ -26,7 +26,7 @@ int test_engine_romhustler_3do() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Scramble Cobra (1994)(Panasonic)(Eu)[CDD8990]", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -41,7 +41,7 @@ int test_engine_romhustler_atari2600() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Sabotage (Ultravison)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -50,7 +50,7 @@ int test_engine_romhustler_atari7800() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("NTSC Encryption Backdoor Test (2000) (PD)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -59,7 +59,7 @@ int test_engine_romhustler_atarijaguar() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Ladybug Demo (PD)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -68,7 +68,7 @@ int test_engine_romhustler_atarilynx() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Fighter V.2 Demo (2000) (PD)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -89,7 +89,7 @@ int test_engine_romhustler_dreamcast() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Zombie Revenge USA DC-KALISTO", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -104,7 +104,7 @@ int test_engine_romhustler_fds() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Contra", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -113,7 +113,7 @@ int test_engine_romhustler_gamegear() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Panzer Dragoon Mini (J) [!]", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -122,7 +122,7 @@ int test_engine_romhustler_gb() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Dr. Mario (V1.0) (JU) [!]", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -131,7 +131,7 @@ int test_engine_romhustler_gba() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Midnight Club - Street Racing (Europe) (En,Fr,De,Es,It)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -140,7 +140,7 @@ int test_engine_romhustler_gbc() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Dr. Mario (V1.0) (JU) [!]", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -149,7 +149,7 @@ int test_engine_romhustler_gc() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("FIFA Street (U)(OneUp)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -158,7 +158,7 @@ int test_engine_romhustler_genesis() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Sonic 3D Blast", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -179,7 +179,7 @@ int test_engine_romhustler_mame() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Battle K-Road", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -188,7 +188,7 @@ int test_engine_romhustler_mastersystem() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Sonic Blast (UE) [!]", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -197,7 +197,7 @@ int test_engine_romhustler_megadrive() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Sonic 3D Blast", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -206,7 +206,7 @@ int test_engine_romhustler_msx() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Gradius (1986) (Konami) (J)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -215,7 +215,7 @@ int test_engine_romhustler_n64() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Mortal Kombat 4", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -224,7 +224,7 @@ int test_engine_romhustler_nds() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Pokemon - HeartGold (JP)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -233,7 +233,7 @@ int test_engine_romhustler_neogeo() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Metal Slug", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -242,7 +242,7 @@ int test_engine_romhustler_nes() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Dr. Mario", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -251,7 +251,7 @@ int test_engine_romhustler_ngp() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Metal Slug - 1st Mission (JUE)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -260,7 +260,7 @@ int test_engine_romhustler_ngpc() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Metal Slug - 1st Mission (JUE)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -275,7 +275,7 @@ int test_engine_romhustler_pcengine() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Image Fight 2 - Operation Deepstriker (NTSC-J) [ICCD2002]", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -290,7 +290,7 @@ int test_engine_romhustler_ps2() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Grandia II (USA)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -299,7 +299,7 @@ int test_engine_romhustler_psp() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Mortal Kombat - Unchained (E)(M5)(pSyPSP)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -308,7 +308,7 @@ int test_engine_romhustler_psx() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Mortal Kombat - Special Forces [U] [SLUS-00824]", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -317,7 +317,7 @@ int test_engine_romhustler_saturn() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Sonic 3D Blast (U)(Saturn)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;;
 }
 
@@ -338,7 +338,7 @@ int test_engine_romhustler_segacd() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Sonic CD (U)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;;
 }
 
@@ -353,7 +353,7 @@ int test_engine_romhustler_snes() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Dr. Mario", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -362,7 +362,7 @@ int test_engine_romhustler_vectrex() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("3-D Mine Storm (1983)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -395,7 +395,7 @@ int test_engine_romhustler_wonderswan() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Hunter X Hunter - Greed Island (J)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -404,7 +404,7 @@ int test_engine_romhustler_wonderswancolor() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Hunter X Hunter - Greed Island (J)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -433,6 +433,6 @@ int test_engine_romhustler_download() {
 
     free(testdata);
 
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }

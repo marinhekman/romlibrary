@@ -187,7 +187,7 @@ static void extractLink(rl_system *system, char *response) {
         hoster->cacheHandler->add(hoster, system, NULL, rl_getResult(ptr), hoster->cacheHandler->data);
         ptr = ptr->next;
     }
-    rl_results_destroy(results);
+    rl_results_free(results);
 }
 
 

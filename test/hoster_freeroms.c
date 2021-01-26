@@ -32,7 +32,7 @@ int test_engine_freeroms_amiga() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Damage", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -41,7 +41,7 @@ int test_engine_freeroms_atari2600() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Pengo", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -50,7 +50,7 @@ int test_engine_freeroms_atari7800() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Ghost Manor", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -59,7 +59,7 @@ int test_engine_freeroms_atarijaguar() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("NBA Jam TE (1996)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -68,7 +68,7 @@ int test_engine_freeroms_atarilynx() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Jimmy Conners Tennis (1991)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -89,7 +89,7 @@ int test_engine_freeroms_dreamcast() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("101 Dalmations To The Rescue", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -104,7 +104,7 @@ int test_engine_freeroms_fds() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Z-Gundam", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -113,7 +113,7 @@ int test_engine_freeroms_gamegear() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Excellent Dizzy", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -122,7 +122,7 @@ int test_engine_freeroms_gb() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Oide Rascal (Japan)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -131,7 +131,7 @@ int test_engine_freeroms_gba() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Van Helsing", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -140,7 +140,7 @@ int test_engine_freeroms_gbc() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Olympic Summer Games", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -149,7 +149,7 @@ int test_engine_freeroms_gc() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Harry Potter and the Sorcerers Stone", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -158,7 +158,7 @@ int test_engine_freeroms_genesis() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("NBA Jam Tournament Edition (32X)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -179,7 +179,7 @@ int test_engine_freeroms_mame() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Quadro Quiz II", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -188,7 +188,7 @@ int test_engine_freeroms_mastersystem() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Out Run 3D", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -197,7 +197,7 @@ int test_engine_freeroms_megadrive() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("NBA Jam Tournament Edition (32X)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -212,7 +212,7 @@ int test_engine_freeroms_n64() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Mario Kart 64", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -221,7 +221,7 @@ int test_engine_freeroms_nds() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Mario and Luigi Partners in Time Europe", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -230,7 +230,7 @@ int test_engine_freeroms_neogeo() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Infinity Cure (J) [!]", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -239,7 +239,7 @@ int test_engine_freeroms_nes() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Z-Gundam", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -248,7 +248,7 @@ int test_engine_freeroms_ngp() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Wrestling Madness (Beta)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -257,7 +257,7 @@ int test_engine_freeroms_ngpc() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Magical Drop Pocket Hack", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -290,7 +290,7 @@ int test_engine_freeroms_psp() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Qix++ Japan", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -299,7 +299,7 @@ int test_engine_freeroms_psx() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Panzer Front", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -326,7 +326,7 @@ int test_engine_freeroms_segacd() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("NBA Jam Tournament Edition (32X)", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -341,7 +341,7 @@ int test_engine_freeroms_snes() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Q-bert 3", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -380,7 +380,7 @@ int test_engine_freeroms_wonderswan() {
     ASSERTNOTNULL(list);
     list = rl_results_sort(list);
     ASSERTSTR("Tetsuman (J) [M][!]", rl_getResult(list)->title);
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
@@ -415,7 +415,7 @@ int test_engine_freeroms_download() {
 
     free(testdata);
 
-    rl_results_destroy(list);
+    rl_results_free(list);
     return 0;
 }
 
