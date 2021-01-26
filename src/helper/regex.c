@@ -21,7 +21,7 @@
 
 regexMatches_t *regex_getMatches(char *text, char *regexString, size_t maxGroups) {
     regexMatches_t *matches = NULL;
-    regexMatches_t *matchPtr;
+    regexMatches_t *matchPtr = NULL;
     regex_t regexCompiled;
     regmatch_t groupArray[maxGroups + 1];
     char *cursor;

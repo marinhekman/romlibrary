@@ -15,7 +15,7 @@
  */
 
 #include "urlhandling.h"
-#include "../common/utils.h"
+#include "src/helper/utils.h"
 
 char *urlhandling_substitudeVariables(char *templateString, rl_system *system, char *(*mapping)(rl_system *system),
                                       char *query, uint32_t page) {

@@ -15,7 +15,6 @@
  */
 
 #include "utils.h"
-#include "entities.h"
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -65,21 +64,6 @@ char *str_replace(char *orig, char *rep, char *with) {
     return result;
 }
 
-char *file_name(char *path) {
-    char *ptr = path;
-    char *result = path;
-    if (ptr == NULL || *ptr == '\0') {
-        return result;
-    }
-    while (*ptr != '\0') {
-        if (*ptr == '/') {
-            result = ptr;
-        }
-        ptr++;
-    }
-    return result;
-}
-
 char *file_suffix(char *path) {
     char *ptr = path;
     char *result = path;
@@ -91,23 +75,6 @@ char *file_suffix(char *path) {
             result = ptr;
         }
         ptr++;
-    }
-    return result;
-}
-
-char *file_parentDirectory(char *path) {
-    char *ptr = str_clone(path);
-    char *result = ptr;
-    char *lastSlash = NULL;
-
-    while (ptr != NULL && *ptr != '\0') {
-        if (*ptr == '/') {
-            lastSlash = ptr;
-        }
-        ptr++;
-    }
-    if (lastSlash != NULL) {
-        *lastSlash = '\0';
     }
     return result;
 }
@@ -129,12 +96,6 @@ char *str_urlDecode(const char *string) {
 
         if (decoded) *o = c;
     }
-    return decoded;
-}
-
-char *str_htmlDecode(const char *string) {
-    char *decoded = calloc(strlen(string) + 1, sizeof(char));
-    decode_html_entities_utf8(decoded, string);
     return decoded;
 }
 

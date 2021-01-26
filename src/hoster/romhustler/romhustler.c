@@ -19,7 +19,7 @@
 #include "romhustler.h"
 #include "../urlhandling.h"
 #include "mapping.h"
-#include "../../common/utils.h"
+#include "src/helper/utils.h"
 #include "../../helper/regex.h"
 
 #define SHORTNAME "HSL"

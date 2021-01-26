@@ -16,7 +16,6 @@ find_package(OpenSSL REQUIRED)
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(CMAKE_VERBOSE_MAKEFILE on)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -DCLOGGER_LEVEL=2")
-    set(CMAKE_INSTALL_PREFIX /usr/local)
 else ()
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O3 -DCLOGGER_LEVEL=1")
 endif ()
@@ -43,22 +42,20 @@ add_subdirectory(libs/chttp)
 
 # ROM Library Sources
 set(SOURCES_LIBRARY
-        src/common/entities.c
-        src/common/entities.h
-        src/common/utils.c
-        src/common/utils.h
+        romlibrary.h
         src/helper/domparsing.c
         src/helper/domparsing.h
         src/helper/md5.c
         src/helper/md5.h
         src/helper/regex.c
         src/helper/regex.h
+        src/helper/utils.c
+        src/helper/utils.h
+        src/hoster.c
         src/hoster/freeroms/freeroms.c
         src/hoster/freeroms/freeroms.h
         src/hoster/freeroms/mapping.c
         src/hoster/freeroms/mapping.h
-        src/hoster/hosterhandler.c
-        src/hoster/results.c
         src/hoster/romhustler/mapping.c
         src/hoster/romhustler/mapping.h
         src/hoster/romhustler/romhustler.c
@@ -83,7 +80,7 @@ set(SOURCES_LIBRARY
         src/hoster/wowroms/mapping.h
         src/hoster/wowroms/wowroms.c
         src/hoster/wowroms/wowroms.h
-        romlibrary.h
+        src/results.c
         src/systems.c
         )
 

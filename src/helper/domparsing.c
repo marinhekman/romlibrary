@@ -16,7 +16,7 @@
 
 #include "../../../romlibrary.h"
 #include "domparsing.h"
-#include "../common/utils.h"
+#include "utils.h"
 
 #define COLLECTION_INIT_SIZE 20
 

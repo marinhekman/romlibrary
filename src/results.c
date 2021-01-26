@@ -15,8 +15,8 @@
  */
 
 #include <string.h>
-#include "../../romlibrary.h"
-#include "../common/utils.h"
+#include "romlibrary.h"
+#include "src/helper/utils.h"
 
 static void freeFields(void *ptr);
 

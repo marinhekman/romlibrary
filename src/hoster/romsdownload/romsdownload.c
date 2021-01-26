@@ -20,7 +20,7 @@
 #include "mapping.h"
 #include "../urlhandling.h"
 #include "../../helper/regex.h"
-#include "../../common/utils.h"
+#include "src/helper/utils.h"
 #include "icon.h"
 
 #define SHORTNAME "RDC"

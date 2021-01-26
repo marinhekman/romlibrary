@@ -19,7 +19,7 @@
 #include "../../helper/domparsing.h"
 #include "freeroms.h"
 #include "mapping.h"
-#include "../../common/utils.h"
+#include "src/helper/utils.h"
 #include "../urlhandling.h"
 
 #define SHORTNAME "FRE"
@@ -165,7 +165,7 @@ static void extractLink(rl_system *system, char *response) {
 
         element = lxb_dom_collection_element(gameElementCollection, 1);
         element = domparser_findFirstChildElementByTagName(element, "A", 1);
-        char *gameId = (char *) domparsing_getAttributeValue(element, "onclick");
+        char *gameId = domparsing_getAttributeValue(element, "onclick");
         gameId = str_replace(gameId, "window.open('/vote.php?game_id=", "");
         gameId = str_replace(gameId, "', 'votewindow', 'width=450, height=400'); return false;", "");
         rl_result_setUrl(item, generateDownloadLink(system, gameId));

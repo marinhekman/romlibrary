@@ -20,7 +20,7 @@
 #include "wowroms.h"
 #include "mapping.h"
 #include "../urlhandling.h"
-#include "../../common/utils.h"
+#include "src/helper/utils.h"
 #include "../../helper/regex.h"
 #include "../../helper/md5.h"
 

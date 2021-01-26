@@ -19,7 +19,7 @@
 #include "romsmania.h"
 #include "mapping.h"
 #include "../urlhandling.h"
-#include "../../common/utils.h"
+#include "src/helper/utils.h"
 #include "../../helper/regex.h"
 
 #define SHORTNAME "RCC"

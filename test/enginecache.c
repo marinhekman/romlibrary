@@ -17,7 +17,7 @@
 #include <csafestring.h>
 #include "enginecache.h"
 #include <romlibrary.h>
-#include <common/utils.h>
+#include <src/helper/utils.h>
 
 static void deleteTimestamp(sqlite3 *db, rl_hoster *hoster, rl_system *system);
 

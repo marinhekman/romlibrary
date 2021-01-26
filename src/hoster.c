@@ -17,12 +17,12 @@
 #include <romlibrary.h>
 #include <pthread.h>
 #include <string.h>
-#include "romhustler/romhustler.h"
-#include "romsdownload/romsdownload.h"
-#include "romsemulator/romsemulator.h"
-#include "romsmania/romsmania.h"
-#include "wowroms/wowroms.h"
-#include "freeroms/freeroms.h"
+#include "src/hoster/romhustler/romhustler.h"
+#include "src/hoster/romsdownload/romsdownload.h"
+#include "src/hoster/romsemulator/romsemulator.h"
+#include "src/hoster/romsmania/romsmania.h"
+#include "src/hoster/wowroms/wowroms.h"
+#include "src/hoster/freeroms/freeroms.h"
 
 static void *executeThread(void *searchPtr);
 
