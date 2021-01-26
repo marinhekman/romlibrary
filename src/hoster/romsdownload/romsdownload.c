@@ -68,14 +68,14 @@ static acll_t *search(system_t *system, char *searchString) {
             break;
         }
 
-        http_response_t *response = http_fetch(URL_TEMPLATE, data, POST, 1L);
+        chttp_response *response = chttp_fetch(URL_TEMPLATE, data, POST, 1L);
         resultList = fetchingResultItems(system, resultList, response->data);
 
         if (pageCount == 1) {
             pageCount = recalcPageCount(response->data);
         }
 
-        http_freeResponse(response);
+        chttp_free(response);
         free(data);
 
         page++;
@@ -87,7 +87,7 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     if (item == NULL) {
         return;
     }
-    http_response_t *detailPageResponse = http_fetch(item->url, NULL, GET, 1L);
+    chttp_response *detailPageResponse = chttp_fetch(item->url, NULL, GET, 1L);
     char *linkDownload = fetchDownloadLink(detailPageResponse->data);
 
     char *filename = str_concat(item->title, file_suffix(linkDownload));
@@ -95,7 +95,7 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     downloadCallbackFunction(appData, item->system, item->title, linkDownload, NULL, filename, GET);
 
     free(filename);
-    http_freeResponse(detailPageResponse);
+    chttp_free(detailPageResponse);
     free(linkDownload);
 }
 

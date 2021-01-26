@@ -51,12 +51,12 @@ hoster_t *romsmania_getHoster(cache_t *cacheHandler) {
         hoster->download = download;
         hoster->cacheHandler = cacheHandler;
 
-        http_response_t *faviconResponse = http_fetch(URL_FAVICON, NULL, GET, 0L);
+        chttp_response *faviconResponse = chttp_fetch(URL_FAVICON, NULL, GET, 0L);
         hoster->favicon = calloc(1, sizeof(memimage_t));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, faviconResponse->size);
         hoster->favicon->size = faviconResponse->size;
-        http_freeResponse(faviconResponse);
+        chttp_free(faviconResponse);
     }
     return hoster;
 }
@@ -73,14 +73,14 @@ static acll_t *search(system_t *system, char *searchString) {
             break;
         }
 
-        http_response_t *response = http_fetch(url, NULL, GET, 1L);
+        chttp_response *response = chttp_fetch(url, NULL, GET, 1L);
         resultList = fetchingResultItems(system, resultList, response->data);
 
         if (pageCount == 1) {
             pageCount = recalcPageCount(response->data);
         }
 
-        http_freeResponse(response);
+        chttp_free(response);
         free(url);
 
         page++;
@@ -93,19 +93,19 @@ static void download(result_t *item, downloadCallback_t downloadCallbackFunction
     if (item == NULL) {
         return;
     }
-    http_response_t *detailPageResponse = http_fetch(item->url, NULL, GET, 1L);
+    chttp_response *detailPageResponse = chttp_fetch(item->url, NULL, GET, 1L);
     char *linkDownloadPage = fetchDownloadPageLink(detailPageResponse->data);
 
-    http_response_t *downloadPageResponse = http_fetch(linkDownloadPage, NULL, GET, 1L);
+    chttp_response *downloadPageResponse = chttp_fetch(linkDownloadPage, NULL, GET, 1L);
     char *linkDownload = fetchDownloadLink(downloadPageResponse->data);
 
     char *filename = str_concat(item->title, file_suffix(linkDownload));
     downloadCallbackFunction(appData, item->system, item->title, linkDownload, NULL, filename, GET);
     free(filename);
 
-    http_freeResponse(downloadPageResponse);
+    chttp_free(downloadPageResponse);
     free(linkDownloadPage);
-    http_freeResponse(detailPageResponse);
+    chttp_free(detailPageResponse);
     free(linkDownload);
 }
 

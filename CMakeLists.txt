@@ -30,6 +30,8 @@ set(INCLUDE_DIRECTORIES
         libs/lexbor
         libs/lexbor/source
         libs/acll
+        libs/clogger
+        libs/chttp
         )
 include_directories(${INCLUDE_DIRECTORIES})
 
@@ -37,6 +39,7 @@ include_directories(${INCLUDE_DIRECTORIES})
 add_subdirectory(libs/csafestring)
 add_subdirectory(libs/lexbor)
 add_subdirectory(libs/acll)
+add_subdirectory(libs/chttp)
 
 # ROM Library Sources
 set(SOURCES_LIBRARY
@@ -46,7 +49,6 @@ set(SOURCES_LIBRARY
         src/common/utils.h
         src/helper/domparsing.c
         src/helper/domparsing.h
-        src/helper/http.c
         src/helper/md5.c
         src/helper/md5.h
         src/helper/regex.c
@@ -87,7 +89,7 @@ set(SOURCES_LIBRARY
 
 if (NOT TARGET romlibrary)
     add_library(romlibrary ${SOURCES_LIBRARY})
-    target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} csafestring lexbor_static acll)
+    target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} csafestring lexbor_static acll chttp)
 
     # Install
     install(TARGETS romlibrary DESTINATION libs)

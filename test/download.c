@@ -18,7 +18,7 @@
 #include "test.h"
 
 uint8_t testDownloadCallback(void *appData, system_t *system, char *title, char *url, char *data, char *filename,
-                             httpmethod_t method) {
+                             chttp_method method) {
     test_downloaddata_t *input = appData;
 
     ASSERTNOTNULL(input);

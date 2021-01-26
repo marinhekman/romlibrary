@@ -62,12 +62,12 @@ hoster_t *freeroms_getHoster(cache_t *cacheHandler) {
         hoster->download = download;
         hoster->cacheHandler = cacheHandler;
 
-        http_response_t *faviconResponse = http_fetch(URL_FAVICON, NULL, GET, 0L);
+        chttp_response *faviconResponse = chttp_fetch(URL_FAVICON, NULL, GET, 0L);
         hoster->favicon = calloc(1, sizeof(memimage_t));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, faviconResponse->size);
         hoster->favicon->size = faviconResponse->size;
-        http_freeResponse(faviconResponse);
+        chttp_free(faviconResponse);
     }
     return hoster;
 }
@@ -120,13 +120,13 @@ static void *executeThread(void *ptr) {
 
     for (char chr = filter->start; chr <= filter->end; chr++) {
         char *url;
-        http_response_t *response;
+        chttp_response *response;
         if (chr == '@') {
             url = urlhandling_substitudeVariables(URL_TEMPLATE_NUM, filter->system, &freeroms_deviceMapping, "", 0);
             if (url == NULL) {
                 break;
             }
-            response = http_fetch(url, NULL, GET, 1L);
+            response = chttp_fetch(url, NULL, GET, 1L);
             extractLink(filter->system, response->data);
         } else {
             char str[2] = {0, 0};
@@ -136,10 +136,10 @@ static void *executeThread(void *ptr) {
             if (url == NULL) {
                 break;
             }
-            response = http_fetch(url, NULL, GET, 1L);
+            response = chttp_fetch(url, NULL, GET, 1L);
             extractLink(filter->system, response->data);
         }
-        http_freeResponse(response);
+        chttp_free(response);
         FREENOTNULL(url);
     }
 
