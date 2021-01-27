@@ -21,7 +21,6 @@
 rl_cache cacheHandler;
 
 void testengines_init(sqlite3 *db) {
-
     cacheHandler.data = db;
     cacheHandler.isValid = enginecache_isCacheValid;
     cacheHandler.clear = enginecache_clear;
@@ -33,12 +32,8 @@ void testengines_init(sqlite3 *db) {
 
     romhustler = rl_getHoster(rl_hosters_findByFullname(hosters, "https://romhustler.org"));
     freeroms = rl_getHoster(rl_hosters_findByFullname(hosters, "https://freeroms.com"));
-
-//
-//    romsmania = ll_findByName(hosters, )romsmania_getEngine();
-//    wowroms = wowroms_getEngine();
-//    romsdownload = romsdownload_getEngine();
-//    romsemulator = romsemulator_getEngine();
-//    romhustler = romhustler_getEngine();
-//    freeroms = freeroms_getEngine();
+    romsdownload = rl_getHoster(rl_hosters_findByFullname(hosters, "https://www.roms-download.com"));
+    romsemulator = rl_getHoster(rl_hosters_findByFullname(hosters, "https://www.romsemulator.net"));
+    romsmania = rl_getHoster(rl_hosters_findByFullname(hosters, "https://www.romsmania.cc"));
+    wowroms = rl_getHoster(rl_hosters_findByFullname(hosters, "https://www.wowroms.com"));
 }

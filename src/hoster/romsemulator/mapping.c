@@ -34,8 +34,6 @@ char *romsemulator_deviceMapping(rl_system *system) {
         deviceString = "atari-st";
     } else if (!strcmp(system->name, "c64")) {
         deviceString = "commodore-64";
-    } else if (!strcmp(system->name, "dreamcast")) {
-        deviceString = "dreamcast";
     } else if (!strcmp(system->name, "fds")) {
         deviceString = "nintendo";
     } else if (!strcmp(system->name, "gamegear")) {
@@ -43,7 +41,7 @@ char *romsemulator_deviceMapping(rl_system *system) {
     } else if (!strcmp(system->name, "gb")) {
         deviceString = "gameboy";
     } else if (!strcmp(system->name, "gba")) {
-        deviceString = "gameboy-advanced";
+        deviceString = "gameboy-advance";
     } else if (!strcmp(system->name, "gbc")) {
         deviceString = "gameboy-color";
     } else if (!strcmp(system->name, "gc")) {
@@ -72,10 +70,6 @@ char *romsemulator_deviceMapping(rl_system *system) {
         deviceString = "neo-geo-pocket-color";
     } else if (!strcmp(system->name, "pcengine")) {
         deviceString = "turbografx-16";
-    } else if (!strcmp(system->name, "ps2")) {
-        deviceString = "playstation-2";
-    } else if (!strcmp(system->name, "psp")) {
-        deviceString = "playstation-portable";
     } else if (!strcmp(system->name, "psx")) {
         deviceString = "playstation";
     } else if (!strcmp(system->name, "sega32x")) {
@@ -90,8 +84,6 @@ char *romsemulator_deviceMapping(rl_system *system) {
         deviceString = "philips-videopac";
     } else if (!strcmp(system->name, "virtualboy")) {
         deviceString = "nintendo-virtual-boy";
-    } else if (!strcmp(system->name, "wii")) {
-        deviceString = "nintendo-wii";
     } else if (!strcmp(system->name, "wonderswan")) {
         deviceString = "wonderswan";
     } else if (!strcmp(system->name, "zxspectrum")) {

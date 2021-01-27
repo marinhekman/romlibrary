@@ -34,8 +34,10 @@ char *urlhandling_substitudeVariables(char *templateString, rl_system *system, c
     result = str_replace(templateString, "%page%", pageStr);
 
     tmp = result;
-    result = str_replace(tmp, "%query%", query);
+    char *escapedQuery = chttp_escapeURL(query);
+    result = str_replace(tmp, "%query%", escapedQuery);
     free(tmp);
+    chttp_freeURL(escapedQuery);
 
     tmp = result;
     result = str_replace(tmp, "%system%", systemStr);

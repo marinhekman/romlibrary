@@ -41,7 +41,7 @@ char *romsmania_deviceMapping(rl_system *system) {
     } else if (!strcmp(system->name, "gb")) {
         deviceString = "gameboy";
     } else if (!strcmp(system->name, "gba")) {
-        deviceString = "gameboy-advanced";
+        deviceString = "gameboy-advance";
     } else if (!strcmp(system->name, "gbc")) {
         deviceString = "gameboy-color";
     } else if (!strcmp(system->name, "gc")) {

@@ -32,8 +32,12 @@ rl_result *rl_result_create(rl_system *system, rl_hoster *hoster, char *title, c
     result->rating = 0;
     result->fileSize = NULL;
 
-    rl_result_setTitle(result, title);
-    rl_result_setUrl(result, url);
+    if (title != NULL) {
+        rl_result_setTitle(result, title);
+    }
+    if (url != NULL) {
+        rl_result_setUrl(result, url);
+    }
     return result;
 }
 
