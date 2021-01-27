@@ -227,17 +227,17 @@ static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *
         rl_result_setUrl(item, url);
         free(url);
 
-        element = lxb_dom_collection_element(gameElementCollection, 3);
+        element = lxb_dom_collection_element(gameElementCollection, 4);
         char *fileSize = domparsing_getText(element);
         fileSize = str_replace(fileSize, "File Size : ", "");
         rl_result_setFileSize(item, fileSize);
 
-        element = lxb_dom_collection_element(gameElementCollection, 4);
+        element = lxb_dom_collection_element(gameElementCollection, 5);
         char *downloads = domparsing_getText(element);
         downloads = str_replace(downloads, "Downlaod : ", "");
         rl_result_setDownloads(item, downloads);
 
-        element = lxb_dom_collection_element(gameElementCollection, 5);
+        element = lxb_dom_collection_element(gameElementCollection, 6);
         char *rating = domparsing_getText(element);
         rating = str_replace(rating, "Rating : ", "");
         rl_result_setRating(item, rating, 5);
