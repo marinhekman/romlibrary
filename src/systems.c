@@ -19,6 +19,8 @@
 
 static rl_system *createSystem(char *name, char *fullname, char *path, int active);
 
+static int systemComparator(void *payload1, void *payload2);
+
 acll_t *rl_systems_init() {
     acll_t *systems = NULL;
     systems = acll_push(systems, createSystem("gb", "Game Boy", "/gb", 1));
@@ -81,6 +83,7 @@ acll_t *rl_systems_init() {
     systems = acll_push(systems, createSystem("mame", "MAME", "/mame", 1));
     systems = acll_push(systems, createSystem("scummvm", "ScummVM", "/scummvm", 1));
 
+    systems = acll_sort(systems, systemComparator);
     return systems;
 }
 
@@ -93,6 +96,12 @@ int rl_system_findByFullname(void *payload, void *input) {
     char *fullname = input;
 
     return !strcmp(system->fullname, fullname);
+}
+
+static int systemComparator(void *payload1, void *payload2) {
+    rl_system *system1 = payload1;
+    rl_system *system2 = payload2;
+    return strcmp(system1->fullname, system2->fullname);
 }
 
 static rl_system *createSystem(char *name, char *fullname, char *path, int active) {
