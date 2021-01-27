@@ -143,3 +143,8 @@ int main(int argc, char **argv) {
     testsystems_destroy();
     return 0;
 }
+
+int resultFilter(void *payload, void *input) {
+    rl_result *result = payload;
+    return !strcmp(result->title, (char *) input);
+}

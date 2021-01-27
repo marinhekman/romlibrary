@@ -20,4 +20,6 @@
 
 #include <casserts.h>
 
+int resultFilter(void *payload, void *input);
+
 #endif
