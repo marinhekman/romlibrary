@@ -229,7 +229,7 @@ int test_engine_romsmania_download() {
 
     test_downloaddata_t *testdata = calloc(1, sizeof(test_downloaddata_t));
     testdata->method = GET;
-    testdata->filename = "Final Fantasy (j).zip";
+    testdata->filename = "Final Fantasy (j).wsc";
     testdata->title = "Final Fantasy (j)";
     testdata->system = wonderswan;
     testdata->data = NULL;

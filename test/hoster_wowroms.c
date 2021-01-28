@@ -25,6 +25,10 @@ static int run_test_active(rl_system *system, char *searchString, char *included
 
 static int run_test_inactive(rl_system *system);
 
+static uint8_t
+testDownloadCallbackWowRoms(void *appData, rl_system *system, char *title, char *url, char *data, char *filename,
+                            chttp_method method);
+
 int test_engine_wowroms_3do() {
     return run_test_inactive(threeDo);
 }
@@ -230,14 +234,13 @@ int test_engine_wowroms_download() {
 
 
     test_downloaddata_t *testdata = calloc(1, sizeof(test_downloaddata_t));
-    testdata->method = GET;
+    testdata->method = POST;
     testdata->filename = "Tetris [Japan].zip";
     testdata->title = "Tetris [Japan]";
     testdata->system = wonderswancolor;
-    testdata->data = NULL;
-    testdata->url = "https://download.wowroms.com/d/roms/g/1cAKtBm3o0NLhCJpaIhz/k1/26e772ec61211c4/k2/247b674b2b8516c";
+    testdata->data = "emuid=51&id=30470&file=Tetris (Japan).zip";
 
-    wowroms->download(rl_getResult(list), testDownloadCallback, testdata);
+    wowroms->download(rl_getResult(list), testDownloadCallbackWowRoms, testdata);
 
     free(testdata);
 
@@ -257,5 +260,46 @@ static int run_test_active(rl_system *system, char *searchString, char *included
 static int run_test_inactive(rl_system *system) {
     acll_t *list = wowroms->search(system, "");
     ASSERTNULL(list);
+    return 0;
+}
+
+static uint8_t
+testDownloadCallbackWowRoms(void *appData, rl_system *system, char *title, char *url, char *data, char *filename,
+                            chttp_method method) {
+    test_downloaddata_t *input = appData;
+
+    ASSERTNOTNULL(input);
+
+    if (input->system == NULL) {
+        ASSERTNULL(system);
+    } else {
+        ASSERTNOTNULL(system);
+        ASSERTSTR(input->system->name, system->name);
+    }
+
+    if (input->title == NULL) {
+        ASSERTNULL(title);
+    } else {
+        ASSERTNOTNULL(title);
+        ASSERTSTR(input->title, title);
+    }
+
+    ASSERTNOTNULL(url);
+
+    if (input->data == NULL) {
+        ASSERTNULL(data);
+    } else {
+        ASSERTNOTNULL(data);
+        ASSERTSTR(input->data, data);
+    }
+
+    if (input->filename == NULL) {
+        ASSERTNULL(filename);
+    } else {
+        ASSERTNOTNULL(filename);
+        ASSERTSTR(input->filename, filename);
+    }
+
+    ASSERTINT(input->method, method);
     return 0;
 }

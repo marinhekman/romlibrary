@@ -228,13 +228,12 @@ int test_engine_romsemulator_download() {
     list = acll_find(list, resultFilter, "Damage – The Sadistic Butchering Of Humanity_Disk1");
     ASSERTSTR("Damage – The Sadistic Butchering Of Humanity_Disk1", rl_getResult(list)->title);
 
-
     test_downloaddata_t *testdata = calloc(1, sizeof(test_downloaddata_t));
-    testdata->method = GET;
+    testdata->method = POST;
     testdata->filename = "Damage – The Sadistic Butchering Of Humanity_Disk1.zip";
     testdata->title = "Damage – The Sadistic Butchering Of Humanity_Disk1";
     testdata->system = amiga;
-    testdata->data = NULL;
+    testdata->data = "action=roms_download_file&pid=NTE2MDI&roms_download_file_nonce_field=7f467dcd63&_wp_http_referer=/roms/damage-the-sadistic-butchering-of-humanity_disk1/?pid=NTE2MDI";
     testdata->url = "https://romsemulator.net/roms/damage-the-sadistic-butchering-of-humanity_disk1/?pid=NTE2MDI";
 
     romsemulator->download(rl_getResult(list), testDownloadCallback, testdata);
