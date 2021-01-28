@@ -227,20 +227,24 @@ static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *
         rl_result_setUrl(item, url);
         free(url);
 
-        element = lxb_dom_collection_element(gameElementCollection, 4);
-        char *fileSize = domparsing_getText(element);
-        fileSize = str_replace(fileSize, "File Size : ", "");
-        rl_result_setFileSize(item, fileSize);
+        for (int i = 1; i < gameElementCollection->array.length; i++) {
+            element = lxb_dom_collection_element(gameElementCollection, i);
+            char *text = domparsing_getText(element);
 
-        element = lxb_dom_collection_element(gameElementCollection, 5);
-        char *downloads = domparsing_getText(element);
-        downloads = str_replace(downloads, "Downlaod : ", "");
-        rl_result_setDownloads(item, downloads);
-
-        element = lxb_dom_collection_element(gameElementCollection, 6);
-        char *rating = domparsing_getText(element);
-        rating = str_replace(rating, "Rating : ", "");
-        rl_result_setRating(item, rating, 5);
+            if (strstr(text, "File Size : ")) {
+                char *fileSize = str_replace(text, "File Size : ", "");
+                rl_result_setFileSize(item, fileSize);
+                free(fileSize);
+            } else if (strstr(text, "Downlaod : ")) {
+                char *downloads = str_replace(text, "Downlaod : ", "");
+                rl_result_setDownloads(item, downloads);
+                free(downloads);
+            } else if (strstr(text, "Rating : ")) {
+                char *rating = str_replace(text, "Rating : ", "");
+                rl_result_setRating(item, rating, 5);
+                free(rating);
+            }
+        }
 
         lxb_dom_collection_clean(gameElementCollection);
         resultList = acll_push(resultList, item);

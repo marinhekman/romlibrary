@@ -169,14 +169,16 @@ static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *
         element = domparser_findFirstChildElementByTagName(element, "A", 1);
         rl_result_setUrl(item, domparsing_getAttributeValue(element, "href"));
 
+        char *text;
         element = lxb_dom_collection_element(gameElementCollection, 1);
-        char *rating = domparsing_getText(element);
-        rating = str_replace(rating, "/5", "");
+        text = domparsing_getText(element);
+        char *rating = str_replace(text, "/5", "");
         rl_result_setRating(item, rating, 5);
+        free(rating);
 
         element = lxb_dom_collection_element(gameElementCollection, 2);
-        char *downloads = domparsing_getText(element);
-        rl_result_setDownloads(item, downloads);
+        text = domparsing_getText(element);
+        rl_result_setDownloads(item, text);
 
         lxb_dom_collection_clean(gameElementCollection);
         resultList = acll_push(resultList, item);

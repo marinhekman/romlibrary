@@ -134,19 +134,22 @@ static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *
         rl_result_setUrl(item, url);
         free(url);
 
+        char *text;
         element = lxb_dom_collection_element(gameElementCollection, 2);
-        char *rating = domparsing_getText(element);
-        rating = str_replace(rating, ",", ".");
+        text = domparsing_getText(element);
+        char *rating = str_replace(text, ",", ".");
         rl_result_setRating(item, rating, 5);
+        free(rating);
 
         element = lxb_dom_collection_element(gameElementCollection, 3);
-        char *downloads = domparsing_getText(element);
-        downloads = str_replace(downloads, ",", "");
+        text = domparsing_getText(element);
+        char *downloads = str_replace(text, ",", "");
         rl_result_setDownloads(item, downloads);
+        free(downloads);
 
         element = lxb_dom_collection_element(gameElementCollection, 4);
-        char *fileSize = domparsing_getText(element);
-        rl_result_setFileSize(item, fileSize);
+        text = domparsing_getText(element);
+        rl_result_setFileSize(item, text);
 
         lxb_dom_collection_clean(gameElementCollection);
         resultList = acll_push(resultList, item);

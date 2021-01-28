@@ -163,17 +163,21 @@ static void extractLink(rl_system *system, char *response) {
         element = lxb_dom_collection_element(gameElementCollection, 0);
         rl_result_setTitle(item, domparsing_getText(element));
 
+        char *text;
+        char *gameId;
         element = lxb_dom_collection_element(gameElementCollection, 1);
         element = domparser_findFirstChildElementByTagName(element, "A", 1);
-        char *gameId = domparsing_getAttributeValue(element, "onclick");
-        gameId = str_replace(gameId, "window.open('/vote.php?game_id=", "");
-        gameId = str_replace(gameId, "', 'votewindow', 'width=450, height=400'); return false;", "");
+        text = domparsing_getAttributeValue(element, "onclick");
+        char *tmp = str_replace(text, "window.open('/vote.php?game_id=", "");
+        gameId = str_replace(tmp, "', 'votewindow', 'width=450, height=400'); return false;", "");
         rl_result_setUrl(item, generateDownloadLink(system, gameId));
+        free(tmp);
 
         element = lxb_dom_collection_element(gameElementCollection, 3);
-        char *rating = domparsing_getText(element);
-        rating = str_replace(rating, "/10", "");
+        text = domparsing_getText(element);
+        char *rating = str_replace(text, "/10", "");
         rl_result_setRating(item, rating, 10);
+        free(rating);
 
         results = acll_push(results, item);
         lxb_dom_collection_clean(gameElementCollection);
