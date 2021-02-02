@@ -14,6 +14,7 @@ find_package(ACLL REQUIRED)
 find_package(CHTTP REQUIRED)
 find_package(CLOGGER REQUIRED)
 find_package(CSAFESTRING REQUIRED)
+find_package(LEXBOR REQUIRED)
 
 # debug handling for build
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
@@ -32,13 +33,9 @@ set(INCLUDE_DIRECTORIES
         ${CHTTP_INCLUDE_DIR}
         ${CLOGGER_INCLUDE_DIR}
         ${CSAFESTRING_INCLUDE_DIR}
-        libs/lexbor
-        libs/lexbor/source
+        ${LEXBOR_INCLUDE_DIR}
         )
 include_directories(${INCLUDE_DIRECTORIES})
-
-# add submodules to build path
-add_subdirectory(libs/lexbor)
 
 # ROM Library Sources
 set(SOURCES_LIBRARY
@@ -86,7 +83,7 @@ set(SOURCES_LIBRARY
 
 if (NOT TARGET romlibrary)
     add_library(romlibrary ${SOURCES_LIBRARY})
-    target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${ACLL_LIBRARIES} ${CHTTP_LIBRARIES} ${CSAFESTRING_LIBRARIES} lexbor_static)
+    target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${ACLL_LIBRARIES} ${CHTTP_LIBRARIES} ${CSAFESTRING_LIBRARIES} ${LEXBOR_LIBRARIES})
 
     # Install
     install(TARGETS romlibrary DESTINATION lib)

@@ -17,7 +17,7 @@
 #ifndef HELPER_DOMPARSING_H
 #define HELPER_DOMPARSING_H
 
-#include <source/lexbor/html/html.h>
+#include <html.h>
 
 lxb_dom_collection_t *domparsing_getElementsCollectionByClassName(char *htmlDOM, lxb_html_document_t **document,
                                                                   char *className);
