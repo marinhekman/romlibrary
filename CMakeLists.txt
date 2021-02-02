@@ -90,6 +90,7 @@ if (NOT TARGET romlibrary)
 
     # Install
     install(TARGETS romlibrary DESTINATION libs)
+    install(FILES src/romlibrary.h DESTINATION include)
 
     include(test/test.cmake)
 endif ()
