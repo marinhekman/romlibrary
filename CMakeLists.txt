@@ -3,7 +3,6 @@ project(romlibrary C)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_INSTALL_PREFIX /usr)
 set(THREADS_PREFER_PTHREAD_FLAG on)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH true)
 
@@ -11,6 +10,10 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH true)
 find_package(CURL REQUIRED)
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
+find_package(ACLL REQUIRED)
+find_package(CHTTP REQUIRED)
+find_package(CLOGGER REQUIRED)
+find_package(CSAFESTRING REQUIRED)
 
 # debug handling for build
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
@@ -25,20 +28,17 @@ set(INCLUDE_DIRECTORIES
         ${INCLUDE_DIRECTORIES}
         ${CURL_INCLUDE_DIRS}
         ${OPENSSL_INCLUDE_DIR}
-        libs/csafestring
+        ${ACLL_INCLUDE_DIR}
+        ${CHTTP_INCLUDE_DIR}
+        ${CLOGGER_INCLUDE_DIR}
+        ${CSAFESTRING_INCLUDE_DIR}
         libs/lexbor
         libs/lexbor/source
-        libs/acll
-        libs/clogger
-        libs/chttp
         )
 include_directories(${INCLUDE_DIRECTORIES})
 
 # add submodules to build path
-add_subdirectory(libs/csafestring)
 add_subdirectory(libs/lexbor)
-add_subdirectory(libs/acll)
-add_subdirectory(libs/chttp)
 
 # ROM Library Sources
 set(SOURCES_LIBRARY
@@ -86,10 +86,10 @@ set(SOURCES_LIBRARY
 
 if (NOT TARGET romlibrary)
     add_library(romlibrary ${SOURCES_LIBRARY})
-    target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} csafestring lexbor_static acll chttp)
+    target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${ACLL_LIBRARIES} ${CHTTP_LIBRARIES} ${CSAFESTRING_LIBRARIES} lexbor_static)
 
     # Install
-    install(TARGETS romlibrary DESTINATION libs)
+    install(TARGETS romlibrary DESTINATION lib)
     install(FILES romlibrary.h DESTINATION include)
 
     include(test/test.cmake)

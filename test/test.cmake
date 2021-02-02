@@ -1,10 +1,11 @@
 # test dependencies
 find_package(SQLite3 REQUIRED)
+find_package(CASSERTS REQUIRED)
 
 # Include Library directories
 include_directories(
         ${SQLite3_INCLUDE_DIRS}
-        libs/casserts
+        ${CASSERTS_INCLUDE_DIR}
         .
         src
 )
