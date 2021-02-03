@@ -6,8 +6,8 @@ compiler:
 before_script:
   - (git clone https://github.com/maximilianvoss/csafestring.git && cd csafestring && cmake -G "Unix Makefiles" && make && sudo make install)
   - (git clone https://github.com/maximilianvoss/casserts.git && cd casserts && cmake -G "Unix Makefiles" && make && sudo make install)
-  - (git clone https://github.com/maximilianvoss/chttp.git && cd chttp && cmake -G "Unix Makefiles" && make && sudo make install)
   - (git clone https://github.com/maximilianvoss/clogger.git && cd clogger && cmake -G "Unix Makefiles" && make && sudo make install)
+  - (git clone https://github.com/maximilianvoss/chttp.git && cd chttp && cmake -G "Unix Makefiles" && make && sudo make install)
   - (git clone https://github.com/lexbor/lexbor.git && cd lexbor && cmake -G "Unix Makefiles" && make && sudo make install)
 
 script:
