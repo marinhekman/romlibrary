@@ -25,6 +25,10 @@ static int run_test_active(rl_system *system, char *searchString, char *included
 
 static int run_test_inactive(rl_system *system);
 
+uint8_t
+testDownloadCallbackRomsEmulator(void *appData, rl_system *system, char *title, char *url, char *data, char *filename,
+                                 chttp_method method);
+
 int test_engine_romsemulator_3do() {
     return run_test_inactive(threeDo);
 }
@@ -236,7 +240,7 @@ int test_engine_romsemulator_download() {
     testdata->data = "action=roms_download_file&pid=NTE2MDI&roms_download_file_nonce_field=7f467dcd63&_wp_http_referer=/roms/damage-the-sadistic-butchering-of-humanity_disk1/?pid=NTE2MDI";
     testdata->url = "https://romsemulator.net/roms/damage-the-sadistic-butchering-of-humanity_disk1/?pid=NTE2MDI";
 
-    romsemulator->download(rl_getResult(list), testDownloadCallback, testdata);
+    romsemulator->download(rl_getResult(list), testDownloadCallbackRomsEmulator, testdata);
 
     free(testdata);
 
@@ -256,5 +260,44 @@ static int run_test_active(rl_system *system, char *searchString, char *included
 static int run_test_inactive(rl_system *system) {
     acll_t *list = romsemulator->search(system, "");
     ASSERTNULL(list);
+    return 0;
+}
+
+uint8_t
+testDownloadCallbackRomsEmulator(void *appData, rl_system *system, char *title, char *url, char *data, char *filename,
+                                 chttp_method method) {
+    test_downloaddata_t *input = appData;
+
+    ASSERTNOTNULL(input);
+
+    if (input->system == NULL) {
+        ASSERTNULL(system);
+    } else {
+        ASSERTNOTNULL(system);
+        ASSERTSTR(input->system->name, system->name);
+    }
+
+    if (input->title == NULL) {
+        ASSERTNULL(title);
+    } else {
+        ASSERTNOTNULL(title);
+        ASSERTSTR(input->title, title);
+    }
+
+    if (input->url == NULL) {
+        ASSERTNULL(url);
+    } else {
+        ASSERTNOTNULL(url);
+        ASSERTSTR(input->url, url);
+    }
+
+    if (input->filename == NULL) {
+        ASSERTNULL(filename);
+    } else {
+        ASSERTNOTNULL(filename);
+        ASSERTSTR(input->filename, filename);
+    }
+
+    ASSERTINT(input->method, method);
     return 0;
 }
