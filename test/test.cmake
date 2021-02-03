@@ -1,11 +1,16 @@
 # test dependencies
 find_package(SQLite3 REQUIRED)
 find_package(CASSERTS REQUIRED)
+find_package(CURL REQUIRED)
+find_package(Threads REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 # Include Library directories
 include_directories(
         ${SQLite3_INCLUDE_DIRS}
         ${CASSERTS_INCLUDE_DIR}
+        ${CURL_INCLUDE_DIRS}
+        ${OPENSSL_INCLUDE_DIR}
         .
         src
 )
@@ -37,7 +42,7 @@ set(SOURCES_TEST
 
 enable_testing()
 add_executable(romlibrary_testcases ${SOURCES_TEST})
-target_link_libraries(romlibrary_testcases romlibrary ${SQLite3_LIBRARIES})
+target_link_libraries(romlibrary_testcases romlibrary ${SQLite3_LIBRARIES} ${OPENSSL_LIBRARIES} ${CURL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 add_test(NAME test_engine_freeroms_3do COMMAND romlibrary_testcases test_engine_freeroms_3do)
 add_test(NAME test_engine_freeroms_amiga COMMAND romlibrary_testcases test_engine_freeroms_amiga)
