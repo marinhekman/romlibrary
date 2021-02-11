@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HOSTER_ROMSMANIA_MAPPING_H
-#define HOSTER_ROMSMANIA_MAPPING_H
+#ifndef _HOSTER_ROMSMANIA_MAPPING_H
+#define _HOSTER_ROMSMANIA_MAPPING_H
 
 #include "../../../romlibrary.h"
 

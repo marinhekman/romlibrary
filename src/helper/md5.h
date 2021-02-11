@@ -15,8 +15,8 @@
  */
 
 
-#ifndef HELPER_MD5_H
-#define HELPER_MD5_H
+#ifndef _HELPER_MD5_H
+#define _HELPER_MD5_H
 
 char *md5_file2md5(char *filename);
 

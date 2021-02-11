@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HOSTER_ROMSDOWNLOAD_ROMSDOWNLOAD_H
-#define HOSTER_ROMSDOWNLOAD_ROMSDOWNLOAD_H
+#ifndef _HOSTER_ROMSDOWNLOAD_ROMSDOWNLOAD_H
+#define _HOSTER_ROMSDOWNLOAD_ROMSDOWNLOAD_H
 
 #include "../../../romlibrary.h"
 

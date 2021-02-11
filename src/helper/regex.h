@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HELPER_REGEX_H
-#define HELPER_REGEX_H
+#ifndef _HELPER_REGEX_H
+#define _HELPER_REGEX_H
 
 #include <stdlib.h>
 

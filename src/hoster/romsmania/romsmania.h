@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef ENGINE_ROMSMANIA_ROMSMANIA_H
-#define ENGINE_ROMSMANIA_ROMSMANIA_H
+#ifndef _HOSTER_ROMSMANIA_ROMSMANIA_H
+#define _HOSTER_ROMSMANIA_ROMSMANIA_H
 
 #include "../../../romlibrary.h"
 

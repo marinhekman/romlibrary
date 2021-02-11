@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HOSTER_WOWROMS_WOWROMS_H
-#define HOSTER_WOWROMS_WOWROMS_H
+#ifndef _HOSTER_WOWROMS_WOWROMS_H
+#define _HOSTER_WOWROMS_WOWROMS_H
 
 #include "../../../romlibrary.h"
 

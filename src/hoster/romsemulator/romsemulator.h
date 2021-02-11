@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HOSTER_ROMSEMULATOR_ROMSEMULATOR_H
-#define HOSTER_ROMSEMULATOR_ROMSEMULATOR_H
+#ifndef _HOSTER_ROMSEMULATOR_ROMSEMULATOR_H
+#define _HOSTER_ROMSEMULATOR_ROMSEMULATOR_H
 
 #include "../../../romlibrary.h"
 

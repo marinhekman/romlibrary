@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HOSTER_ROMSHUSTLER_MAPPING_H
-#define HOSTER_ROMSHUSTLER_MAPPING_H
+#ifndef _HOSTER_ROMSHUSTLER_MAPPING_H
+#define _HOSTER_ROMSHUSTLER_MAPPING_H
 
 #include "../../../romlibrary.h"
 

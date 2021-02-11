@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef ENGINE_URLHANDLING_H
-#define ENGINE_URLHANDLING_H
+#ifndef _HOSTER_URLHANDLING_H
+#define _HOSTER_URLHANDLING_H
 
 #include <stdlib.h>
 #include "../../romlibrary.h"

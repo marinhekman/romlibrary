@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HOSTER_ROMSEMULATOR_ICON_H
-#define HOSTER_ROMSEMULATOR_ICON_H
+#ifndef _HOSTER_ROMSEMULATOR_ICON_H
+#define _HOSTER_ROMSEMULATOR_ICON_H
 
 long romemulator_icon_size = 5019;
 char romemulator_icon_data[] = {

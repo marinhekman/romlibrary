@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HOSTER_FREEROMS_FREEROMS_H
-#define HOSTER_FREEROMS_FREEROMS_H
+#ifndef _HOSTER_FREEROMS_FREEROMS_H
+#define _HOSTER_FREEROMS_FREEROMS_H
 
 #include "../../../romlibrary.h"
 

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HELPER_DOMPARSING_H
-#define HELPER_DOMPARSING_H
+#ifndef _HELPER_DOMPARSING_H
+#define _HELPER_DOMPARSING_H
 
 #include <html.h>
 

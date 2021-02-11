@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HOSTER_FREEROMS_MAPPING_H
-#define HOSTER_FREEROMS_MAPPING_H
+#ifndef _HOSTER_FREEROMS_MAPPING_H
+#define _HOSTER_FREEROMS_MAPPING_H
 
 #include "../../../romlibrary.h"
 

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef HOSTER_ROMSDOWNLOAD_ICON_H
-#define HOSTER_ROMSDOWNLOAD_ICON_H
+#ifndef _HOSTER_ROMSDOWNLOAD_ICON_H
+#define _HOSTER_ROMSDOWNLOAD_ICON_H
 
 long romdownload_icon_size = 19443;
 char romdownload_icon_data[] = {

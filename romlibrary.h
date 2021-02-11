@@ -29,6 +29,10 @@
 #define RL_THREAD_COUNT 5
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // Typedefs
 typedef struct rl_result_s rl_result;
 typedef struct rl_system_s rl_system;
@@ -96,15 +100,57 @@ struct rl_cache_s {
     void (*touch)(struct rl_hoster_s *hoster, struct rl_system_s *system, void *data);
 };
 
-// Exported methods
+// Loads RL library
+void rl_loadLibraryFunctions(void *libHandler);
 
+#ifdef RL_DYNAMIC
+// Exported dynamic methods
+// systems
+acll_t *(*rl_systems_init)();
+
+void (*rl_system_free)(acll_t *systems);
+
+int (*rl_system_findByFullname)(void *payload, void *input);
+
+// hoster
+acll_t *(*rl_hoster_init)(rl_cache *cacheHandler);
+
+acll_t *(*rl_search)(acll_t *hosters, rl_system *system, char *searchString);
+
+void (*rl_download)(rl_result *item, rl_download_callback_function downloadCallbackFunction, void *appData);
+
+void (*rl_hoster_free)(acll_t *hoster);
+
+int (*rl_hoster_findByFullname)(void *payload, void *input);
+
+int (*rl_hoster_findByName)(void *payload, void *input);
+
+// results
+rl_result *(*rl_result_create)(rl_system *system, rl_hoster *hoster, char *title, char *url);
+
+void (*rl_result_setTitle)(rl_result *result, char *title);
+
+void (*rl_result_setUrl)(rl_result *result, char *url);
+
+void (*rl_result_setDownloads)(rl_result *result, char *downloads);
+
+void (*rl_result_setRating)(rl_result *result, char *rating, uint8_t maxRating);
+
+void (*rl_result_setFileSize)(rl_result *result, char *fileSize);
+
+void (*rl_results_free)(acll_t *results);
+
+acll_t *(*rl_results_sort)(acll_t *results);
+
+#else
+
+// Exported static methods
 // systems
 acll_t *rl_systems_init();
 
 void rl_system_free(acll_t *systems);
 
 int rl_system_findByFullname(void *payload, void *input);
-
 
 // hoster
 acll_t *rl_hoster_init(rl_cache *cacheHandler);
@@ -136,6 +182,8 @@ void rl_results_free(acll_t *results);
 
 acll_t *rl_results_sort(acll_t *results);
 
+#endif
+
 // nice macros for method calling
 // systems
 #define rl_systems_findByFullname(systems, fullname) acll_find(systems, rl_system_findByFullname, fullname)
@@ -148,5 +196,9 @@ acll_t *rl_results_sort(acll_t *results);
 
 // results
 #define rl_getResult(result) ((rl_result *) result->payload)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

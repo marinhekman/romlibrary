@@ -81,12 +81,25 @@ set(SOURCES_LIBRARY
         src/systems.c
         )
 
-if (NOT TARGET romlibrary)
-    add_library(romlibrary ${SOURCES_LIBRARY})
-    target_link_libraries(romlibrary ${OPENSSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${ACLL_LIBRARIES} ${CHTTP_LIBRARIES} ${CSAFESTRING_LIBRARIES} ${LEXBOR_LIBRARIES} ${CURL_LIBRARIES})
+if (NOT TARGET romlibrary_shared AND NOT TARGET romlibrary_objects AND NOT TARGET romlibrary_static)
+    add_library(romlibrary_objects OBJECT ${SOURCES_LIBRARY})
+
+    set_target_properties(romlibrary_objects
+            PROPERTIES
+            POSITION_INDEPENDENT_CODE 1
+            )
+
+    add_library(romlibrary_static STATIC $<TARGET_OBJECTS:romlibrary_objects>)
+    set_target_properties(romlibrary_static PROPERTIES OUTPUT_NAME romlibrary)
+    target_link_libraries(romlibrary_static ${OPENSSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${ACLL_LIBRARIES} ${CHTTP_LIBRARIES} ${CSAFESTRING_LIBRARIES} ${LEXBOR_LIBRARIES} ${CURL_LIBRARIES})
+
+    add_library(romlibrary_shared SHARED $<TARGET_OBJECTS:romlibrary_objects>)
+    set_target_properties(romlibrary_shared PROPERTIES OUTPUT_NAME romlibrary)
+    target_link_libraries(romlibrary_shared ${OPENSSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${ACLL_LIBRARIES} ${CHTTP_LIBRARIES} ${CSAFESTRING_LIBRARIES} ${LEXBOR_LIBRARIES} ${CURL_LIBRARIES})
 
     # Install
-    install(TARGETS romlibrary DESTINATION lib)
+    install(TARGETS romlibrary_shared DESTINATION lib)
+    install(TARGETS romlibrary_static DESTINATION lib)
     install(FILES romlibrary.h DESTINATION include)
 
     include(test/test.cmake)
