@@ -24,6 +24,13 @@
 #include <chttp.h>
 #include <clogger.h>
 
+#ifndef RML_VERSION
+#define RML_VERSION 100
+#endif
+#ifndef RML_VERSION_STRING
+#define RML_VERSION_STRING "1.0.0"
+#endif
+
 // define the number of parallel threads to fetch content from hosters
 #ifndef RL_THREAD_COUNT
 #define RL_THREAD_COUNT 5
