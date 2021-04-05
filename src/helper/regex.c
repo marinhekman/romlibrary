@@ -26,10 +26,14 @@ regexMatches_t *regex_getMatches(char *text, char *regexString, size_t maxGroups
     regmatch_t groupArray[maxGroups + 1];
     char *cursor;
 
+    if (text == NULL) {
+        return NULL;
+    }
+
     if (regcomp(&regexCompiled, regexString, REG_EXTENDED)) {
         printf("Could not compile regular expression: %s\n", regexString);
         return NULL;
-    };
+    }
 
     cursor = text;
     while (1) {
@@ -48,7 +52,7 @@ regexMatches_t *regex_getMatches(char *text, char *regexString, size_t maxGroups
             matchPtr->next = match;
             match->prev = matchPtr;
             matchPtr = match;
-        };
+        }
 
         unsigned int g = 0;
         unsigned int offset = 0;

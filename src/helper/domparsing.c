@@ -224,6 +224,9 @@ char *domparsing_getAttributeValue(lxb_dom_element_t *element, char *attributeNa
 
 char *domparsing_getText(lxb_dom_element_t *element) {
     size_t len;
+    if (element == NULL) {
+        return NULL;
+    }
     char *text = (char *) lxb_dom_node_text_content(&element->node, &len);
     return text;
 }

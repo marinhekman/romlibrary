@@ -123,7 +123,7 @@ static char *fetchHiddenField(char *response, char *fieldname, int variant) {
         regexStringTmpl = "<input type=\"[^\"]+\" name=\"%fieldname%\" value=\"([^\"]+)\"";
     } else {
         regexStringTmpl = "<input type=\"[^\"]+\" id=\"[^\"]+\" name=\"%fieldname%\" value=\"([^\"]+)\"";
-    };
+    }
     char *regexString = str_replace(regexStringTmpl, "%fieldname%", fieldname);
 
     regexMatches_t *matches = regex_getMatches(response, regexString, 1);
