@@ -48,6 +48,7 @@ set(SOURCES_LIBRARY
         src/helper/regex.h
         src/helper/utils.c
         src/helper/utils.h
+        src/helper/version.c
         src/hoster.c
         src/hoster/freeroms/freeroms.c
         src/hoster/freeroms/freeroms.h

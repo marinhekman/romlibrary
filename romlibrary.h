@@ -24,11 +24,11 @@
 #include <chttp.h>
 #include <clogger.h>
 
-#ifndef RML_VERSION
-#define RML_VERSION 100
+#ifndef RL_VERSION
+#define RL_VERSION 110
 #endif
-#ifndef RML_VERSION_STRING
-#define RML_VERSION_STRING "1.0.0"
+#ifndef RL_VERSION_STRING
+#define RL_VERSION_STRING "1.1.0"
 #endif
 
 // define the number of parallel threads to fetch content from hosters
@@ -111,6 +111,7 @@ struct rl_cache_s {
 void rl_loadLibraryFunctions(void *libHandler);
 
 #ifdef RL_DYNAMIC
+
 // Exported dynamic methods
 // systems
 acll_t *(*rl_systems_init)();
@@ -148,6 +149,10 @@ void (*rl_result_setFileSize)(rl_result *result, char *fileSize);
 void (*rl_results_free)(acll_t *results);
 
 acll_t *(*rl_results_sort)(acll_t *results);
+
+char *(*rl_getVersion)();
+
+long (*rl_getVersionNumber)();
 
 #else
 
@@ -188,6 +193,11 @@ void rl_result_setFileSize(rl_result *result, char *fileSize);
 void rl_results_free(acll_t *results);
 
 acll_t *rl_results_sort(acll_t *results);
+
+// library version
+char *rl_getVersion();
+
+long rl_getVersionNumber();
 
 #endif
 
