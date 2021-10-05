@@ -23,7 +23,6 @@
 #include "enginecache.h"
 #include "hoster_romsdownload.h"
 #include "hoster_romsemulator.h"
-#include "hoster_romsmania.h"
 #include "hoster_wowroms.h"
 
 int main(int argc, char **argv) {
@@ -244,57 +243,6 @@ int main(int argc, char **argv) {
     TESTCALL("test_engine_romsemulator_wonderswancolor", test_engine_romsemulator_wonderswancolor, NULL);
     TESTCALL("test_engine_romsemulator_zxspectrum", test_engine_romsemulator_zxspectrum, NULL);
     TESTCALL("test_engine_romsemulator_download", test_engine_romsemulator_download, NULL);
-
-    TESTCALL("test_engine_romsmania_3do", test_engine_romsmania_3do, NULL);
-    TESTCALL("test_engine_romsmania_amiga", test_engine_romsmania_amiga, NULL);
-    TESTCALL("test_engine_romsmania_atari2600", test_engine_romsmania_atari2600, NULL);
-    TESTCALL("test_engine_romsmania_atari7800", test_engine_romsmania_atari7800, NULL);
-    TESTCALL("test_engine_romsmania_atarijaguar", test_engine_romsmania_atarijaguar, NULL);
-    TESTCALL("test_engine_romsmania_atarilynx", test_engine_romsmania_atarilynx, NULL);
-    TESTCALL("test_engine_romsmania_atarist", test_engine_romsmania_atarist, NULL);
-    TESTCALL("test_engine_romsmania_c64", test_engine_romsmania_c64, NULL);
-    TESTCALL("test_engine_romsmania_dreamcast", test_engine_romsmania_dreamcast, NULL);
-    TESTCALL("test_engine_romsmania_fba", test_engine_romsmania_fba, NULL);
-    TESTCALL("test_engine_romsmania_fds", test_engine_romsmania_fds, NULL);
-    TESTCALL("test_engine_romsmania_gamegear", test_engine_romsmania_gamegear, NULL);
-    TESTCALL("test_engine_romsmania_gb", test_engine_romsmania_gb, NULL);
-    TESTCALL("test_engine_romsmania_gba", test_engine_romsmania_gba, NULL);
-    TESTCALL("test_engine_romsmania_gbc", test_engine_romsmania_gbc, NULL);
-    TESTCALL("test_engine_romsmania_gc", test_engine_romsmania_gc, NULL);
-    TESTCALL("test_engine_romsmania_genesis", test_engine_romsmania_genesis, NULL);
-    TESTCALL("test_engine_romsmania_gw", test_engine_romsmania_gw, NULL);
-    TESTCALL("test_engine_romsmania_love", test_engine_romsmania_love, NULL);
-    TESTCALL("test_engine_romsmania_mame", test_engine_romsmania_mame, NULL);
-    TESTCALL("test_engine_romsmania_mastersystem", test_engine_romsmania_mastersystem, NULL);
-    TESTCALL("test_engine_romsmania_megadrive", test_engine_romsmania_megadrive, NULL);
-    TESTCALL("test_engine_romsmania_msx", test_engine_romsmania_msx, NULL);
-    TESTCALL("test_engine_romsmania_n64", test_engine_romsmania_n64, NULL);
-    TESTCALL("test_engine_romsmania_nds", test_engine_romsmania_nds, NULL);
-    TESTCALL("test_engine_romsmania_neogeo", test_engine_romsmania_neogeo, NULL);
-    TESTCALL("test_engine_romsmania_nes", test_engine_romsmania_nes, NULL);
-    TESTCALL("test_engine_romsmania_ngp", test_engine_romsmania_ngp, NULL);
-    TESTCALL("test_engine_romsmania_ngpc", test_engine_romsmania_ngpc, NULL);
-    TESTCALL("test_engine_romsmania_pc", test_engine_romsmania_pc, NULL);
-    TESTCALL("test_engine_romsmania_pcengine", test_engine_romsmania_pcengine, NULL);
-    TESTCALL("test_engine_romsmania_pcfx", test_engine_romsmania_pcfx, NULL);
-    TESTCALL("test_engine_romsmania_ps2", test_engine_romsmania_ps2, NULL);
-    TESTCALL("test_engine_romsmania_psp", test_engine_romsmania_psp, NULL);
-    TESTCALL("test_engine_romsmania_psx", test_engine_romsmania_psx, NULL);
-    TESTCALL("test_engine_romsmania_saturn", test_engine_romsmania_saturn, NULL);
-    TESTCALL("test_engine_romsmania_scummvm", test_engine_romsmania_scummvm, NULL);
-    TESTCALL("test_engine_romsmania_sega32x", test_engine_romsmania_sega32x, NULL);
-    TESTCALL("test_engine_romsmania_segacd", test_engine_romsmania_segacd, NULL);
-    TESTCALL("test_engine_romsmania_sg1000", test_engine_romsmania_sg1000, NULL);
-    TESTCALL("test_engine_romsmania_snes", test_engine_romsmania_snes, NULL);
-    TESTCALL("test_engine_romsmania_vectrex", test_engine_romsmania_vectrex, NULL);
-    TESTCALL("test_engine_romsmania_videopac", test_engine_romsmania_videopac, NULL);
-    TESTCALL("test_engine_romsmania_virtualboy", test_engine_romsmania_virtualboy, NULL);
-    TESTCALL("test_engine_romsmania_wii", test_engine_romsmania_wii, NULL);
-    TESTCALL("test_engine_romsmania_wiiu", test_engine_romsmania_wiiu, NULL);
-    TESTCALL("test_engine_romsmania_wonderswan", test_engine_romsmania_wonderswan, NULL);
-    TESTCALL("test_engine_romsmania_wonderswancolor", test_engine_romsmania_wonderswancolor, NULL);
-    TESTCALL("test_engine_romsmania_zxspectrum", test_engine_romsmania_zxspectrum, NULL);
-    TESTCALL("test_engine_romsmania_download", test_engine_romsmania_download, NULL);
 
     TESTCALL("test_engine_wowroms_3do", test_engine_wowroms_3do, NULL);
     TESTCALL("test_engine_wowroms_amiga", test_engine_wowroms_amiga, NULL);

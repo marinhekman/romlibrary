@@ -20,7 +20,6 @@
 #include "src/hoster/romhustler/romhustler.h"
 #include "src/hoster/romsdownload/romsdownload.h"
 #include "src/hoster/romsemulator/romsemulator.h"
-#include "src/hoster/romsmania/romsmania.h"
 #include "src/hoster/wowroms/wowroms.h"
 #include "src/hoster/freeroms/freeroms.h"
 
@@ -40,7 +39,6 @@ acll_t *rl_hoster_init(rl_cache *cacheHandler) {
     hosters = acll_append(hosters, romhustler_getHoster(cacheHandler));
     hosters = acll_append(hosters, romsdownload_getHoster(cacheHandler));
     hosters = acll_append(hosters, romsemulator_getHoster(cacheHandler));
-    hosters = acll_append(hosters, romsmania_getHoster(cacheHandler));
     hosters = acll_append(hosters, wowroms_getHoster(cacheHandler));
     return hosters;
 }

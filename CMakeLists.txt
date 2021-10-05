@@ -68,10 +68,6 @@ set(SOURCES_LIBRARY
         src/hoster/romsemulator/mapping.h
         src/hoster/romsemulator/romsemulator.c
         src/hoster/romsemulator/romsemulator.h
-        src/hoster/romsmania/mapping.c
-        src/hoster/romsmania/mapping.h
-        src/hoster/romsmania/romsmania.c
-        src/hoster/romsmania/romsmania.h
         src/hoster/urlhandling.c
         src/hoster/urlhandling.h
         src/hoster/wowroms/mapping.c

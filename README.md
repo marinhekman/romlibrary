@@ -5,7 +5,6 @@
 ROM Library is helps you to download ROMs from well-known webpages.   
 Following ROM databases are supported:
 
-* https://romsmania.cc/
 * https://wowroms.com/
 * https://roms-download.com/
 * https://romsemulator.net/

@@ -234,7 +234,7 @@ int test_engine_romsdownload_download() {
     testdata->title = "Super Mario Bros 2";
     testdata->system = nes;
     testdata->data = NULL;
-    testdata->url = "http://185.232.52.56/romfiles/nintendo/s/super-mario-bros-2-japan.zip";
+    testdata->url = "https://s3roms.download/romfiles/nintendo/s/super-mario-bros-2-japan.zip";
 
     romsdownload->download(rl_getResult(list), testDownloadCallback, testdata);
 
