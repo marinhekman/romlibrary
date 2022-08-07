@@ -34,6 +34,8 @@ set(INCLUDE_DIRECTORIES
         ${CLOGGER_INCLUDE_DIR}
         ${CSAFESTRING_INCLUDE_DIR}
         ${LEXBOR_INCLUDE_DIR}
+        .
+        src
         )
 include_directories(${INCLUDE_DIRECTORIES})
 
