@@ -99,6 +99,6 @@ if (NOT TARGET romlibrary_shared AND NOT TARGET romlibrary_objects AND NOT TARGE
     install(TARGETS romlibrary_static DESTINATION lib)
     install(FILES romlibrary.h DESTINATION include)
 
-    include(test/test.cmake)
+#    include(test/test.cmake)
 endif ()
 
