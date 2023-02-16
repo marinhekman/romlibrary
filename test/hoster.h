@@ -20,8 +20,6 @@
 #include <romlibrary.h>
 #include <sqlite3.h>
 
-rl_hoster *romsmania;
-rl_hoster *romsmode;
 rl_hoster *wowroms;
 rl_hoster *romsdownload;
 rl_hoster *romsemulator;

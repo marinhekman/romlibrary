@@ -20,12 +20,12 @@
 
 #define COLLECTION_INIT_SIZE 20
 
-static lxb_html_document_t *readDocument(char *htmlDOM);
-
 lxb_dom_collection_t *domparsing_getElementsCollectionByClassName(char *htmlDOM, lxb_html_document_t **document,
                                                                   char *className) {
     lxb_status_t status;
-    *document = readDocument(htmlDOM);
+    if (*document == NULL) {
+        *document = domparsing_readDocument(htmlDOM);
+    }
 
     lxb_dom_collection_t *collection = lxb_dom_collection_make(&(*document)->dom_document, COLLECTION_INIT_SIZE);
     if (collection == NULL) {
@@ -46,7 +46,9 @@ lxb_dom_collection_t *domparsing_getElementsCollectionByClassName(char *htmlDOM,
 lxb_dom_collection_t *domparsing_getElementsCollectionByTagName(char *htmlDOM, lxb_html_document_t **document,
                                                                 char *tagName) {
     lxb_status_t status;
-    *document = readDocument(htmlDOM);
+    if (*document == NULL) {
+        *document = domparsing_readDocument(htmlDOM);
+    }
 
     lxb_dom_collection_t *collection = lxb_dom_collection_make(&(*document)->dom_document, COLLECTION_INIT_SIZE);
     if (collection == NULL) {
@@ -231,7 +233,7 @@ char *domparsing_getText(lxb_dom_element_t *element) {
     return text;
 }
 
-static lxb_html_document_t *readDocument(char *htmlDOM) {
+lxb_html_document_t *domparsing_readDocument(char *htmlDOM) {
     lxb_html_parser_t *parser = lxb_html_parser_create();
     lxb_status_t status = lxb_html_parser_init(parser);
     if (status != LXB_STATUS_OK) {

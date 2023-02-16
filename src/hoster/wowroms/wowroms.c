@@ -109,16 +109,46 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
     snprintf(timeToken, 255, "?k=%s&t=%s", timestamp, timestampMD5);
 
     chttp_response *detailPageResponse = chttp_fetch(item->url, NULL, GET, 1L);
-    char *linkDownloadPageRelative = fetchDownloadPageLink(detailPageResponse->data);
+
+    lxb_html_document_t *detailPageDocument = NULL;
+    lxb_dom_collection_t *dwnBtnCollection = domparsing_getElementsCollectionByClassName(detailPageResponse->data,
+                                                                                         &detailPageDocument,
+                                                                                         "btnDwn");
+    if (lxb_dom_collection_length(dwnBtnCollection) != 1) {
+        LOG_ERROR("For wowroms.com there is supposed only to be 1 download button");
+    }
+    lxb_dom_element_t *dwnBtn = lxb_dom_collection_element(dwnBtnCollection, 0);
+    char *linkDownloadPageRelative = domparsing_getAttributeValue(dwnBtn, "href");
     char *linkDownloadPage = str_concat(URL_PREFIX, linkDownloadPageRelative);
 
     chttp_response *downloadPageResponse = chttp_fetch(linkDownloadPage, NULL, GET, 1L);
     char *downloadServletRel = fetchDownloadServlet(downloadPageResponse->data);
     char *downloadServlet = str_concat(URL_PREFIX, downloadServletRel);
 
-    char *filename = fetchHiddenField(downloadPageResponse->data, "file");
-    char *id = fetchHiddenField(downloadPageResponse->data, "id");
-    char *emuid = fetchHiddenField(downloadPageResponse->data, "emuid");
+    lxb_html_document_t *downloadPageDocument = NULL;
+    lxb_dom_collection_t *hiddenFieldsCollection = domparsing_getElementsCollectionByTagName(downloadPageResponse->data,
+                                                                                             &downloadPageDocument,
+                                                                                             "INPUT");
+
+    char *id;
+    char *filename;
+    char *emuid;
+    for (size_t i = 0; i < lxb_dom_collection_length(hiddenFieldsCollection); i++) {
+        lxb_dom_element_t *field = lxb_dom_collection_element(hiddenFieldsCollection, i);
+        char *name = domparsing_getAttributeValue(field, "name");
+        if (name != NULL) {
+            if (!strcmp(name, "id")) {
+                id = domparsing_getAttributeValue(field, "value");
+            }
+            if (!strcmp(name, "emuid")) {
+                emuid = domparsing_getAttributeValue(field, "value");
+            }
+            if (!strcmp(name, "file")) {
+                filename = domparsing_getAttributeValue(field, "value");
+            }
+        }
+    }
+
     char *downloadServletUrl = str_concat(downloadServlet, timeToken);
 
     chttp_response *downloadServletResponse = chttp_fetch(downloadServletUrl, "", POST, 1L);
@@ -133,28 +163,28 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
     safe_strcat(payload, filename);
 
     char *decodedFilename = str_urlDecode(filename);
+    char *downloadFilename = str_concat(item->title, file_suffix(filename));
 
-    char *downloadFilename = str_concat(item->title, file_suffix(fetchHiddenField(downloadPageResponse->data, "file")));
     downloadCallbackFunction(appData, item->system, item->title, decodedDownloadLink, payload->data, downloadFilename,
                              POST);
     free(downloadFilename);
-
     free(decodedFilename);
     free(decodedDownloadLink);
     free(downloadServletUrl);
     chttp_free(downloadServletResponse);
-    free(filename);
-    free(emuid);
-    free(id);
     free(timestampMD5);
     free(downloadServletRel);
     chttp_free(detailPageResponse);
-    free(linkDownloadPageRelative);
     free(linkDownloadPage);
     chttp_free(downloadPageResponse);
     free(downloadServlet);
     free(downloadLink);
     safe_destroy(payload);
+
+    lxb_dom_collection_destroy(dwnBtnCollection, true);
+    lxb_html_document_destroy(detailPageDocument);
+    lxb_dom_collection_destroy(hiddenFieldsCollection, true);
+    lxb_html_document_destroy(downloadPageDocument);
 }
 
 static char *fetchHiddenField(char *response, char *fieldname) {
@@ -196,7 +226,7 @@ static char *fetchDownloadLink(char *response) {
 }
 
 static char *fetchDownloadPageLink(char *response) {
-    char *regexString = "<a class=\"[^\"]+\" style=\"[^\"]+\" href=\"([^\"]+)\">Download [^<]+</a>";
+    char *regexString = "href=\"([^\"]+)\">Download rom</a>";
 
     regexMatches_t *matches = regex_getMatches(response, regexString, 1);
     if (matches == NULL) {
@@ -208,7 +238,7 @@ static char *fetchDownloadPageLink(char *response) {
 }
 
 static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *response) {
-    lxb_html_document_t *document;
+    lxb_html_document_t *document = NULL;
     lxb_dom_collection_t *gamesCollection = domparsing_getElementsCollectionByClassName(response, &document,
                                                                                         "group_info");
     lxb_dom_collection_t *gameElementCollection = domparsing_createCollection(document);
@@ -258,7 +288,7 @@ static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *
 
 
 static uint32_t recalcPageCount(char *response) {
-    lxb_html_document_t *document;
+    lxb_html_document_t *document = NULL;
     lxb_dom_collection_t *navContainer = domparsing_getElementsCollectionByClassName(response, &document,
                                                                                      "top-paginate");
     lxb_dom_collection_t *navItem = domparsing_createCollection(document);

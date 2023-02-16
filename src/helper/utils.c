@@ -80,6 +80,9 @@ char *file_suffix(char *path) {
 }
 
 char *str_urlDecode(const char *string) {
+    if (string == NULL) {
+        return NULL;
+    }
     char *o;
     int length = strlen(string);
     const char *end = string + length;
@@ -121,6 +124,9 @@ char *str_concat(char *str1, char *str2) {
 }
 
 char *str_quoteDecode(char *string) {
+    if (string == NULL) {
+        return NULL;
+    }
     char *returnStr = calloc(strlen(string) + 1, sizeof(char));
     char *strIn = string;
     char *ptr = returnStr;

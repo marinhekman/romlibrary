@@ -34,6 +34,5 @@ void testengines_init(sqlite3 *db) {
     freeroms = rl_getHoster(rl_hosters_findByFullname(hosters, "https://freeroms.com"));
     romsdownload = rl_getHoster(rl_hosters_findByFullname(hosters, "https://www.roms-download.com"));
     romsemulator = rl_getHoster(rl_hosters_findByFullname(hosters, "https://www.romsemulator.net"));
-    romsmania = rl_getHoster(rl_hosters_findByFullname(hosters, "https://www.romsmania.cc"));
     wowroms = rl_getHoster(rl_hosters_findByFullname(hosters, "https://www.wowroms.com"));
 }
