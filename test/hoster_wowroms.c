@@ -26,7 +26,8 @@ static int run_test_active(rl_system *system, char *searchString, char *included
 static int run_test_inactive(rl_system *system);
 
 static uint8_t
-testDownloadCallbackWowRoms(void *appData, rl_system *system, char *title, char *url, char *data, char *filename,
+testDownloadCallbackWowRoms(void *appData, rl_system *system, char *title, char *url, struct curl_slist *headers,
+                            char *data, char *filename,
                             chttp_method method);
 
 int test_engine_wowroms_3do() {
@@ -264,7 +265,8 @@ static int run_test_inactive(rl_system *system) {
 }
 
 static uint8_t
-testDownloadCallbackWowRoms(void *appData, rl_system *system, char *title, char *url, char *data, char *filename,
+testDownloadCallbackWowRoms(void *appData, rl_system *system, char *title, char *url, struct curl_slist *headers,
+                            char *data, char *filename,
                             chttp_method method) {
     test_downloaddata_t *input = appData;
 

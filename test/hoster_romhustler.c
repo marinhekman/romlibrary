@@ -25,8 +25,51 @@ static int run_test_active(rl_system *system, char *searchString, char *included
 
 static int run_test_inactive(rl_system *system);
 
+uint8_t testDownloadCallback_romhustler(void *appData, struct rl_system_s *system, char *title, char *url,
+                                        struct curl_slist *headers,
+                                        char *data,
+                                        char *filename,
+                                        chttp_method method) {
+    test_downloaddata_t *input = appData;
+
+    ASSERTNOTNULL(input);
+
+    if (input->system == NULL) {
+        ASSERTNULL(system);
+    } else {
+        ASSERTNOTNULL(system);
+        ASSERTSTR(input->system->name, system->name);
+    }
+
+    if (input->title == NULL) {
+        ASSERTNULL(title);
+    } else {
+        ASSERTNOTNULL(title);
+        ASSERTSTR(input->title, title);
+    }
+
+    ASSERTNOTNULL(url);
+
+    if (input->data == NULL) {
+        ASSERTNULL(data);
+    } else {
+        ASSERTNOTNULL(data);
+        ASSERTSTR(input->data, data);
+    }
+
+    if (input->filename == NULL) {
+        ASSERTNULL(filename);
+    } else {
+        ASSERTNOTNULL(filename);
+        ASSERTSTR(input->filename, filename);
+    }
+
+    ASSERTINT(input->method, method);
+    return 0;
+}
+
 int test_engine_romhustler_3do() {
-    return run_test_active(threeDo, "Scramble Cobra", "Scramble Cobra (1994)(Panasonic)(Eu)[CDD8990]");
+    return run_test_active(threeDo, "Scramble Cobra", "Scramble Cobra");
 }
 
 int test_engine_romhustler_amiga() {
@@ -34,19 +77,19 @@ int test_engine_romhustler_amiga() {
 }
 
 int test_engine_romhustler_atari2600() {
-    return run_test_active(atari2600, "Sabotage", "Sabotage (Ultravison)");
+    return run_test_active(atari2600, "Sabotage", "Sabotage");
 }
 
 int test_engine_romhustler_atari7800() {
-    return run_test_active(atari7800, "NTSC", "NTSC Encryption Backdoor Test (2000) (PD)");
+    return run_test_active(atari7800, "NTSC", "NTSC Encryption Backdoor Test");
 }
 
 int test_engine_romhustler_atarijaguar() {
-    return run_test_active(atarijaguar, "Ladybug", "Ladybug Demo (PD)");
+    return run_test_active(atarijaguar, "Ladybug", "Ladybug Demo");
 }
 
 int test_engine_romhustler_atarilynx() {
-    return run_test_active(atarilynx, "Fighter", "Fighter V.2 Demo (2000) (PD)");
+    return run_test_active(atarilynx, "Fighter", "Pit Fighter - The Ultimate Competition");
 }
 
 int test_engine_romhustler_atarist() {
@@ -58,7 +101,7 @@ int test_engine_romhustler_c64() {
 }
 
 int test_engine_romhustler_dreamcast() {
-    return run_test_active(dreamcast, "Zombie", "Zombie Revenge USA DC-KALISTO");
+    return run_test_active(dreamcast, "Zombie", "Zombie Revenge");
 }
 
 int test_engine_romhustler_fba() {
@@ -70,23 +113,23 @@ int test_engine_romhustler_fds() {
 }
 
 int test_engine_romhustler_gamegear() {
-    return run_test_active(gamegear, "Panzer", "Panzer Dragoon Mini (J) [!]");
+    return run_test_active(gamegear, "Panzer", "Panzer Dragoon Mini [!]");
 }
 
 int test_engine_romhustler_gb() {
-    return run_test_active(gb, "Mario", "Dr. Mario (V1.0) (JU) [!]");
+    return run_test_active(gb, "Mario", "Super Mario Quest");
 }
 
 int test_engine_romhustler_gba() {
-    return run_test_active(gba, "Street", "Midnight Club - Street Racing (Europe) (En,Fr,De,Es,It)");
+    return run_test_active(gba, "Street", "Midnight Club - Street Racing");
 }
 
 int test_engine_romhustler_gbc() {
-    return run_test_active(gbc, "Mario", "Dr. Mario (V1.0) (JU) [!]");
+    return run_test_active(gbc, "Mario", "Super Mario Quest");
 }
 
 int test_engine_romhustler_gc() {
-    return run_test_active(gc, "Street", "FIFA Street (U)(OneUp)");
+    return run_test_active(gc, "Digimon", "Digimon Rumble Arena 2");
 }
 
 int test_engine_romhustler_genesis() {
@@ -106,7 +149,7 @@ int test_engine_romhustler_mame() {
 }
 
 int test_engine_romhustler_mastersystem() {
-    return run_test_active(mastersystem, "Sonic", "Sonic Blast (UE) [!]");
+    return run_test_active(mastersystem, "Sonic", "Sonic Blast [!]");
 }
 
 int test_engine_romhustler_megadrive() {
@@ -114,7 +157,7 @@ int test_engine_romhustler_megadrive() {
 }
 
 int test_engine_romhustler_msx() {
-    return run_test_active(msx, "Gradius", "Gradius (1986) (Konami) (J)");
+    return run_test_active(msx, "Gradius", "Gradius");
 }
 
 int test_engine_romhustler_n64() {
@@ -122,23 +165,23 @@ int test_engine_romhustler_n64() {
 }
 
 int test_engine_romhustler_nds() {
-    return run_test_active(nds, "Pokemon", "Pokemon - HeartGold (JP)");
+    return run_test_active(nds, "Yu-Gi-Oh!", "Yu-Gi-Oh! 5D's - World Championship 2011 - Over the Nexus");
 }
 
 int test_engine_romhustler_neogeo() {
-    return run_test_active(neogeo, "Metal Slug", "Metal Slug");
+    return run_test_active(neogeo, "mslug", "mslug");
 }
 
 int test_engine_romhustler_nes() {
-    return run_test_active(nes, "Mario", "Dr. Mario");
+    return run_test_active(nes, "BIOS", "Famicom Disk System BIOS");
 }
 
 int test_engine_romhustler_ngp() {
-    return run_test_active(ngp, "Metal", "Metal Slug - 1st Mission (JUE)");
+    return run_test_active(ngp, "Metal", "Metal Slug - 1st Mission");
 }
 
 int test_engine_romhustler_ngpc() {
-    return run_test_active(ngpc, "Metal", "Metal Slug - 1st Mission (JUE)");
+    return run_test_active(ngpc, "Metal", "Metal Slug [!]");
 }
 
 int test_engine_romhustler_pc() {
@@ -146,7 +189,7 @@ int test_engine_romhustler_pc() {
 }
 
 int test_engine_romhustler_pcengine() {
-    return run_test_active(pcengine, "image", "Image Fight 2 - Operation Deepstriker (NTSC-J) [ICCD2002]");
+    return run_test_active(pcengine, "image", "Image Fight 2 - Operation Deepstriker");
 }
 
 int test_engine_romhustler_pcfx() {
@@ -154,19 +197,19 @@ int test_engine_romhustler_pcfx() {
 }
 
 int test_engine_romhustler_ps2() {
-    return run_test_active(ps2, "Grandia", "Grandia II (USA)");
+    return run_test_inactive(ps2);
 }
 
 int test_engine_romhustler_psp() {
-    return run_test_active(psp, "mortal", "Mortal Kombat - Unchained (E)(M5)(pSyPSP)");
+    return run_test_active(psp, "mortal", "Mortal Kombat - Unchained");
 }
 
 int test_engine_romhustler_psx() {
-    return run_test_active(psx, "mortal", "Mortal Kombat - Special Forces [U] [SLUS-00824]");
+    return run_test_active(psx, "mortal", "Mortal Kombat - Special Forces");
 }
 
 int test_engine_romhustler_saturn() {
-    return run_test_active(saturn, "Sonic", "Sonic 3D Blast (U)(Saturn)");
+    return run_test_active(saturn, "Sonic", "Sonic 3D Blast");
 }
 
 int test_engine_romhustler_scummvm() {
@@ -178,7 +221,7 @@ int test_engine_romhustler_sega32x() {
 }
 
 int test_engine_romhustler_segacd() {
-    return run_test_active(segacd, "Sonic", "Sonic CD (U)");
+    return run_test_active(segacd, "Sonic", "Sonic CD");
 }
 
 int test_engine_romhustler_sg1000() {
@@ -186,11 +229,11 @@ int test_engine_romhustler_sg1000() {
 }
 
 int test_engine_romhustler_snes() {
-    return run_test_active(snes, "Mario", "Dr. Mario");
+    return run_test_active(snes, "Final Fantasy", "Final Fantasy V");
 }
 
 int test_engine_romhustler_vectrex() {
-    return run_test_active(vectrex, "Mine", "3-D Mine Storm (1983)");
+    return run_test_inactive(vectrex);
 }
 
 int test_engine_romhustler_videopac() {
@@ -210,11 +253,11 @@ int test_engine_romhustler_wiiu() {
 }
 
 int test_engine_romhustler_wonderswan() {
-    return run_test_active(wonderswan, "hunter", "Hunter X Hunter - Greed Island (J)");
+    return run_test_active(wonderswan, "hunter", "Hunter X Hunter - Greed Island");
 }
 
 int test_engine_romhustler_wonderswancolor() {
-    return run_test_active(wonderswancolor, "hunter", "Hunter X Hunter - Greed Island (J)");
+    return run_test_active(wonderswancolor, "hunter", "Hunter X Hunter - Greed Island");
 }
 
 int test_engine_romhustler_zxspectrum() {
@@ -222,20 +265,20 @@ int test_engine_romhustler_zxspectrum() {
 }
 
 int test_engine_romhustler_download() {
-    acll_t *list = romhustler->search(nes, "Mario");
+    acll_t *list = romhustler->search(atarijaguar, "Ladybug");
     ASSERTNOTNULL(list);
-    list = acll_find(list, resultFilter, "Dr. Mario");
-    ASSERTSTR("Dr. Mario", rl_getResult(list)->title);
+    list = acll_find(list, resultFilter, "Ladybug Demo");
+    ASSERTSTR("Ladybug Demo", rl_getResult(list)->title);
 
     test_downloaddata_t *testdata = calloc(1, sizeof(test_downloaddata_t));
     testdata->method = GET;
-    testdata->filename = "Dr. Mario.zip";
-    testdata->title = "Dr. Mario";
-    testdata->system = nes;
+    testdata->filename = "Ladybug Demo (PD).rar";
+    testdata->title = "Ladybug Demo";
+    testdata->system = atarijaguar;
     testdata->data = NULL;
-    testdata->url = "https://romhustler.org/rom/nes/dr-mario-1";
+    testdata->url = "https://dl.romhustler.org/files/guest/eyJpdiI6IkFKQm1JZ0RiZEJQMFRsZnlFN2lKNXc9PSIsInZhbHVlIjoibWVocXE0cFFJWUtGNEIwdzAzMVRuYXJJTXhBQ0JLNlAxeStXWDJSdDBaRldGVktONlhLd2NPNDUwK3JPSktDcCIsIm1hYyI6IjVjYTcxMDEyM2ZjMzliYTYxMzg3ODI1Zjc0YWNiZTQzMGY3YzMxMzBmNmI4ZDA5YWMyZTRjMTMzMWVjNGUzZjciLCJ0YWciOiIifQ==/";
 
-    freeroms->download(rl_getResult(list), testDownloadCallback, testdata);
+    romhustler->download(rl_getResult(list), testDownloadCallback_romhustler, testdata);
 
     free(testdata);
 
@@ -247,6 +290,7 @@ static int run_test_active(rl_system *system, char *searchString, char *included
     acll_t *list = romhustler->search(system, searchString);
     ASSERTNOTNULL(list);
     list = acll_find(list, resultFilter, includedTitle);
+    ASSERTNOTNULL(list);
     ASSERTSTR(includedTitle, rl_getResult(list)->title);
     rl_results_free(list);
     return 0;

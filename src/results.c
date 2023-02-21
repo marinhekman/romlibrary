@@ -92,10 +92,15 @@ void rl_results_free(acll_t *results) {
     acll_free(results, &freeFields);
 }
 
+void rl_result_free(rl_result *ptr) {
+    FREENOTNULL(ptr->title);
+    FREENOTNULL(ptr->url);
+    FREENOTNULL(ptr->fileSize);
+}
+
 acll_t *rl_results_sort(acll_t *results) {
     return acll_sort(results, result_sortComparator);
 }
-
 
 static int result_sortComparator(void *payload1, void *payload2) {
     rl_result *result1 = payload1;
@@ -105,7 +110,5 @@ static int result_sortComparator(void *payload1, void *payload2) {
 
 static void freeFields(void *ptr) {
     rl_result *resultList = (rl_result *) ptr;
-    FREENOTNULL(resultList->title);
-    FREENOTNULL(resultList->url);
-    FREENOTNULL(resultList->fileSize);
+    rl_result_free(resultList);
 }

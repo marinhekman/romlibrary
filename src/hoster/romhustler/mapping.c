@@ -21,67 +21,63 @@ char *romhustler_deviceMapping(rl_system *system) {
     char *deviceString = NULL;
 
     if (!strcmp(system->name, "3do")) {
-        deviceString = "10";
+        deviceString = "3do";
     } else if (!strcmp(system->name, "atari2600")) {
-        deviceString = "2";
+        deviceString = "atari2600";
     } else if (!strcmp(system->name, "atari7800")) {
-        deviceString = "5";
+        deviceString = "atari7800";
     } else if (!strcmp(system->name, "atarijaguar")) {
-        deviceString = "13";
+        deviceString = "jaguar";
     } else if (!strcmp(system->name, "atarilynx")) {
-        deviceString = "15";
+        deviceString = "lynx";
     } else if (!strcmp(system->name, "dreamcast")) {
-        deviceString = "6";
+        deviceString = "dreamcast";
     } else if (!strcmp(system->name, "gamegear")) {
-        deviceString = "12";
+        deviceString = "gg";
     } else if (!strcmp(system->name, "gb")) {
-        deviceString = "8";
+        deviceString = "gbc";
     } else if (!strcmp(system->name, "gba")) {
-        deviceString = "9";
+        deviceString = "gba";
     } else if (!strcmp(system->name, "gbc")) {
-        deviceString = "8";
+        deviceString = "gbc";
     } else if (!strcmp(system->name, "gc")) {
-        deviceString = "39";
+        deviceString = "gamecube";
     } else if (!strcmp(system->name, "genesis") || !strcmp(system->name, "megadrive")) {
-        deviceString = "7";
+        deviceString = "genesis";
     } else if (!strcmp(system->name, "mame")) {
-        deviceString = "34";
+        deviceString = "mame";
     } else if (!strcmp(system->name, "mastersystem")) {
-        deviceString = "29";
+        deviceString = "sms";
     } else if (!strcmp(system->name, "msx")) {
-        deviceString = "16";
+        deviceString = "msx1";
     } else if (!strcmp(system->name, "n64")) {
-        deviceString = "19";
+        deviceString = "n64";
     } else if (!strcmp(system->name, "nds")) {
-        deviceString = "21";
+        deviceString = "nds";
     } else if (!strcmp(system->name, "neogeo")) {
-        deviceString = "31";
+        deviceString = "neogeo";
     } else if (!strcmp(system->name, "nes") || !strcmp(system->name, "fds")) {
-        deviceString = "36";
+        deviceString = "nes";
     } else if (!strcmp(system->name, "ngp")) {
-        deviceString = "30";
+        deviceString = "ngp";
     } else if (!strcmp(system->name, "ngpc")) {
-        deviceString = "30";
+        deviceString = "ngcd";
     } else if (!strcmp(system->name, "pcengine")) {
-        deviceString = "35";
-    } else if (!strcmp(system->name, "ps2")) {
-        deviceString = "38";
+        deviceString = "pcengine";
     } else if (!strcmp(system->name, "psp")) {
-        deviceString = "41";
+        deviceString = "psp";
     } else if (!strcmp(system->name, "psx")) {
-        deviceString = "22";
+        deviceString = "psx";
     } else if (!strcmp(system->name, "saturn")) {
-        deviceString = "23";
+        deviceString = "saturn";
     } else if (!strcmp(system->name, "segacd")) {
-        deviceString = "27";
+        deviceString = "segacd";
     } else if (!strcmp(system->name, "snes")) {
-        deviceString = "1";
-    } else if (!strcmp(system->name, "vectrex")) {
-        deviceString = "25";
+        deviceString = "snes";
     } else if (!strcmp(system->name, "wonderswan")) {
-        deviceString = "24";
+        deviceString = "wonderswan";
     } else if (!strcmp(system->name, "wonderswancolor")) {
-        deviceString = "24";
+        deviceString = "wonderswan";
     }
 
     return deviceString;

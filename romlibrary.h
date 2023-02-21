@@ -57,6 +57,7 @@ struct rl_system_s {
 
 // Callback to run downloads
 typedef uint8_t (*rl_download_callback_function)(void *appData, struct rl_system_s *system, char *title, char *url,
+                                                 struct curl_slist *headers,
                                                  char *data,
                                                  char *filename,
                                                  chttp_method method);
@@ -191,6 +192,8 @@ void rl_result_setRating(rl_result *result, char *rating, uint8_t maxRating);
 void rl_result_setFileSize(rl_result *result, char *fileSize);
 
 void rl_results_free(acll_t *results);
+
+void rl_result_free(rl_result *ptr);
 
 acll_t *rl_results_sort(acll_t *results);
 

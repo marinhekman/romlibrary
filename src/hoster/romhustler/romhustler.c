@@ -24,9 +24,8 @@
 
 #define SHORTNAME "HSL"
 #define FULLNAME "https://romhustler.org"
-#define URL_TEMPLATE "https://romhustler.org/roms/search/page:%page%?q=%query%&console_id%5B9%5D=%system%"
+#define URL_TEMPLATE "https://romhustler.org/roms/%system%/%page%?sort_by=downloads&sort_order=desc&sort_region=all&filter=%query%"
 #define URL_PREFIX "https://romhustler.org"
-#define URL_DOWNLOAD_LINK "https://romhustler.org/link/"
 #define URL_FAVICON "https://romhustler.org/favicon.ico"
 
 static acll_t *search(rl_system *system, char *searchString);
@@ -35,9 +34,7 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
 
 static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *response);
 
-static char *fetchId(char *response);
-
-static char *fetchDownloadLink(char *response);
+static acll_t *fetchingResultDetails(rl_system *system, acll_t *resultList, char *response);
 
 static uint32_t recalcPageCount(char *response);
 
@@ -53,7 +50,7 @@ rl_hoster *romhustler_getHoster(rl_cache *cacheHandler) {
         hoster->download = download;
         hoster->cacheHandler = cacheHandler;
 
-        chttp_response *faviconResponse = chttp_fetch(URL_FAVICON, NULL, GET, 0L);
+        chttp_response *faviconResponse = chttp_fetch(URL_FAVICON, NULL, NULL, GET, 0L);
         hoster->favicon = calloc(1, sizeof(rl_image));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, sizeof(char) * faviconResponse->size);
@@ -76,7 +73,7 @@ static acll_t *search(rl_system *system, char *searchString) {
             break;
         }
 
-        chttp_response *response = chttp_fetch(url, NULL, GET, 0L);
+        chttp_response *response = chttp_fetch(url, NULL, NULL, GET, 0L);
         resultList = fetchingResultItems(system, resultList, response->data);
 
         if (pageCount == 1) {
@@ -95,116 +92,192 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
     if (item == NULL) {
         return;
     }
-    chttp_response *detailPageResponse = chttp_fetch(item->url, NULL, GET, 1L);
-    char *id = fetchId(detailPageResponse->data);
+    chttp_response *detailPageResponse = chttp_fetch(item->url, NULL, NULL, GET, 1L);
+    char *response = strstr(detailPageResponse->data, "<!doctype html>");
 
-    csafestring_t *linkUrl = safe_create(URL_DOWNLOAD_LINK);
-    safe_strcat(linkUrl, id);
-    chttp_response *linkJsonResponse = chttp_fetch(linkUrl->data, NULL, GET, 1L);
+    char *regexString = "set-cookie: romhustler_session=([^;]+);";
+    regexMatches_t *matches = regex_getMatches(detailPageResponse->data, regexString, 1);
+    if (matches == NULL) {
+        LOG_ERROR("Romhustler, cookie not found");
+        return;
+    }
+    char *cookie = regex_cpyGroupText(matches, 0);
+    regex_destroyMatches(matches);
 
-    char *downloadLink = fetchDownloadLink(linkJsonResponse->data);
-    char *decodedDownloadLink = str_quoteDecode(downloadLink);
+    csafestring_t *cookieHeader = safe_create("cookie: ");
+    safe_strcat(cookieHeader, cookie);
+    struct curl_slist *headers = curl_slist_append(NULL, cookieHeader->data);
+    safe_destroy(cookieHeader);
 
-    char *filename = str_concat(item->title, file_suffix(decodedDownloadLink));
-    downloadCallbackFunction(appData, item->system, item->title, decodedDownloadLink, NULL, filename, GET);
+    lxb_html_document_t *document = NULL;
+    lxb_dom_collection_t *detailsCollection = domparsing_getElementsCollectionByClassName(response, &document,
+                                                                                          "details-container");
 
-    free(filename);
-    chttp_free(linkJsonResponse);
-    free(id);
-    free(downloadLink);
-    free(decodedDownloadLink);
+    if (lxb_dom_collection_length(detailsCollection) != 1) {
+        LOG_ERROR("Romhustler, table count of details-table not as expected");
+        lxb_dom_collection_destroy(detailsCollection, true);
+        lxb_html_document_destroy(document);
+        chttp_free(detailPageResponse);
+        return;
+    }
+
+    lxb_dom_collection_t *downloadLinksCollection = domparsing_createCollection(document);
+    lxb_dom_element_t *detailsElement = lxb_dom_collection_element(detailsCollection, 0);
+
+    domparsing_findChildElementsByTagName(downloadLinksCollection, detailsElement, "A", 1);
+
+    if (lxb_dom_collection_length(downloadLinksCollection) != 1) {
+        LOG_ERROR("Romhustler, download link not as expected");
+        lxb_dom_collection_destroy(detailsCollection, true);
+        lxb_dom_collection_destroy(downloadLinksCollection, true);
+        lxb_html_document_destroy(document);
+        chttp_free(detailPageResponse);
+        return;
+    }
+
+    lxb_dom_element_t *linkElement = lxb_dom_collection_element(downloadLinksCollection, 0);
+    char *downloadLink = domparsing_getAttributeValue(linkElement, "href");
+    chttp_response *head = chttp_head(downloadLink, NULL);
+
+    regexString = "Content-Disposition: attachment; filename=\"([^\"]+)\"";
+    matches = regex_getMatches(head->data, regexString, 1);
+    if (matches == NULL) {
+        LOG_ERROR("Romhustler, filename not found");
+        return;
+    }
+    char *filename = regex_cpyGroupText(matches, 0);
+    regex_destroyMatches(matches);
+
+    downloadCallbackFunction(appData, item->system, item->title, downloadLink, NULL, NULL, filename, GET);
+
+    chttp_free(head);
+    lxb_dom_collection_destroy(detailsCollection, true);
+    lxb_dom_collection_destroy(downloadLinksCollection, true);
+    lxb_html_document_destroy(document);
     chttp_free(detailPageResponse);
-    safe_destroy(linkUrl);
 }
 
 static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *response) {
-    lxb_html_document_t *document;
-    lxb_dom_collection_t *gamesCollection = domparsing_getElementsCollectionByClassName(response, &document, "row");
-    lxb_dom_collection_t *gameElementCollection = domparsing_createCollection(document);
+    lxb_html_document_t *document = NULL;
+    lxb_dom_collection_t *tablesCollection = domparsing_getElementsCollectionByClassName(response, &document,
+                                                                                         "roms-table");
+    lxb_dom_collection_t *tableLinkCollection = domparsing_createCollection(document);
 
-    for (size_t i = 1; i < lxb_dom_collection_length(gamesCollection); i++) {
-        lxb_dom_element_t *gameParent = lxb_dom_collection_element(gamesCollection, i);
-        rl_result *item = rl_result_create(system, hoster, NULL, NULL);
-
-        domparsing_findChildElementsByTagName(gameElementCollection, gameParent, "DIV", 1);
-
-        lxb_dom_element_t *element;
-        element = lxb_dom_collection_element(gameElementCollection, 0);
-        rl_result_setTitle(item, domparsing_getText(element));
-
-        element = domparser_findFirstChildElementByTagName(element, "A", 1);
-        char *url = str_concat(URL_PREFIX, domparsing_getAttributeValue(element, "href"));
-        rl_result_setUrl(item, url);
-        free(url);
-
-        element = lxb_dom_collection_element(gameElementCollection, 2);
-        char *downloads = domparsing_getText(element);
-        rl_result_setDownloads(item, downloads);
-
-        element = lxb_dom_collection_element(gameElementCollection, 3);
-        char *rating = domparsing_getText(element);
-        rl_result_setRating(item, rating, 5);
-
-        lxb_dom_collection_clean(gameElementCollection);
-        resultList = acll_push(resultList, item);
+    if (lxb_dom_collection_length(tablesCollection) < 1) {
+        lxb_dom_collection_destroy(tablesCollection, true);
+        lxb_dom_collection_destroy(tableLinkCollection, true);
+        lxb_html_document_destroy(document);
+        return resultList;
     }
-    lxb_dom_collection_destroy(gameElementCollection, true);
-    lxb_dom_collection_destroy(gamesCollection, true);
+
+    if (lxb_dom_collection_length(tablesCollection) != 1) {
+        LOG_ERROR("Romhustler, table count of roms-tables not as expected");
+        lxb_dom_collection_destroy(tablesCollection, true);
+        lxb_dom_collection_destroy(tableLinkCollection, true);
+        lxb_html_document_destroy(document);
+        return resultList;
+    }
+
+    lxb_dom_element_t *tableElement = lxb_dom_collection_element(tablesCollection, 0);
+    domparsing_findChildElementsByTagName(tableLinkCollection, tableElement, "A", 1);
+
+    for (size_t i = 0; i < lxb_dom_collection_length(tableLinkCollection); i++) {
+        lxb_dom_element_t *element = lxb_dom_collection_element(tableLinkCollection, i);
+        char *url = str_concat(URL_PREFIX, domparsing_getAttributeValue(element, "href"));
+        chttp_response *detailPageResponse = chttp_fetch(url, NULL, NULL, GET, 0L);
+        resultList = fetchingResultDetails(system, resultList, detailPageResponse->data);
+        chttp_free(detailPageResponse);
+        free(url);
+    }
+
+    lxb_dom_collection_destroy(tablesCollection, true);
+    lxb_dom_collection_destroy(tableLinkCollection, true);
     lxb_html_document_destroy(document);
 
     return resultList;
 }
 
-static char *fetchId(char *response) {
-    char *regexString = "var download_id = ([^;]+);";
+static acll_t *fetchingResultDetails(rl_system *system, acll_t *resultList, char *response) {
+    lxb_html_document_t *document = NULL;
+    lxb_dom_collection_t *tablesCollection = domparsing_getElementsCollectionByClassName(response, &document,
+                                                                                         "details-table");
+    lxb_dom_collection_t *downloadBtnCollection = domparsing_getElementsCollectionByClassName(response, &document,
+                                                                                              "btn-yellow");
+    lxb_dom_collection_t *tableLinkCollection = domparsing_createCollection(document);
 
-    regexMatches_t *matches = regex_getMatches(response, regexString, 1);
-    if (matches == NULL) {
-        return NULL;
+    if (lxb_dom_collection_length(tablesCollection) != 1) {
+        LOG_ERROR("Romhustler, table count of details-tables not as expected");
+        return resultList;
     }
-    char *id = regex_cpyGroupText(matches, 0);
-    regex_destroyMatches(matches);
-    return id;
-}
 
-static char *fetchDownloadLink(char *response) {
-    char *regexString = "\"direct\":\"([^\"]+)\"";
-
-    regexMatches_t *matches = regex_getMatches(response, regexString, 1);
-    if (matches == NULL) {
-        return NULL;
+    if (lxb_dom_collection_length(downloadBtnCollection) != 1) {
+        LOG_ERROR("Romhustler, table count of yellow-btn not as expected");
+        return resultList;
     }
-    char *link = regex_cpyGroupText(matches, 0);
-    regex_destroyMatches(matches);
-    return link;
+
+    rl_result *item = rl_result_create(system, hoster, NULL, NULL);
+
+    lxb_dom_element_t *downloadBtn = lxb_dom_collection_element(downloadBtnCollection, 0);
+    char *url = str_concat(URL_PREFIX, domparsing_getAttributeValue(downloadBtn, "href"));
+    rl_result_setUrl(item, url);
+    free(url);
+
+    lxb_dom_element_t *tableElement = lxb_dom_collection_element(tablesCollection, 0);
+    domparsing_findChildElementsByTagName(tableLinkCollection, tableElement, "TD", 1);
+
+    for (size_t i = 0; i < lxb_dom_collection_length(tableLinkCollection); i++) {
+        lxb_dom_element_t *element = lxb_dom_collection_element(tableLinkCollection, i);
+
+        char *text = domparsing_getText(element);
+        if (!strcmp(text, "Full Name")) {
+            i++;
+            element = lxb_dom_collection_element(tableLinkCollection, i);
+            rl_result_setTitle(item, domparsing_getText(element));
+        }
+        if (!strcmp(text, "Filesize")) {
+            i++;
+            element = lxb_dom_collection_element(tableLinkCollection, i);
+            rl_result_setFileSize(item, domparsing_getText(element));
+        }
+        if (!strcmp(text, "Can Download")) {
+            i++;
+            element = lxb_dom_collection_element(tableLinkCollection, i);
+            if (strcmp(domparsing_getText(element), "Yes")) {
+                rl_result_free(item);
+                return resultList;
+            }
+        }
+        if (!strcmp(text, "Rating")) {
+            i++;
+            element = lxb_dom_collection_element(tableLinkCollection, i);
+            element = domparser_findFirstChildElementByAttribute(element, "class", "rateit", 0, 1);
+
+            rl_result_setRating(item, domparsing_getAttributeValue(element, "data-rateit-value"), 5);
+        }
+    }
+    resultList = acll_push(resultList, item);
+
+    lxb_dom_collection_destroy(downloadBtnCollection, true);
+    lxb_dom_collection_destroy(tablesCollection, true);
+    lxb_dom_collection_destroy(tableLinkCollection, true);
+    lxb_html_document_destroy(document);
+    return resultList;
 }
 
 static uint32_t recalcPageCount(char *response) {
-    lxb_html_document_t *document;
-    lxb_dom_collection_t *navContainer = domparsing_getElementsCollectionByClassName(response, &document, "pagi_nav");
-    lxb_dom_collection_t *navItems = domparsing_createCollection(document);
+    lxb_html_document_t *document = NULL;
+    lxb_dom_collection_t *paginationCollection = domparsing_getElementsCollectionByClassName(response, &document,
+                                                                                             "page-item");
 
-    if (!lxb_dom_collection_length(navContainer)) {
+    if (lxb_dom_collection_length(paginationCollection) < 1) {
+        lxb_dom_collection_destroy(paginationCollection, true);
+        lxb_html_document_destroy(document);
         return 0;
     }
 
-    lxb_dom_element_t *navContainerElement = lxb_dom_collection_element(navContainer, 0);
-    domparsing_findChildElementsByTagName(navItems, navContainerElement, "SPAN", 1);
-
-    lxb_dom_element_t *navItemElement = lxb_dom_collection_element(navItems, lxb_dom_collection_length(navItems) - 1);
-    char *pagesString = domparsing_getText(navItemElement);
-
-    regexMatches_t *matches = regex_getMatches(pagesString, "Page [0-9]+ of ([0-9]+)", 1);
-    if (matches == NULL) {
-        return 1;
-    }
-    char *pages = regex_cpyGroupText(matches, 0);
-    int retVal = atoi(pages);
-    regex_destroyMatches(matches);
-
-    lxb_dom_collection_destroy(navContainer, true);
-    lxb_dom_collection_destroy(navItems, true);
-    lxb_html_document_destroy(document);
-
-    return retVal;
+    lxb_dom_element_t *paginationElement = lxb_dom_collection_element(paginationCollection,
+                                                                      lxb_dom_collection_length(paginationCollection) -
+                                                                      2);
+    char *pages = domparsing_getText(paginationElement);
+    return atoi(pages);
 }

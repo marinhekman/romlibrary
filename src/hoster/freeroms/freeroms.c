@@ -62,7 +62,7 @@ rl_hoster *freeroms_getHoster(rl_cache *cacheHandler) {
         hoster->download = download;
         hoster->cacheHandler = cacheHandler;
 
-        chttp_response *faviconResponse = chttp_fetch(URL_FAVICON, NULL, GET, 0L);
+        chttp_response *faviconResponse = chttp_fetch(URL_FAVICON, NULL, NULL, GET, 0L);
         hoster->favicon = calloc(1, sizeof(rl_image));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, faviconResponse->size);
@@ -90,7 +90,7 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
     }
 
     char *filename = str_concat(item->title, ".zip");
-    downloadCallbackFunction(appData, item->system, item->title, item->url, NULL, filename, GET);
+    downloadCallbackFunction(appData, item->system, item->title, item->url, NULL, NULL, filename, GET);
     FREENOTNULL(filename);
 }
 
@@ -126,7 +126,7 @@ static void *executeThread(void *ptr) {
             if (url == NULL) {
                 break;
             }
-            response = chttp_fetch(url, NULL, GET, 1L);
+            response = chttp_fetch(url, NULL, NULL, GET, 1L);
             extractLink(filter->system, response->data);
         } else {
             char str[2] = {0, 0};
@@ -136,7 +136,7 @@ static void *executeThread(void *ptr) {
             if (url == NULL) {
                 break;
             }
-            response = chttp_fetch(url, NULL, GET, 1L);
+            response = chttp_fetch(url, NULL, NULL, GET, 1L);
             extractLink(filter->system, response->data);
         }
         chttp_free(response);
@@ -148,7 +148,7 @@ static void *executeThread(void *ptr) {
 
 static void extractLink(rl_system *system, char *response) {
     acll_t *results = NULL;
-    lxb_html_document_t *document;
+    lxb_html_document_t *document = NULL;
     lxb_dom_collection_t *gamesCollection = domparsing_getElementsCollectionByClassName(response, &document,
                                                                                         "system-rom-tr-wrap");
     lxb_dom_collection_t *gameElementCollection = domparsing_createCollection(document);

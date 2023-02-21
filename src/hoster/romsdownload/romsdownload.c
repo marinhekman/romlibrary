@@ -68,7 +68,7 @@ static acll_t *search(rl_system *system, char *searchString) {
             break;
         }
 
-        chttp_response *response = chttp_fetch(URL_TEMPLATE, data, POST, 1L);
+        chttp_response *response = chttp_fetch(URL_TEMPLATE, NULL, data, POST, 1L);
         resultList = fetchingResultItems(system, resultList, response->data);
 
         if (pageCount == 1) {
@@ -87,12 +87,12 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
     if (item == NULL) {
         return;
     }
-    chttp_response *detailPageResponse = chttp_fetch(item->url, NULL, GET, 1L);
+    chttp_response *detailPageResponse = chttp_fetch(item->url, NULL, NULL, GET, 1L);
     char *linkDownload = fetchDownloadLink(detailPageResponse->data);
 
     char *filename = str_concat(item->title, file_suffix(linkDownload));
 
-    downloadCallbackFunction(appData, item->system, item->title, linkDownload, NULL, filename, GET);
+    downloadCallbackFunction(appData, item->system, item->title, linkDownload, NULL, NULL, filename, GET);
 
     free(filename);
     chttp_free(detailPageResponse);
@@ -112,7 +112,7 @@ static char *fetchDownloadLink(char *response) {
 }
 
 static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *response) {
-    lxb_html_document_t *document;
+    lxb_html_document_t *document = NULL;
     lxb_dom_collection_t *wrapperCollection = domparsing_getElementsCollectionByTagName(response, &document, "TBODY");
     lxb_dom_collection_t *gamesCollection = domparsing_createCollection(document);
     lxb_dom_collection_t *gameElementCollection = domparsing_createCollection(document);
@@ -163,7 +163,7 @@ static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *
 }
 
 static uint32_t recalcPageCount(char *response) {
-    lxb_html_document_t *document;
+    lxb_html_document_t *document = NULL;
     lxb_dom_collection_t *navContainer = domparsing_getElementsCollectionByClassName(response, &document, "pagination");
     lxb_dom_collection_t *navItems = domparsing_createCollection(document);
 

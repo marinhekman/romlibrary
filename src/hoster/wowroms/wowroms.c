@@ -36,11 +36,7 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
 
 static acll_t *fetchingResultItems(rl_system *system, acll_t *resultList, char *response);
 
-static char *fetchDownloadPageLink(char *response);
-
 static char *fetchDownloadServlet(char *response);
-
-static char *fetchHiddenField(char *text, char *fieldname);
 
 static char *fetchDownloadLink(char *response);
 
@@ -58,7 +54,7 @@ rl_hoster *wowroms_getHoster(rl_cache *cacheHandler) {
         hoster->download = download;
         hoster->cacheHandler = cacheHandler;
 
-        chttp_response *faviconResponse = chttp_fetch(URL_FAVICON, NULL, GET, 0L);
+        chttp_response *faviconResponse = chttp_fetch(URL_FAVICON, NULL, NULL, GET, 0L);
         hoster->favicon = calloc(1, sizeof(rl_image));
         hoster->favicon->binary = calloc(faviconResponse->size, sizeof(char));
         memcpy(hoster->favicon->binary, faviconResponse->data, faviconResponse->size);
@@ -81,7 +77,7 @@ static acll_t *search(rl_system *system, char *searchString) {
             break;
         }
 
-        chttp_response *response = chttp_fetch(url, NULL, GET, 1L);
+        chttp_response *response = chttp_fetch(url, NULL, NULL, GET, 1L);
         resultList = fetchingResultItems(system, resultList, response->data);
 
         if (pageCount == 1) {
@@ -108,7 +104,7 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
     char timeToken[255];
     snprintf(timeToken, 255, "?k=%s&t=%s", timestamp, timestampMD5);
 
-    chttp_response *detailPageResponse = chttp_fetch(item->url, NULL, GET, 1L);
+    chttp_response *detailPageResponse = chttp_fetch(item->url, NULL, NULL, GET, 1L);
 
     lxb_html_document_t *detailPageDocument = NULL;
     lxb_dom_collection_t *dwnBtnCollection = domparsing_getElementsCollectionByClassName(detailPageResponse->data,
@@ -121,7 +117,7 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
     char *linkDownloadPageRelative = domparsing_getAttributeValue(dwnBtn, "href");
     char *linkDownloadPage = str_concat(URL_PREFIX, linkDownloadPageRelative);
 
-    chttp_response *downloadPageResponse = chttp_fetch(linkDownloadPage, NULL, GET, 1L);
+    chttp_response *downloadPageResponse = chttp_fetch(linkDownloadPage, NULL, NULL, GET, 1L);
     char *downloadServletRel = fetchDownloadServlet(downloadPageResponse->data);
     char *downloadServlet = str_concat(URL_PREFIX, downloadServletRel);
 
@@ -151,7 +147,7 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
 
     char *downloadServletUrl = str_concat(downloadServlet, timeToken);
 
-    chttp_response *downloadServletResponse = chttp_fetch(downloadServletUrl, "", POST, 1L);
+    chttp_response *downloadServletResponse = chttp_fetch(downloadServletUrl, NULL, "", POST, 1L);
     char *downloadLink = fetchDownloadLink(downloadServletResponse->data);
     char *decodedDownloadLink = str_quoteDecode(downloadLink);
 
@@ -165,7 +161,8 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
     char *decodedFilename = str_urlDecode(filename);
     char *downloadFilename = str_concat(item->title, file_suffix(filename));
 
-    downloadCallbackFunction(appData, item->system, item->title, decodedDownloadLink, payload->data, downloadFilename,
+    downloadCallbackFunction(appData, item->system, item->title, decodedDownloadLink, NULL, payload->data,
+                             downloadFilename,
                              POST);
     free(downloadFilename);
     free(decodedFilename);
@@ -187,20 +184,6 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
     lxb_html_document_destroy(downloadPageDocument);
 }
 
-static char *fetchHiddenField(char *response, char *fieldname) {
-    char *regexStringTmpl = "<input type=\"hidden\" name=\"%fieldname%\" value=\"([^\"]+)\" />";
-    char *regexString = str_replace(regexStringTmpl, "%fieldname%", fieldname);
-
-    regexMatches_t *matches = regex_getMatches(response, regexString, 1);
-    if (matches == NULL) {
-        return NULL;
-    }
-    char *link = regex_cpyGroupText(matches, 0);
-    regex_destroyMatches(matches);
-    free(regexString);
-    return link;
-}
-
 static char *fetchDownloadServlet(char *response) {
     char *regexString = "var ajaxLinkUrl = \"([^\"]+)\";";
 
@@ -215,18 +198,6 @@ static char *fetchDownloadServlet(char *response) {
 
 static char *fetchDownloadLink(char *response) {
     char *regexString = "\"link\":\"([^\"]+)\"";
-
-    regexMatches_t *matches = regex_getMatches(response, regexString, 1);
-    if (matches == NULL) {
-        return NULL;
-    }
-    char *link = regex_cpyGroupText(matches, 0);
-    regex_destroyMatches(matches);
-    return link;
-}
-
-static char *fetchDownloadPageLink(char *response) {
-    char *regexString = "href=\"([^\"]+)\">Download rom</a>";
 
     regexMatches_t *matches = regex_getMatches(response, regexString, 1);
     if (matches == NULL) {

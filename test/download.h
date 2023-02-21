@@ -28,7 +28,10 @@ typedef struct test_downloaddata_s {
     chttp_method method;
 } test_downloaddata_t;
 
-uint8_t testDownloadCallback(void *appData, rl_system *system, char *title, char *url, char *data, char *filename,
+uint8_t testDownloadCallback(void *appData, struct rl_system_s *system, char *title, char *url,
+                             struct curl_slist *headers,
+                             char *data,
+                             char *filename,
                              chttp_method method);
 
 #endif
