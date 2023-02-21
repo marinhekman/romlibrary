@@ -25,10 +25,10 @@
 #include <clogger.h>
 
 #ifndef RL_VERSION
-#define RL_VERSION 121
+#define RL_VERSION 200
 #endif
 #ifndef RL_VERSION_STRING
-#define RL_VERSION_STRING "1.2.1"
+#define RL_VERSION_STRING "2.0.0"
 #endif
 
 // define the number of parallel threads to fetch content from hosters
