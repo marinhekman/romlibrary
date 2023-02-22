@@ -3,12 +3,13 @@
 # ROM Library
 
 ROM Library is helps you to download ROMs from well-known webpages.   
-Following ROM databases are supported:
+Following ROM databases are available:
 
 * https://wowroms.com/
 * https://roms-download.com/
 * https://romsemulator.net/
 * https://romhustler.org/
+* https://www.reroms.com/
 
 Please note: This software is using the mentioned sites to download ROMs. You are responsible to have valid licenses to
 use the software. Rom Library does not hold, provide, sell or distribute licenses.
