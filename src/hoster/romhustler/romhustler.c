@@ -106,7 +106,7 @@ static void download(rl_result *item, rl_download_callback_function downloadCall
 
     csafestring_t *cookieHeader = safe_create("cookie: ");
     safe_strcat(cookieHeader, cookie);
-    struct curl_slist *headers = curl_slist_append(NULL, cookieHeader->data);
+//    struct curl_slist *headers = curl_slist_append(NULL, cookieHeader->data);
     safe_destroy(cookieHeader);
 
     lxb_html_document_t *document = NULL;

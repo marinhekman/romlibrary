@@ -22,7 +22,6 @@
 
 rl_hoster *wowroms;
 rl_hoster *romsdownload;
-rl_hoster *romsemulator;
 rl_hoster *romhustler;
 rl_hoster *freeroms;
 

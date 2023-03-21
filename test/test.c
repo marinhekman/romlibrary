@@ -22,7 +22,6 @@
 #include "hoster.h"
 #include "enginecache.h"
 #include "hoster_romsdownload.h"
-#include "hoster_romsemulator.h"
 #include "hoster_wowroms.h"
 
 int main(int argc, char **argv) {
@@ -192,57 +191,6 @@ int main(int argc, char **argv) {
     TESTCALL("test_engine_romsdownload_wonderswancolor", test_engine_romsdownload_wonderswancolor, NULL);
     TESTCALL("test_engine_romsdownload_zxspectrum", test_engine_romsdownload_zxspectrum, NULL);
     TESTCALL("test_engine_romsdownload_download", test_engine_romsdownload_download, NULL);
-
-    TESTCALL("test_engine_romsemulator_3do", test_engine_romsemulator_3do, NULL);
-    TESTCALL("test_engine_romsemulator_amiga", test_engine_romsemulator_amiga, NULL);
-    TESTCALL("test_engine_romsemulator_atari2600", test_engine_romsemulator_atari2600, NULL);
-    TESTCALL("test_engine_romsemulator_atari7800", test_engine_romsemulator_atari7800, NULL);
-    TESTCALL("test_engine_romsemulator_atarijaguar", test_engine_romsemulator_atarijaguar, NULL);
-    TESTCALL("test_engine_romsemulator_atarilynx", test_engine_romsemulator_atarilynx, NULL);
-    TESTCALL("test_engine_romsemulator_atarist", test_engine_romsemulator_atarist, NULL);
-    TESTCALL("test_engine_romsemulator_c64", test_engine_romsemulator_c64, NULL);
-    TESTCALL("test_engine_romsemulator_dreamcast", test_engine_romsemulator_dreamcast, NULL);
-    TESTCALL("test_engine_romsemulator_fba", test_engine_romsemulator_fba, NULL);
-    TESTCALL("test_engine_romsemulator_fds", test_engine_romsemulator_fds, NULL);
-    TESTCALL("test_engine_romsemulator_gamegear", test_engine_romsemulator_gamegear, NULL);
-    TESTCALL("test_engine_romsemulator_gb", test_engine_romsemulator_gb, NULL);
-    TESTCALL("test_engine_romsemulator_gba", test_engine_romsemulator_gba, NULL);
-    TESTCALL("test_engine_romsemulator_gbc", test_engine_romsemulator_gbc, NULL);
-    TESTCALL("test_engine_romsemulator_gc", test_engine_romsemulator_gc, NULL);
-    TESTCALL("test_engine_romsemulator_genesis", test_engine_romsemulator_genesis, NULL);
-    TESTCALL("test_engine_romsemulator_gw", test_engine_romsemulator_gw, NULL);
-    TESTCALL("test_engine_romsemulator_love", test_engine_romsemulator_love, NULL);
-    TESTCALL("test_engine_romsemulator_mame", test_engine_romsemulator_mame, NULL);
-    TESTCALL("test_engine_romsemulator_mastersystem", test_engine_romsemulator_mastersystem, NULL);
-    TESTCALL("test_engine_romsemulator_megadrive", test_engine_romsemulator_megadrive, NULL);
-    TESTCALL("test_engine_romsemulator_msx", test_engine_romsemulator_msx, NULL);
-    TESTCALL("test_engine_romsemulator_n64", test_engine_romsemulator_n64, NULL);
-    TESTCALL("test_engine_romsemulator_nds", test_engine_romsemulator_nds, NULL);
-    TESTCALL("test_engine_romsemulator_neogeo", test_engine_romsemulator_neogeo, NULL);
-    TESTCALL("test_engine_romsemulator_nes", test_engine_romsemulator_nes, NULL);
-    TESTCALL("test_engine_romsemulator_ngp", test_engine_romsemulator_ngp, NULL);
-    TESTCALL("test_engine_romsemulator_ngpc", test_engine_romsemulator_ngpc, NULL);
-    TESTCALL("test_engine_romsemulator_pc", test_engine_romsemulator_pc, NULL);
-    TESTCALL("test_engine_romsemulator_pcengine", test_engine_romsemulator_pcengine, NULL);
-    TESTCALL("test_engine_romsemulator_pcfx", test_engine_romsemulator_pcfx, NULL);
-    TESTCALL("test_engine_romsemulator_ps2", test_engine_romsemulator_ps2, NULL);
-    TESTCALL("test_engine_romsemulator_psp", test_engine_romsemulator_psp, NULL);
-    TESTCALL("test_engine_romsemulator_psx", test_engine_romsemulator_psx, NULL);
-    TESTCALL("test_engine_romsemulator_saturn", test_engine_romsemulator_saturn, NULL);
-    TESTCALL("test_engine_romsemulator_scummvm", test_engine_romsemulator_scummvm, NULL);
-    TESTCALL("test_engine_romsemulator_sega32x", test_engine_romsemulator_sega32x, NULL);
-    TESTCALL("test_engine_romsemulator_segacd", test_engine_romsemulator_segacd, NULL);
-    TESTCALL("test_engine_romsemulator_sg1000", test_engine_romsemulator_sg1000, NULL);
-    TESTCALL("test_engine_romsemulator_snes", test_engine_romsemulator_snes, NULL);
-    TESTCALL("test_engine_romsemulator_vectrex", test_engine_romsemulator_vectrex, NULL);
-    TESTCALL("test_engine_romsemulator_videopac", test_engine_romsemulator_videopac, NULL);
-    TESTCALL("test_engine_romsemulator_virtualboy", test_engine_romsemulator_virtualboy, NULL);
-    TESTCALL("test_engine_romsemulator_wii", test_engine_romsemulator_wii, NULL);
-    TESTCALL("test_engine_romsemulator_wiiu", test_engine_romsemulator_wiiu, NULL);
-    TESTCALL("test_engine_romsemulator_wonderswan", test_engine_romsemulator_wonderswan, NULL);
-    TESTCALL("test_engine_romsemulator_wonderswancolor", test_engine_romsemulator_wonderswancolor, NULL);
-    TESTCALL("test_engine_romsemulator_zxspectrum", test_engine_romsemulator_zxspectrum, NULL);
-    TESTCALL("test_engine_romsemulator_download", test_engine_romsemulator_download, NULL);
 
     TESTCALL("test_engine_wowroms_3do", test_engine_wowroms_3do, NULL);
     TESTCALL("test_engine_wowroms_amiga", test_engine_wowroms_amiga, NULL);

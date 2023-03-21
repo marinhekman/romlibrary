@@ -28,7 +28,7 @@
 #define RL_VERSION 200
 #endif
 #ifndef RL_VERSION_STRING
-#define RL_VERSION_STRING "2.0.0"
+#define RL_VERSION_STRING "2.1.0"
 #endif
 
 // define the number of parallel threads to fetch content from hosters

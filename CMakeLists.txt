@@ -65,11 +65,6 @@ set(SOURCES_LIBRARY
         src/hoster/romsdownload/mapping.h
         src/hoster/romsdownload/romsdownload.c
         src/hoster/romsdownload/romsdownload.h
-        src/hoster/romsemulator/icon.h
-        src/hoster/romsemulator/mapping.c
-        src/hoster/romsemulator/mapping.h
-        src/hoster/romsemulator/romsemulator.c
-        src/hoster/romsemulator/romsemulator.h
         src/hoster/urlhandling.c
         src/hoster/urlhandling.h
         src/hoster/wowroms/mapping.c
