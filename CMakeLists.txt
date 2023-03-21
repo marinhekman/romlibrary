@@ -7,6 +7,7 @@ set(THREADS_PREFER_PTHREAD_FLAG on)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH true)
 
 # required packages
+find_library(MATH_LIBRARY m REQUIRED)
 find_package(CURL REQUIRED)
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -85,11 +86,11 @@ if (NOT TARGET romlibrary_shared AND NOT TARGET romlibrary_objects AND NOT TARGE
 
     add_library(romlibrary_static STATIC $<TARGET_OBJECTS:romlibrary_objects>)
     set_target_properties(romlibrary_static PROPERTIES OUTPUT_NAME romlibrary)
-    target_link_libraries(romlibrary_static ${OPENSSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${ACLL_LIBRARIES} ${CHTTP_LIBRARIES} ${CSAFESTRING_LIBRARIES} ${LEXBOR_LIBRARIES} ${CURL_LIBRARIES})
+    target_link_libraries(romlibrary_static ${CMAKE_DL_LIBS} ${MATH_LIBRARY} ${OPENSSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${ACLL_LIBRARIES} ${CHTTP_LIBRARIES} ${CSAFESTRING_LIBRARIES} ${LEXBOR_LIBRARIES} ${CURL_LIBRARIES})
 
     add_library(romlibrary_shared SHARED $<TARGET_OBJECTS:romlibrary_objects>)
     set_target_properties(romlibrary_shared PROPERTIES OUTPUT_NAME romlibrary)
-    target_link_libraries(romlibrary_shared ${OPENSSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${ACLL_LIBRARIES} ${CHTTP_LIBRARIES} ${CSAFESTRING_LIBRARIES} ${LEXBOR_LIBRARIES} ${CURL_LIBRARIES})
+    target_link_libraries(romlibrary_shared ${CMAKE_DL_LIBS} ${MATH_LIBRARY} ${OPENSSL_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${ACLL_LIBRARIES} ${CHTTP_LIBRARIES} ${CSAFESTRING_LIBRARIES} ${LEXBOR_LIBRARIES} ${CURL_LIBRARIES})
 
     # Install
     install(TARGETS romlibrary_shared DESTINATION lib)
