@@ -169,7 +169,7 @@ int test_engine_romhustler_nds() {
 }
 
 int test_engine_romhustler_neogeo() {
-    return run_test_active(neogeo, "mslug", "mslug");
+    return run_test_active(neogeo, "Metal Slug X", "Metal Slug X");
 }
 
 int test_engine_romhustler_nes() {
