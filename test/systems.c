@@ -19,6 +19,57 @@
 
 acll_t *systems = NULL;
 
+rl_system *gb = NULL;
+rl_system *gbc = NULL;
+rl_system *gba = NULL;
+rl_system *nes = NULL;
+rl_system *snes = NULL;
+rl_system *gc = NULL;
+rl_system *nds = NULL;
+rl_system *n64 = NULL;
+rl_system *wii = NULL;
+rl_system *wiiu = NULL;
+rl_system *gw = NULL;
+rl_system *fds = NULL;
+rl_system *dreamcast = NULL;
+rl_system *gamegear = NULL;
+rl_system *genesis = NULL;
+rl_system *mastersystem = NULL;
+rl_system *megadrive = NULL;
+rl_system *saturn = NULL;
+rl_system *sega32x = NULL;
+rl_system *segacd = NULL;
+rl_system *sg1000 = NULL;
+rl_system *database_systemAdd = NULL;
+rl_system *neogeo = NULL;
+rl_system *ngp = NULL;
+rl_system *ngpc = NULL;
+rl_system *wonderswan = NULL;
+rl_system *wonderswancolor = NULL;
+rl_system *psx = NULL;
+rl_system *ps2 = NULL;
+rl_system *psp = NULL;
+rl_system *atari2600 = NULL;
+rl_system *atari7800 = NULL;
+rl_system *atarijaguar = NULL;
+rl_system *atarilynx = NULL;
+rl_system *atarist = NULL;
+rl_system *c64 = NULL;
+rl_system *amiga = NULL;
+rl_system *msx = NULL;
+rl_system *zxspectrum = NULL;
+rl_system *pc = NULL;
+rl_system *fba = NULL;
+rl_system *vectrex = NULL;
+rl_system *threeDo = NULL;
+rl_system *pcengine = NULL;
+rl_system *pcfx = NULL;
+rl_system *videopac = NULL;
+rl_system *virtualboy = NULL;
+rl_system *love = NULL;
+rl_system *mame = NULL;
+rl_system *scummvm = NULL;
+
 void testsystems_init() {
     systems = rl_systems_init();
 

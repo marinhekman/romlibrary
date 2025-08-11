@@ -18,6 +18,11 @@
 #include "hoster.h"
 #include "enginecache.h"
 
+rl_hoster *wowroms = NULL;
+rl_hoster *romsdownload = NULL;
+rl_hoster *romhustler = NULL;
+rl_hoster *freeroms = NULL;
+
 rl_cache cacheHandler;
 
 void testengines_init(sqlite3 *db) {

@@ -20,10 +20,10 @@
 #include <romlibrary.h>
 #include <sqlite3.h>
 
-rl_hoster *wowroms;
-rl_hoster *romsdownload;
-rl_hoster *romhustler;
-rl_hoster *freeroms;
+extern rl_hoster *wowroms;
+extern rl_hoster *romsdownload;
+extern rl_hoster *romhustler;
+extern rl_hoster *freeroms;
 
 void testengines_init(sqlite3 *db);
 
